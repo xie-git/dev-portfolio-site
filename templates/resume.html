@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Resume - Portfolio{% endblock %}
+
+{% block content %}
+<section class="resume-page">
+    <div class="container">
+        <div class="section-header">
+            <h1 class="section-title">Resume</h1>
+            <p class="section-subtitle">My professional experience and skills</p>
+        </div>
+        
+        <div class="resume-content">
+            <!-- Experience Section -->
+            {% if experiences %}
+            <div class="resume-section">
+                <h2 class="resume-section-title">Experience</h2>
+                <div class="resume-items">
+                    {% for experience in experiences %}
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <h3 class="resume-item-title">{{ experience.title }}</h3>
+                            <div class="resume-item-meta">
+                                <span class="company">{{ experience.company }}</span>
+                                <span class="duration">{{ experience.duration }}</span>
+                            </div>
+                        </div>
+                        {% if experience.description %}
+                        <p class="resume-item-description">{{ experience.description }}</p>
+                        {% endif %}
+                        {% if experience.location %}
+                        <div class="resume-item-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{ experience.location }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Skills Section -->
+            {% if skills %}
+            <div class="resume-section">
+                <h2 class="resume-section-title">Skills</h2>
+                <div class="skills-grid">
+                    {% set skills_by_category = {} %}
+                    {% for skill in skills %}
+                        {% if skills_by_category.update({skill.category: skills_by_category.get(skill.category, []) + [skill]}) %}{% endif %}
+                    {% endfor %}
+                    
+                    {% for category, category_skills in skills_by_category.items() %}
+                    <div class="skill-category-resume">
+                        <h4 class="skill-category-title">{{ category.title() }}</h4>
+                        <div class="skills-list-resume">
+                            {% for skill in category_skills %}
+                            <span class="skill-item-resume">{{ skill.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="resume-actions">
+                <a href="/static/resume.pdf" class="btn btn-primary" target="_blank">
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+                <a href="{{ url_for('main.contact') }}" class="btn btn-outline">
+                    <i class="fas fa-envelope"></i> Contact Me
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.resume-page {
+    padding: var(--spacing-3xl) 0;
+    min-height: 70vh;
+}
+
+.resume-section {
+    margin-bottom: var(--spacing-3xl);
+}
+
+.resume-section-title {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+    font-size: 1.5rem;
+}
+
+.resume-item {
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.resume-item:last-child {
+    border-bottom: none;
+}
+
+.resume-item-header {
+    margin-bottom: var(--spacing-md);
+}
+
+.resume-item-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.resume-item-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.company {
+    color: var(--primary-color);
+}
+
+.resume-item-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+}
+
+.resume-item-location {
+    color: var(--text-light);
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.skill-category-resume {
+    background: var(--bg-secondary);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+}
+
+.skill-category-title {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.125rem;
+}
+
+.skills-list-resume {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.skill-item-resume {
+    background: white;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    border: 1px solid var(--border-color);
+}
+
+.resume-actions {
+    display: flex;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-3xl);
+    border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    .resume-item-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .resume-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+{% endblock %} 

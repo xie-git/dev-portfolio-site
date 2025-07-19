@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}{{ hero_title }} - Portfolio{% endblock %}
+
+{% block meta_description %}Portfolio of {{ hero_title }} - {{ hero_subtitle }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-greeting">
+                    <span class="greeting-text">Hi there</span>
+                    <span class="greeting-emoji">👋</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="title-line">I'm a</span>
+                    <span class="title-main typing-text">{{ hero_title }}</span>
+                </h1>
+                <p class="hero-subtitle">{{ hero_subtitle }}</p>
+                <div class="hero-buttons">
+                    <a href="#portfolio" class="btn btn-primary">View My Work</a>
+                    <a href="{{ url_for('main.contact') }}" class="btn btn-outline">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-container">
+                    <img src="{{ url_for('static', filename='images/profile/profile.jpg') }}" 
+                         alt="Profile" class="profile-image">
+                    <div class="hero-decoration"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about" id="about">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">About Me</h2>
+            <p class="section-subtitle">Get to know me better</p>
+        </div>
+        
+        <div class="about-content">
+            <div class="about-text">
+                <p class="about-description">{{ about_text }}</p>
+                
+                <!-- Skills Grid -->
+                {% if skills_by_category %}
+                <div class="skills-section">
+                    <h3 class="skills-title">Technologies I work with</h3>
+                    <div class="skills-grid">
+                        {% for category, skills in skills_by_category.items() %}
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">{{ category.title() }}</h4>
+                            <div class="skills-list">
+                                {% for skill in skills %}
+                                <div class="skill-item">
+                                    {% if skill.icon_class %}
+                                    <i class="{{ skill.icon_class }}"></i>
+                                    {% endif %}
+                                    <span class="skill-name">{{ skill.name }}</span>
+                                    <div class="skill-level">
+                                        <div class="skill-bar">
+                                            <div class="skill-progress" style="width: {{ skill.proficiency }}%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Section -->
+<section class="portfolio" id="portfolio">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Some of my recent work</p>
+        </div>
+        
+        {% if projects %}
+        <div class="portfolio-grid">
+            {% for project in projects %}
+            <div class="portfolio-item" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        {% if project.image_url %}
+                        <img src="{{ project.image_url }}" alt="{{ project.title }}" loading="lazy">
+                        {% else %}
+                        <div class="portfolio-placeholder">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        {% endif %}
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-actions">
+                                {% if project.demo_url %}
+                                <a href="{{ project.demo_url }}" class="portfolio-btn" target="_blank" rel="noopener">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                {% endif %}
+                                {% if project.github_url %}
+                                <a href="{{ project.github_url }}" class="portfolio-btn" target="_blank" rel="noopener">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                {% endif %}
+                                <a href="{{ url_for('main.project_detail', project_id=project.id) }}" class="portfolio-btn">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">{{ project.title }}</h3>
+                        <p class="portfolio-description">{{ project.short_description or project.description[:100] + '...' }}</p>
+                        {% if project.technologies %}
+                        <div class="portfolio-tech">
+                            {% for tech in project.get_tech_list()[:3] %}
+                            <span class="tech-tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="portfolio-footer">
+            <a href="{{ url_for('main.portfolio') }}" class="btn btn-outline">View All Projects</a>
+        </div>
+        {% else %}
+        <div class="no-content">
+            <i class="fas fa-code"></i>
+            <p>Projects coming soon!</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section class="experience" id="experience">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">My Journey</h2>
+            <p class="section-subtitle">Professional experience and education</p>
+        </div>
+        
+        {% if experiences %}
+        <div class="timeline">
+            {% for experience in experiences %}
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-marker">
+                    {% if experience.company_logo %}
+                    <img src="{{ experience.company_logo }}" alt="{{ experience.company }}" class="company-logo">
+                    {% else %}
+                    <div class="timeline-icon">
+                        {% if experience.experience_type == 'education' %}
+                        <i class="fas fa-graduation-cap"></i>
+                        {% elif experience.experience_type == 'volunteer' %}
+                        <i class="fas fa-heart"></i>
+                        {% else %}
+                        <i class="fas fa-briefcase"></i>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <h3 class="timeline-title">{{ experience.title }}</h3>
+                        <div class="timeline-meta">
+                            <span class="company-name">
+                                {% if experience.company_url %}
+                                <a href="{{ experience.company_url }}" target="_blank" rel="noopener">{{ experience.company }}</a>
+                                {% else %}
+                                {{ experience.company }}
+                                {% endif %}
+                            </span>
+                            <span class="timeline-duration">{{ experience.duration }}</span>
+                        </div>
+                    </div>
+                    {% if experience.description %}
+                    <p class="timeline-description">{{ experience.description }}</p>
+                    {% endif %}
+                    {% if experience.location %}
+                    <div class="timeline-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ experience.location }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-content">
+            <i class="fas fa-briefcase"></i>
+            <p>Experience timeline coming soon!</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Let's Work Together</h2>
+            <p class="cta-text">Have a project in mind? Let's discuss how we can bring your ideas to life.</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('main.contact') }}" class="btn btn-primary">Start a Project</a>
+                <a href="{{ url_for('main.resume') }}" class="btn btn-outline">Download Resume</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Initialize AOS (Animate On Scroll)
+if (typeof AOS !== 'undefined') {
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        offset: 100
+    });
+}
+
+// Typing animation for hero title
+document.addEventListener('DOMContentLoaded', function() {
+    const typingText = document.querySelector('.typing-text');
+    if (typingText) {
+        const text = typingText.textContent;
+        typingText.textContent = '';
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < text.length) {
+                typingText.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        
+        setTimeout(typeWriter, 1000);
+    }
+});
+</script>
+{% endblock %} 

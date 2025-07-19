@@ -1,0 +1,370 @@
+{% extends "base.html" %}
+
+{% block title %}Portfolio - All Projects{% endblock %}
+
+{% block content %}
+<section class="portfolio-hero">
+    <div class="container">
+        <div class="section-header">
+            <h1 class="section-title">My Portfolio</h1>
+            <p class="section-subtitle">Explore all my projects and technical work</p>
+        </div>
+    </div>
+</section>
+
+<section class="portfolio-content">
+    <div class="container">
+        <!-- Filter Buttons -->
+        {% if all_techs %}
+        <div class="portfolio-filters">
+            <button class="portfolio-filter active" data-filter="all">All Projects</button>
+            {% for tech in all_techs[:8] %}
+            <button class="portfolio-filter" data-filter="{{ tech.lower() }}">{{ tech }}</button>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Projects Grid -->
+        {% if projects.items %}
+        <div class="portfolio-grid">
+            {% for project in projects.items %}
+            <div class="portfolio-item {{ project.get_tech_list()[0].lower() if project.technologies else '' }}" 
+                 data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        {% if project.image_url %}
+                        <img src="{{ project.image_url }}" alt="{{ project.title }}" loading="lazy">
+                        {% else %}
+                        <div class="portfolio-placeholder">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        {% endif %}
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-actions">
+                                {% if project.demo_url %}
+                                <a href="{{ project.demo_url }}" class="portfolio-btn" target="_blank" rel="noopener" title="View Demo">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                {% endif %}
+                                {% if project.github_url %}
+                                <a href="{{ project.github_url }}" class="portfolio-btn" target="_blank" rel="noopener" title="View Source">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                {% endif %}
+                                <a href="{{ url_for('main.project_detail', project_id=project.id) }}" class="portfolio-btn" title="View Details">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% if project.featured %}
+                        <div class="featured-badge">
+                            <i class="fas fa-star"></i>
+                            Featured
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">{{ project.title }}</h3>
+                        <p class="portfolio-description">
+                            {{ project.short_description or project.description[:120] + '...' }}
+                        </p>
+                        {% if project.technologies %}
+                        <div class="portfolio-tech">
+                            {% for tech in project.get_tech_list()[:4] %}
+                            <span class="tech-tag">{{ tech }}</span>
+                            {% endfor %}
+                            {% if project.get_tech_list()|length > 4 %}
+                            <span class="tech-tag tech-more">+{{ project.get_tech_list()|length - 4 }} more</span>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        <div class="portfolio-actions-bottom">
+                            <a href="{{ url_for('main.project_detail', project_id=project.id) }}" class="btn btn-outline btn-sm">
+                                Learn More
+                            </a>
+                            {% if project.demo_url %}
+                            <a href="{{ project.demo_url }}" class="btn btn-primary btn-sm" target="_blank" rel="noopener">
+                                View Demo
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if projects.pages > 1 %}
+        <div class="pagination-container">
+            <div class="pagination">
+                {% if projects.has_prev %}
+                <a href="{{ url_for('main.portfolio', page=projects.prev_num, tech=current_tech) }}" class="pagination-btn pagination-prev">
+                    <i class="fas fa-chevron-left"></i>
+                    Previous
+                </a>
+                {% endif %}
+                
+                <div class="pagination-pages">
+                    {% for page_num in projects.iter_pages() %}
+                        {% if page_num %}
+                            {% if page_num != projects.page %}
+                            <a href="{{ url_for('main.portfolio', page=page_num, tech=current_tech) }}" class="pagination-page">
+                                {{ page_num }}
+                            </a>
+                            {% else %}
+                            <span class="pagination-page pagination-current">{{ page_num }}</span>
+                            {% endif %}
+                        {% else %}
+                        <span class="pagination-ellipsis">...</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                {% if projects.has_next %}
+                <a href="{{ url_for('main.portfolio', page=projects.next_num, tech=current_tech) }}" class="pagination-btn pagination-next">
+                    Next
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+                {% endif %}
+            </div>
+            
+            <div class="pagination-info">
+                Showing {{ projects.per_page * (projects.page - 1) + 1 }} - 
+                {{ projects.per_page * (projects.page - 1) + projects.items|length }} 
+                of {{ projects.total }} projects
+            </div>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="no-content">
+            <i class="fas fa-folder-open"></i>
+            <h3>No Projects Found</h3>
+            <p>{% if current_tech %}No projects found for "{{ current_tech }}". Try a different filter.{% else %}No projects available yet.{% endif %}</p>
+            {% if current_tech %}
+            <a href="{{ url_for('main.portfolio') }}" class="btn btn-primary">View All Projects</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Interested in Working Together?</h2>
+            <p class="cta-text">Let's discuss your project and see how I can help bring your ideas to life.</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('main.contact') }}" class="btn btn-primary">Get In Touch</a>
+                <a href="{{ url_for('main.resume') }}" class="btn btn-outline">View Resume</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.portfolio-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    justify-content: center;
+    margin-bottom: var(--spacing-3xl);
+}
+
+.portfolio-filter {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-weight: 500;
+}
+
+.portfolio-filter:hover,
+.portfolio-filter.active {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.featured-badge {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: linear-gradient(45deg, #f59e0b, #f97316);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    z-index: 2;
+}
+
+.portfolio-actions-bottom {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: auto;
+    padding-top: var(--spacing-md);
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.tech-more {
+    background-color: var(--text-light) !important;
+    color: white !important;
+}
+
+.pagination-container {
+    margin-top: var(--spacing-3xl);
+    text-align: center;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.pagination-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-normal);
+}
+
+.pagination-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    color: white;
+}
+
+.pagination-pages {
+    display: flex;
+    gap: var(--spacing-xs);
+    margin: 0 var(--spacing-md);
+}
+
+.pagination-page {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: all var(--transition-normal);
+}
+
+.pagination-page:hover {
+    background: var(--bg-secondary);
+    color: var(--primary-color);
+}
+
+.pagination-current {
+    background: var(--primary-color);
+    color: white;
+}
+
+.pagination-ellipsis {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+}
+
+.pagination-info {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .portfolio-filters {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: var(--spacing-sm);
+    }
+    
+    .portfolio-filter {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+        gap: var(--spacing-xs);
+    }
+    
+    .pagination-pages {
+        margin: 0 var(--spacing-sm);
+    }
+    
+    .portfolio-actions-bottom {
+        flex-direction: column;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Portfolio filter functionality
+    const filterButtons = document.querySelectorAll('.portfolio-filter');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            // Filter items
+            portfolioItems.forEach(item => {
+                const shouldShow = filter === 'all' || 
+                    item.classList.contains(filter) ||
+                    item.querySelector('.tech-tag')?.textContent.toLowerCase().includes(filter);
+                
+                if (shouldShow) {
+                    item.style.display = 'block';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %} 
