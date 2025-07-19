@@ -82,59 +82,56 @@ def run_flask_app():
     def create_sample_data():
         """Create sample data for the portfolio."""
         
-        # Sample Projects
+        # Real Projects based on resume
         projects = [
             {
-                'title': 'E-Commerce Platform',
-                'description': 'A full-stack e-commerce application built with Flask and React. Features include user authentication, product catalog, shopping cart, and payment integration.',
-                'short_description': 'Modern e-commerce platform with full shopping experience',
-                'image_url': 'https://via.placeholder.com/600x400/2563eb/ffffff?text=E-Commerce+Platform',
-                'demo_url': 'https://demo-ecommerce.example.com',
-                'github_url': 'https://github.com/yourusername/ecommerce-platform',
-                'technologies': 'Flask, React, PostgreSQL, Stripe, AWS',
+                'title': 'Homelab Linux Server',
+                'description': 'Self-hosted infrastructure running on Linux server at 10.0.0.221. Provides all home serving purposes and needs with multiple self-hosted services including Docker containers, monitoring, and automation. Complete home infrastructure management with network services, file storage, media streaming, and development environments.',
+                'short_description': 'Complete self-hosted home infrastructure with multiple services',
+                'image_url': 'https://via.placeholder.com/600x400/2563eb/ffffff?text=Homelab+Server',
+                'demo_url': 'http://10.0.0.221:5005',
+                'github_url': 'https://github.com/xie-git/homelab-infrastructure',
+                'technologies': 'Linux, Docker, Self-hosting, Network Management, Infrastructure',
                 'featured': True,
                 'order_index': 1
             },
             {
-                'title': 'Task Management App',
-                'description': 'A collaborative task management application with real-time updates, team collaboration features, and project tracking capabilities.',
-                'short_description': 'Collaborative task management with real-time updates',
-                'image_url': 'https://via.placeholder.com/600x400/06b6d4/ffffff?text=Task+Manager',
-                'demo_url': 'https://demo-tasks.example.com',
-                'github_url': 'https://github.com/yourusername/task-manager',
-                'technologies': 'Python, Django, WebSocket, Redis, Docker',
+                'title': 'Chicago Real Estate Scraper',
+                'description': 'Scalable real estate scraping service that continuously monitors and tracks Chicago\'s apartment and rental market. Automated data collection system that aggregates listings, pricing trends, and market analytics from multiple sources. Built for scalability to handle large volumes of real estate data with efficient processing and storage.',
+                'short_description': 'Scalable service tracking Chicago\'s apartment and real estate market',
+                'image_url': 'https://via.placeholder.com/600x400/06b6d4/ffffff?text=Real+Estate+Scraper',
+                'github_url': 'https://github.com/xie-git/RealEstateScraper',
+                'technologies': 'Python, Web Scraping, Data Pipeline, Market Analysis, Automation',
                 'featured': True,
                 'order_index': 2
             },
             {
-                'title': 'Weather Dashboard',
-                'description': 'A responsive weather dashboard that displays current weather, forecasts, and historical data with beautiful visualizations.',
-                'short_description': 'Beautiful weather dashboard with data visualizations',
-                'image_url': 'https://via.placeholder.com/600x400/10b981/ffffff?text=Weather+Dashboard',
-                'demo_url': 'https://demo-weather.example.com',
-                'github_url': 'https://github.com/yourusername/weather-dashboard',
-                'technologies': 'JavaScript, Chart.js, OpenWeather API, CSS3',
+                'title': 'Personal Real Estate Tracker',
+                'description': 'Personal analytics dashboard for tracking the best apartment deals and real estate trends in Chicago. Combines data from the scraping service with custom algorithms to identify undervalued properties, market opportunities, and investment insights. Features trend analysis, price predictions, and automated alerts for optimal deals.',
+                'short_description': 'Personal tracker for best apartment deals and market trends',
+                'image_url': 'https://via.placeholder.com/600x400/10b981/ffffff?text=Real+Estate+Tracker',
+                'github_url': 'https://github.com/xie-git/real-estate-tracker',
+                'technologies': 'Python, Data Analysis, Market Trends, Investment Analytics, Dashboards',
                 'featured': True,
                 'order_index': 3
             },
             {
-                'title': 'Blog Platform',
-                'description': 'A modern blogging platform with markdown support, SEO optimization, and content management system.',
-                'short_description': 'Modern blogging platform with CMS features',
-                'image_url': 'https://via.placeholder.com/600x400/8b5cf6/ffffff?text=Blog+Platform',
-                'demo_url': 'https://demo-blog.example.com',
-                'github_url': 'https://github.com/yourusername/blog-platform',
-                'technologies': 'Flask, SQLAlchemy, Markdown, SEO',
-                'featured': False,
+                'title': 'AI/ML Self-Hosted Lab',
+                'description': 'Self-hosted AI/ML environment featuring Stable Diffusion and Ollama for model tuning and testing. Focus on developing scalable, cost-efficient AI solutions with custom model fine-tuning, prompt engineering, and deployment strategies. Experimenting with local LLMs, image generation, and efficient inference for practical use cases.',
+                'short_description': 'Self-hosted AI/ML lab with Stable Diffusion and Ollama',
+                'image_url': 'https://via.placeholder.com/600x400/8b5cf6/ffffff?text=AI%2FML+Lab',
+                'github_url': 'https://github.com/xie-git/ai-ml-lab',
+                'technologies': 'Stable Diffusion, Ollama, LLMs, Model Tuning, Self-hosting, AI/ML',
+                'featured': True,
                 'order_index': 4
             },
             {
-                'title': 'Portfolio Website',
-                'description': 'This very portfolio website you are looking at! Built with Flask and modern web technologies.',
-                'short_description': 'Personal portfolio website with modern design',
-                'image_url': 'https://via.placeholder.com/600x400/f59e0b/ffffff?text=Portfolio+Site',
-                'github_url': 'https://github.com/yourusername/portfolio-website',
-                'technologies': 'Flask, JavaScript, CSS3, SQLite',
+                'title': 'HomeData IoT Sensor Network',
+                'description': 'Comprehensive IoT sensor network gathering environmental and occupancy data throughout the home using BME688 environmental sensors and LD2450 presence detection. Built on ESP32 and Raspberry Pi platforms with AI/ML analytics to generate insights and optimize Home Assistant automation. Real-time monitoring, predictive analytics, and intelligent home automation.',
+                'short_description': 'IoT sensor network with AI insights for home automation',
+                'image_url': 'https://via.placeholder.com/600x400/f59e0b/ffffff?text=HomeData+IoT',
+                'github_url': 'https://github.com/xie-git/HomeData',
+                'technologies': 'IoT, BME688, LD2450, ESP32, Raspberry Pi, Home Assistant, AI/ML Analytics',
                 'featured': True,
                 'order_index': 5
             }
@@ -144,47 +141,50 @@ def run_flask_app():
             project = Project(**project_data)
             db.session.add(project)
         
-        # Sample Experience
+        # Real Experience based on resume
         experiences = [
             {
-                'title': 'Senior Software Developer',
-                'company': 'Tech Innovations Inc.',
-                'company_url': 'https://techinnovations.example.com',
-                'location': 'San Francisco, CA',
-                'start_date': date(2022, 1, 1),
+                'title': 'Software Engineer (IAM)',
+                'company': 'Northern Trust',
+                'company_url': 'https://www.northerntrust.com',
+                'location': 'Chicago, IL',
+                'start_date': date(2025, 3, 1),
                 'end_date': None,  # Current position
-                'description': 'Leading development of scalable web applications and mentoring junior developers. Focused on full-stack development with Python and JavaScript.',
+                'description': 'Developed and maintained Python-based ETL pipelines for enterprise identity systems using Linux and Control-M. Automated and migrated legacy IAM data into modern platforms using secure OracleDB and PostgreSQL connections. Provisioned on-prem infrastructure to support scheduled ETL workflows.',
                 'experience_type': 'work',
                 'order_index': 1
             },
             {
-                'title': 'Full Stack Developer',
-                'company': 'StartupXYZ',
-                'company_url': 'https://startupxyz.example.com',
-                'location': 'Remote',
-                'start_date': date(2020, 6, 1),
-                'end_date': date(2021, 12, 31),
-                'description': 'Developed and maintained multiple web applications using Flask, React, and PostgreSQL. Collaborated with cross-functional teams to deliver high-quality software solutions.',
+                'title': 'Software Engineer',
+                'company': 'Capital One',
+                'company_url': 'https://www.capitalone.com',
+                'location': 'Chicago, IL',
+                'start_date': date(2019, 8, 1),
+                'end_date': date(2023, 11, 30),
+                'description': 'Built scalable AWS Big Data ETL pipelines (Step Functions, EMR, DynamoDB, Lambda) using Python and PySpark to process sensitive customer credit and behavioral data. Created automated UI testing suite using Selenium and OpenCV. Engineered fraud analytics reporting system with SQL, Snowflake, R, and Python. Developed customer communication microservices using Java Spring Boot, containerized in Docker and deployed on ECS with CI/CD pipelines.',
                 'experience_type': 'work',
                 'order_index': 2
             },
             {
-                'title': 'Computer Science Degree',
-                'company': 'University of Technology',
-                'location': 'New York, NY',
-                'start_date': date(2016, 9, 1),
-                'end_date': date(2020, 5, 31),
-                'description': 'Bachelor of Science in Computer Science with focus on software engineering and web development. Graduated with honors.',
-                'experience_type': 'education',
+                'title': 'Operations Lead',
+                'company': 'Northwestern Mutual',
+                'company_url': 'https://www.northwesternmutual.com',
+                'location': 'Milwaukee, WI',
+                'start_date': date(2018, 6, 1),
+                'end_date': date(2019, 8, 31),
+                'description': 'Managed deployment of internal enterprise apps on iOS/Android using Microsoft Intune and Azure AD policies. Resolved authentication and MDM compliance issues across employee devices and collaborated with internal support and security teams. Coordinated between offshore development teams and on-site stakeholders; delivered weekly operations reports.',
+                'experience_type': 'work',
                 'order_index': 3
             },
             {
-                'title': 'Open Source Contributor',
-                'company': 'Various Projects',
-                'start_date': date(2019, 1, 1),
-                'end_date': None,
-                'description': 'Active contributor to open source projects including Flask extensions and JavaScript libraries. Passionate about giving back to the developer community.',
-                'experience_type': 'volunteer',
+                'title': 'Statistics & Computer Science',
+                'company': 'University of Wisconsin Madison',
+                'company_url': 'https://www.wisc.edu',
+                'location': 'Madison, WI',
+                'start_date': date(2014, 8, 1),
+                'end_date': date(2018, 5, 31),
+                'description': 'Bachelor of Science in Statistics and Computer Science. Focused on data analysis, statistical modeling, and software development fundamentals.',
+                'experience_type': 'education',
                 'order_index': 4
             }
         ]
@@ -193,49 +193,66 @@ def run_flask_app():
             experience = Experience(**exp_data)
             db.session.add(experience)
         
-        # Sample Skills
+        # Real Skills based on resume
         skills = [
-            # Frontend
-            {'name': 'JavaScript', 'category': 'frontend', 'proficiency': 90, 'icon_class': 'fab fa-js-square', 'order_index': 1},
-            {'name': 'React', 'category': 'frontend', 'proficiency': 85, 'icon_class': 'fab fa-react', 'order_index': 2},
-            {'name': 'HTML5', 'category': 'frontend', 'proficiency': 95, 'icon_class': 'fab fa-html5', 'order_index': 3},
-            {'name': 'CSS3', 'category': 'frontend', 'proficiency': 90, 'icon_class': 'fab fa-css3-alt', 'order_index': 4},
-            {'name': 'Vue.js', 'category': 'frontend', 'proficiency': 75, 'icon_class': 'fab fa-vuejs', 'order_index': 5},
+            # Languages
+            {'name': 'Python', 'category': 'languages', 'proficiency': 95, 'icon_class': 'fab fa-python', 'order_index': 1},
+            {'name': 'Java', 'category': 'languages', 'proficiency': 85, 'icon_class': 'fab fa-java', 'order_index': 2},
+            {'name': 'R', 'category': 'languages', 'proficiency': 80, 'icon_class': 'fab fa-r-project', 'order_index': 3},
+            {'name': 'SQL', 'category': 'languages', 'proficiency': 90, 'icon_class': 'fas fa-database', 'order_index': 4},
             
-            # Backend
-            {'name': 'Python', 'category': 'backend', 'proficiency': 95, 'icon_class': 'fab fa-python', 'order_index': 1},
-            {'name': 'Flask', 'category': 'backend', 'proficiency': 90, 'icon_class': 'fas fa-flask', 'order_index': 2},
-            {'name': 'Django', 'category': 'backend', 'proficiency': 80, 'icon_class': 'fab fa-python', 'order_index': 3},
-            {'name': 'Node.js', 'category': 'backend', 'proficiency': 75, 'icon_class': 'fab fa-node-js', 'order_index': 4},
-            {'name': 'REST APIs', 'category': 'backend', 'proficiency': 85, 'icon_class': 'fas fa-exchange-alt', 'order_index': 5},
+            # AWS Services
+            {'name': 'AWS Lambda', 'category': 'aws', 'proficiency': 90, 'icon_class': 'fab fa-aws', 'order_index': 1},
+            {'name': 'Step Functions', 'category': 'aws', 'proficiency': 85, 'icon_class': 'fab fa-aws', 'order_index': 2},
+            {'name': 'EC2', 'category': 'aws', 'proficiency': 80, 'icon_class': 'fab fa-aws', 'order_index': 3},
+            {'name': 'S3', 'category': 'aws', 'proficiency': 90, 'icon_class': 'fab fa-aws', 'order_index': 4},
+            {'name': 'DynamoDB', 'category': 'aws', 'proficiency': 85, 'icon_class': 'fab fa-aws', 'order_index': 5},
+            {'name': 'RDS', 'category': 'aws', 'proficiency': 80, 'icon_class': 'fab fa-aws', 'order_index': 6},
             
-            # Database
-            {'name': 'PostgreSQL', 'category': 'database', 'proficiency': 85, 'icon_class': 'fas fa-database', 'order_index': 1},
-            {'name': 'MySQL', 'category': 'database', 'proficiency': 80, 'icon_class': 'fas fa-database', 'order_index': 2},
-            {'name': 'SQLite', 'category': 'database', 'proficiency': 90, 'icon_class': 'fas fa-database', 'order_index': 3},
-            {'name': 'Redis', 'category': 'database', 'proficiency': 70, 'icon_class': 'fas fa-memory', 'order_index': 4},
+            # Frameworks & Tools
+            {'name': 'PySpark', 'category': 'frameworks', 'proficiency': 90, 'icon_class': 'fas fa-fire', 'order_index': 1},
+            {'name': 'Pandas', 'category': 'frameworks', 'proficiency': 95, 'icon_class': 'fas fa-chart-line', 'order_index': 2},
+            {'name': 'Spring Boot', 'category': 'frameworks', 'proficiency': 85, 'icon_class': 'fas fa-leaf', 'order_index': 3},
+            {'name': 'Docker', 'category': 'frameworks', 'proficiency': 80, 'icon_class': 'fab fa-docker', 'order_index': 4},
+            {'name': 'Kafka', 'category': 'frameworks', 'proficiency': 75, 'icon_class': 'fas fa-stream', 'order_index': 5},
             
-            # Tools
-            {'name': 'Git', 'category': 'tools', 'proficiency': 90, 'icon_class': 'fab fa-git-alt', 'order_index': 1},
-            {'name': 'Docker', 'category': 'tools', 'proficiency': 75, 'icon_class': 'fab fa-docker', 'order_index': 2},
-            {'name': 'AWS', 'category': 'tools', 'proficiency': 70, 'icon_class': 'fab fa-aws', 'order_index': 3},
-            {'name': 'Linux', 'category': 'tools', 'proficiency': 80, 'icon_class': 'fab fa-linux', 'order_index': 4}
+            # Databases
+            {'name': 'PostgreSQL', 'category': 'databases', 'proficiency': 85, 'icon_class': 'fas fa-database', 'order_index': 1},
+            {'name': 'OracleDB', 'category': 'databases', 'proficiency': 80, 'icon_class': 'fas fa-database', 'order_index': 2},
+            {'name': 'Snowflake', 'category': 'databases', 'proficiency': 85, 'icon_class': 'fas fa-snowflake', 'order_index': 3},
+            
+            # Platforms
+            {'name': 'Linux', 'category': 'platforms', 'proficiency': 85, 'icon_class': 'fab fa-linux', 'order_index': 1},
+            {'name': 'Azure', 'category': 'platforms', 'proficiency': 75, 'icon_class': 'fab fa-microsoft', 'order_index': 2},
+            {'name': 'Databricks', 'category': 'platforms', 'proficiency': 80, 'icon_class': 'fas fa-database', 'order_index': 3},
+            
+            # IoT & Homelab
+            {'name': 'Home Assistant', 'category': 'iot', 'proficiency': 85, 'icon_class': 'fas fa-home', 'order_index': 1},
+            {'name': 'ESP32', 'category': 'iot', 'proficiency': 80, 'icon_class': 'fas fa-microchip', 'order_index': 2},
+            {'name': 'Raspberry Pi', 'category': 'iot', 'proficiency': 85, 'icon_class': 'fab fa-raspberry-pi', 'order_index': 3},
+            {'name': 'Self-hosting', 'category': 'iot', 'proficiency': 90, 'icon_class': 'fas fa-server', 'order_index': 4},
+            
+            # AI/ML
+            {'name': 'Stable Diffusion', 'category': 'ai', 'proficiency': 75, 'icon_class': 'fas fa-brain', 'order_index': 1},
+            {'name': 'Ollama', 'category': 'ai', 'proficiency': 80, 'icon_class': 'fas fa-robot', 'order_index': 2},
+            {'name': 'Model Tuning', 'category': 'ai', 'proficiency': 70, 'icon_class': 'fas fa-cogs', 'order_index': 3}
         ]
         
         for skill_data in skills:
             skill = Skill(**skill_data)
             db.session.add(skill)
         
-        # Site Settings
+        # Site Settings with Michael's real information
         settings = [
-            {'key': 'hero_title', 'value': 'Software Developer'},
-            {'key': 'hero_subtitle', 'value': 'Building amazing digital experiences with modern web technologies'},
-            {'key': 'about_text', 'value': 'Passionate software developer with 4+ years of experience creating scalable web applications. I love turning complex problems into simple, beautiful, and intuitive solutions. When I\'m not coding, you can find me exploring new technologies or contributing to open source projects.'},
+            {'key': 'hero_title', 'value': 'Software Engineer'},
+            {'key': 'hero_subtitle', 'value': 'Building scalable data pipelines and enterprise solutions with modern cloud technologies'},
+            {'key': 'about_text', 'value': 'Experienced software engineer with 6+ years developing scalable ETL pipelines, big data solutions, and enterprise applications. Currently building a comprehensive homelab infrastructure with self-hosted services, IoT sensor networks, and AI/ML experimentation. Passionate about automation, data engineering, and creating efficient systems that solve real-world problems at home and in enterprise environments.'},
             {'key': 'resume_url', 'value': '/static/resume.pdf'},
-            {'key': 'github_url', 'value': 'https://github.com/yourusername'},
-            {'key': 'linkedin_url', 'value': 'https://linkedin.com/in/yourprofile'},
-            {'key': 'email', 'value': 'your.email@example.com'},
-            {'key': 'location', 'value': 'Your City, Country'}
+            {'key': 'github_url', 'value': 'https://github.com/xie-git'},
+            {'key': 'linkedin_url', 'value': 'https://linkedin.com/in/xie-michael'},
+            {'key': 'email', 'value': 'xie.michael@icloud.com'},
+            {'key': 'location', 'value': 'Chicago, IL'},
+            {'key': 'phone', 'value': '262 527 6438'}
         ]
         
         for setting_data in settings:
@@ -249,16 +266,16 @@ def run_flask_app():
     init_db()
     
     # Run the development server
-    print("🚀 Starting Portfolio Website...")
-    print(f"💻 Visit: http://localhost:5000")
-    print(f"🔧 Admin Panel: http://localhost:5000/admin")
+    print("🚀 Starting Michael Xie's Portfolio Website...")
+    print(f"💻 Visit: http://10.0.0.221:5005")
+    print(f"🔧 Admin Panel: http://10.0.0.221:5005/admin")
     print("📧 Note: Configure email settings in .env for contact form")
     print("⚡ Press Ctrl+C to stop the server")
     
     app.run(
-        host='0.0.0.0',
-        port=5000,
-        debug=True
+        host='10.0.0.221',
+        port=5005,
+        debug=False  # Set to False for production/background running
     )
 
 if __name__ == '__main__':
