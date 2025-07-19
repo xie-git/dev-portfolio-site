@@ -4,7 +4,7 @@
 # Usage: ./deploy.sh [production|development]
 
 MODE=${1:-development}
-PORT=${2:-5000}
+PORT=${2:-5005}
 
 echo "🚀 Deploying Michael Xie Portfolio..."
 echo "Mode: $MODE"
@@ -58,7 +58,7 @@ else
     
     echo "🔧 Development mode: Debug enabled"
     echo "🚀 Starting development server on port $PORT..."
-    echo "💻 Visit: http://localhost:$PORT"
+    echo "💻 Visit: http://localhost:$PORT or http://10.0.0.221:$PORT"
     echo "⚡ Press Ctrl+C to stop the server"
     
     python3 simple_app.py
