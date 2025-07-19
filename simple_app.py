@@ -1380,14 +1380,14 @@ def run_simple_app():
     def favicon():
         return send_from_directory(app.static_folder or 'static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
     
-    # Run the development server
-    print("🚀 Starting Portfolio Website...")
-    print(f"💻 Visit: http://localhost:5000")
-    print("⚡ Press Ctrl+C to stop the server")
-    
     # Use environment variables for configuration
     debug = os.environ.get('FLASK_DEBUG', 'True').lower() == 'true'
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5005))
+    
+    # Run the development server
+    print("🚀 Starting Portfolio Website...")
+    print(f"💻 Visit: http://localhost:{port}")
+    print("⚡ Press Ctrl+C to stop the server")
     
     app.run(
         host='0.0.0.0',
