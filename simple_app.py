@@ -618,6 +618,123 @@ def run_simple_app():
                 }
             }
             
+            /* Developer Story Timeline - Minimal inspired by Thea */
+            .developer-story-section {
+                margin: 4.5rem auto;
+            }
+
+            .developer-story-section h2 {
+                font-weight: 400;
+                font-size: 1rem;
+                text-transform: uppercase;
+                margin: var(--spacing-md) auto;
+            }
+
+            .timeline-wrapper {
+                position: relative;
+                margin-top: var(--spacing-xxl);
+            }
+
+            .timeline-wrapper::before {
+                content: '';
+                position: absolute;
+                left: 1rem;
+                top: 0;
+                bottom: 0;
+                width: 1px;
+                background: var(--color-fg-main);
+                opacity: 0.2;
+            }
+
+            .timeline-item {
+                position: relative;
+                margin-bottom: var(--spacing-xxl);
+                padding-left: var(--spacing-xl);
+            }
+
+            .timeline-marker {
+                position: absolute;
+                left: 0.75rem;
+                top: 0.5rem;
+                width: 0.5rem;
+                height: 0.5rem;
+                background: var(--color-fg-main);
+                border-radius: 50%;
+                z-index: 1;
+            }
+
+            .timeline-content {
+                max-width: 512px;
+            }
+
+            .timeline-header {
+                display: flex;
+                align-items: center;
+                gap: var(--spacing-sm);
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .timeline-date {
+                font-size: 0.875rem;
+                opacity: 0.6;
+            }
+
+            .timeline-type {
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                padding: 0.15rem 0.5rem;
+                border: 1px solid var(--color-fg-main);
+                opacity: 0.7;
+            }
+
+            .timeline-type.education {
+                border-color: #0E4DA4;
+                color: #0E4DA4;
+            }
+
+            .timeline-type.volunteer {
+                border-color: #CE2B30;
+                color: #CE2B30;
+            }
+
+            .timeline-type.work {
+                border-color: #4C4C39;
+                color: #4C4C39;
+            }
+
+            .timeline-type.app {
+                border-color: #204B8D;
+                color: #204B8D;
+            }
+
+            .timeline-content h3 {
+                font-size: 1rem;
+                font-weight: 400;
+                text-transform: uppercase;
+                margin: 0 0 var(--spacing-xs) 0;
+            }
+
+            .timeline-company {
+                font-size: 0.875rem;
+                opacity: 0.8;
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .timeline-content p {
+                font-size: 0.875rem;
+                line-height: 1.4;
+                opacity: 0.7;
+                margin: 0 0 var(--spacing-sm) 0;
+            }
+
+            .logo-placeholder {
+                position: absolute;
+                right: 0;
+                top: 0;
+                font-size: 1.5rem;
+                opacity: 0.3;
+            }
+
             /* EXACT Long Nguyen Statement Section */
             .statement-section {
                 margin: 4.5rem auto;
@@ -737,6 +854,19 @@ def run_simple_app():
                 .footer-links li {
                     font-size: unset;
                 }
+
+                /* Timeline responsive */
+                .timeline-wrapper::before {
+                    left: 1rem;
+                }
+
+                .timeline-item {
+                    padding-left: var(--spacing-xl);
+                }
+
+                .timeline-marker {
+                    left: 0.75rem;
+                }
             }
         </style>
     </head>
@@ -751,7 +881,8 @@ def run_simple_app():
                                 <h2><a href="/">Michael Xie</a></h2>
                                 <div class="links-container">
                                     <ul class="links-list">
-                                        <li><a href="#about">About</a></li>
+                                        <li><a href="#projects">Projects</a></li>
+                                        <li><a href="#story">Story</a></li>
                                         <li><a href="#contact">Contact</a></li>
                                     </ul>
                                 </div>
@@ -777,7 +908,7 @@ def run_simple_app():
                         </div>
 
                         <!-- Selected Works Section - EXACT structure -->
-                        <section class="block works-section">
+                        <section id="projects" class="block works-section">
                             <div class="wrapper">
                                 <h2>Selected <br> Works ↘</h2>
                                 <div class="works-grid">
@@ -809,6 +940,89 @@ def run_simple_app():
                                 <!-- See All Projects Link -->
                                 <div class="see-all-container">
                                     <a href="/projects" class="see-all-link">see all projects ↘</a>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Developer Story Section - Inspired by Thea -->
+                        <section id="story" class="block developer-story-section">
+                            <div class="wrapper">
+                                <h2>Developer <br> Story ↘</h2>
+                                <div class="timeline-wrapper">
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <div class="timeline-date">Nov 2019 - Sep 2023</div>
+                                                <div class="timeline-type education">education</div>
+                                            </div>
+                                            <h3>Computer Science</h3>
+                                            <div class="timeline-company">Cambodia Academy of Digital Technology - CADT</div>
+                                            <p>My journey began here as a Computer Science student. Foundation in algorithms, data structures, and software engineering principles.</p>
+                                            <!-- Logo placeholder: Add CADT logo here -->
+                                            <div class="logo-placeholder">📚</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <div class="timeline-date">Jan 2020 - Jun 2023</div>
+                                                <div class="timeline-type volunteer">volunteer</div>
+                                            </div>
+                                            <h3>Mobile Team Leader</h3>
+                                            <div class="timeline-company">E-Robot</div>
+                                            <p>Led mobile development team building educational robotics applications. Transitioned from visual programming to Flutter development.</p>
+                                            <!-- Logo placeholder: Add E-Robot logo here -->
+                                            <div class="logo-placeholder">🤖</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <div class="timeline-date">Nov 2020 - Jan 2023</div>
+                                                <div class="timeline-type work">work</div>
+                                            </div>
+                                            <h3>Software Developer</h3>
+                                            <div class="timeline-company">VTENH - Part Time</div>
+                                            <p>Developed full-stack ecommerce solutions with Flutter and Ruby on Rails. Gained hands-on experience in scalable web applications.</p>
+                                            <!-- Logo placeholder: Add VTENH logo here -->
+                                            <div class="logo-placeholder">🛒</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <div class="timeline-date">Mar 2021 - Present</div>
+                                                <div class="timeline-type app">side project</div>
+                                            </div>
+                                            <h3>Creator & Developer</h3>
+                                            <div class="timeline-company">StoryPad Mobile App</div>
+                                            <p>Designed and built a story writing app from scratch. Achieved 80,000+ downloads and learned product development end-to-end.</p>
+                                            <!-- Logo placeholder: Add StoryPad logo here -->
+                                            <div class="logo-placeholder">📱</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <div class="timeline-date">Jan 2023 - Present</div>
+                                                <div class="timeline-type work">work</div>
+                                            </div>
+                                            <h3>Tech Lead</h3>
+                                            <div class="timeline-company">BookMeBus</div>
+                                            <p>Leading development of scalable booking platform (BookMe+). Managing technical architecture and mentoring development team.</p>
+                                            <!-- Logo placeholder: Add BookMeBus logo here -->
+                                            <div class="logo-placeholder">🚌</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>
