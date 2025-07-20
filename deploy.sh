@@ -17,8 +17,8 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 # Check if we're in the right directory
-if [ ! -f "simple_app.py" ]; then
-    echo "❌ simple_app.py not found. Please run this script from the project root."
+if [ ! -f "app.py" ]; then
+    echo "❌ app.py not found. Please run this script from the project root."
     exit 1
 fi
 
@@ -50,7 +50,7 @@ if [ "$MODE" = "production" ]; then
     echo "💻 Visit: http://$(hostname -I | awk '{print $1}'):$PORT"
     echo "⚡ Press Ctrl+C to stop the server"
     
-    gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 simple_app:app
+    gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 app:app
 else
     # Development mode
     export FLASK_ENV=development
@@ -61,5 +61,5 @@ else
     echo "💻 Visit: http://localhost:$PORT or http://10.0.0.221:$PORT"
     echo "⚡ Press Ctrl+C to stop the server"
     
-    python3 simple_app.py
+    python3 app.py
 fi 

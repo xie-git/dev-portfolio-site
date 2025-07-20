@@ -86,6 +86,7 @@ def create_app():
                 min-height: calc(100vh - env(safe-area-inset-bottom));
                 margin: 0;
                 padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+                padding-top: calc(60px + env(safe-area-inset-top));
                 display: flex;
                 flex-flow: column nowrap;
                 font: 1.5rem 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -186,8 +187,8 @@ def create_app():
             header {
                 background: var(--color-bg-main);
                 position: sticky;
-                bottom: 0;
-                order: 2;
+                top: 0;
+                order: 0;
                 z-index: 10;
             }
 
@@ -243,7 +244,9 @@ def create_app():
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 column-gap: var(--spacing-xl);
-                align-items: start;
+                align-items: end;
+                margin-top: var(--spacing-lg);
+                margin-bottom: var(--spacing-xxl);
             }
             
             .intro-left p {
@@ -253,6 +256,19 @@ def create_app():
             .intro-right {
                 text-align: right;
             }
+
+            .intro-buttons {
+                display: flex;
+                justify-content: flex-end;
+                align-items: baseline;
+                gap: var(--spacing-lg);
+                width: 100%;
+            }
+
+            .intro-button-left,
+            .intro-button-right {
+                text-decoration: underline;
+            }
             
             .intro-container ul {
                 padding: 0;
@@ -260,10 +276,7 @@ def create_app():
                 margin: 0;
             }
 
-            .intro-container {
-                margin-top: var(--spacing-xxl);
-                margin-bottom: 6rem;
-            }
+
 
             /* EXACT Long Nguyen Works Section */
             .works-section {
@@ -275,6 +288,14 @@ def create_app():
                 font-size: 1rem;
                 text-transform: uppercase;
                 margin: var(--spacing-md) auto;
+            }
+
+            @media (max-width: 768px) {
+                .works-section h2,
+                .developer-story-section h2 {
+                    white-space: nowrap;
+                    font-size: 0.8rem;
+                }
             }
 
             /* EXACT Long Nguyen Project Cards */
@@ -302,7 +323,7 @@ def create_app():
                 display: flex;
                 flex-flow: column nowrap;
                 row-gap: var(--spacing-sm);
-                margin: var(--spacing-sm) auto;
+                margin: var(--spacing-lg) auto;
                 width: 100%;
             }
 
@@ -516,6 +537,7 @@ def create_app():
                     grid-template-columns: 1fr;
                     width: 95%;
                     height: 85vh;
+                    overflow-y: auto;
                 }
 
                 .modal-left {
@@ -673,7 +695,7 @@ def create_app():
                 opacity: 0.6;
                 letter-spacing: 0.05em;
                 margin-bottom: var(--spacing-xs);
-                margin-top: var(--spacing-sm);
+                margin-top: calc(var(--spacing-sm) + 1.2rem);
             }
 
             /* Company-branded job titles */
@@ -951,6 +973,15 @@ def create_app():
 
             /* Mobile responsive */
             @media (max-width: 768px) {
+                body {
+                    font-size: 1.2rem;
+                    padding-top: calc(60px + env(safe-area-inset-top));
+                }
+
+                header h2 {
+                    font-size: 1.2rem;
+                }
+
                 .timeline-wrapper {
                     padding: 0 var(--spacing-md);
                 }
@@ -978,6 +1009,25 @@ def create_app():
                 .company-logo-large {
                     width: 36px;
                     height: 36px;
+                }
+
+                /* Keep statement section at full size */
+                .statement-section {
+                    font-size: 1.5rem;
+                }
+
+                .statement-section .text-lg {
+                    font-size: 2.5rem;
+                }
+
+                /* Reduce footer link sizes */
+                .footer-links li {
+                    font-size: 0.7rem;
+                }
+
+                /* Reduce header navigation link sizes */
+                header li {
+                    font-size: 0.84rem;
                 }
             }
 
@@ -1216,24 +1266,25 @@ def create_app():
                     --spacing-horizontal: 6rem;
                 }
 
-                header {
-                    order: 0;
-                    bottom: unset;
-                    top: 0;
+                body {
+                    font-size: 1.5rem;
+                    padding-top: calc(80px + env(safe-area-inset-top));
                 }
 
                 .intro-container {
                     grid-template-columns: 1fr;
                     row-gap: var(--spacing-md);
+                    margin-top: var(--spacing-xxl);
+                    margin-bottom: var(--spacing-xxl);
                 }
                 
                 .intro-right {
                     text-align: left;
                 }
 
-                .intro-container .wrapper {
-                    margin-top: 8rem;
-                    margin-bottom: 10rem;
+                .intro-buttons {
+                    justify-content: flex-end;
+                    gap: var(--spacing-lg);
                 }
 
                 .works-grid {
@@ -1282,7 +1333,7 @@ def create_app():
                 }
                 
                 .footer-links li {
-                    font-size: 1rem;
+                    font-size: 0.7rem;
                 }
 
                 /* Timeline responsive - removed timeline visual elements */
@@ -1304,12 +1355,11 @@ def create_app():
                             <div class="container-actions">
                                 <h2><a href="#top">Michael Xie</a></h2>
                                 <div class="links-container">
-                                    <ul class="links-list">
-                                        <li><a href="#top">Bio</a></li>
-                                        <li><a href="#projects">Projects</a></li>
-                                        <li><a href="#story">Story</a></li>
-                                        <li><a href="#contact">Contact</a></li>
-                                    </ul>
+                                                                            <ul class="links-list">
+                                            <li><a href="#top">Bio</a></li>
+                                            <li><a href="#projects">Projects</a></li>
+                                            <li><a href="#story">Story</a></li>
+                                        </ul>
                                 </div>
                             </div>
                         </nav>
@@ -1328,9 +1378,9 @@ def create_app():
                                     <p>Senior Software Engineer based in Chicago, IL with extensive experience delivering scalable, enterprise-grade systems for leading financial institutions.</p>
                                 </div>
                                 <div class="intro-right">
-                                    <ul>
-                                        <li><a href="/resume">Resume</a></li>
-                                    </ul>
+                                    <div class="intro-buttons">
+                                        <a href="/resume" class="intro-button-left">Resume</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1997,10 +2047,7 @@ def create_app():
                                     <h2><a href="/">Michael Xie</a></h2>
                                     <div class="links-container">
                                         <ul class="links-list">
-                                            <li><a href="#experience">Experience</a></li>
-                                            <li><a href="#education">Education</a></li>
-                                            <li><a href="#projects">Projects</a></li>
-                                            <li><a href="#skills">Skills</a></li>
+                                            <li><a href="/projects">Projects</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -2317,7 +2364,451 @@ def create_app():
         """
         return render_template_string(resume_template)
 
+    @app.route('/about')
+    def about_page():
+        about_template = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>About Me - Michael Xie</title>
+            <meta name="description" content="Learn more about Michael Xie - Software Engineer, technology enthusiast, and problem solver.">
+            
+            <!-- Favicon -->
+            <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+            
+            <!-- Preload fonts for better performance -->
+            <link rel="preload" href="/static/fonts/PPNeueMontreal-Regular.woff" as="font" type="font/woff" crossorigin>
+            <link rel="preload" href="/static/fonts/PPNeueMontreal-Italic.woff" as="font" type="font/woff" crossorigin>
+            
+            <style>
+                /* EXACT Long Nguyen Font Loading - LOCAL HOSTING */
+                @font-face {
+                    font-family: 'PP Neue Montreal';
+                    src: url('/static/fonts/PPNeueMontreal-Regular.woff') format("woff");
+                    font-weight: 400;
+                    font-style: normal;
+                    font-display: swap;
+                }
+
+                @font-face {
+                    font-family: 'PP Neue Montreal';
+                    src: url('/static/fonts/PPNeueMontreal-Italic.woff') format("woff");
+                    font-weight: 400;
+                    font-style: italic;
+                    font-display: swap;
+                }
+                
+                /* Ensure immediate font loading for critical text */
+                html {
+                    font-family: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                }
+
+                /* EXACT Long Nguyen CSS Variables */
+                :root {
+                    --color-bg-main: #fffbfc;
+                    --color-fg-main: #4a3847;
+                    --spacing-xs: .25rem;
+                    --spacing-sm: .5rem;
+                    --spacing-md: 1.5rem;
+                    --spacing-lg: 2rem;
+                    --spacing-xl: 3rem;
+                    --spacing-xxl: 4rem;
+                }
+                
+                /* EXACT Long Nguyen Base Styles */
+                * {
+                    box-sizing: border-box;
+                }
+                
+                body {
+                    position: relative;
+                    min-height: calc(100vh - env(safe-area-inset-bottom));
+                    margin: 0;
+                    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+                    padding-top: calc(60px + env(safe-area-inset-top));
+                    display: flex;
+                    flex-flow: column nowrap;
+                    font: 1.5rem 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+                    color: var(--color-fg-main);
+                    background: var(--color-bg-main);
+                }
+
+                body > * {
+                    flex: 1 0 auto;
+                }
+                
+                /* EXACT Long Nguyen Typography */
+                h1, h2, h3, h4, h5, h6 {
+                    margin: 0;
+                    font-size: 1.5rem;
+                    font-weight: 400;
+                }
+
+                h1 {
+                    font-size: 1.8rem;
+                    text-transform: none;
+                    font-weight: 400;
+                }
+
+                button {
+                    border: 0;
+                    background: none;
+                    padding: 0;
+                }
+
+                a {
+                    color: inherit;
+                    text-decoration: underline;
+                }
+
+                /* EXACT Long Nguyen Utility Classes */
+                .block {
+                    margin: auto;
+                    width: 100%;
+                    max-width: 66ch;
+                }
+                
+                .flex {
+                    display: flex;
+                }
+                
+                .flex-grow {
+                    flex: 1 0 auto;
+                }
+                
+                .flex-columns {
+                    flex-direction: column;
+                }
+                
+                .flex-nowrap {
+                    flex-wrap: nowrap;
+                }
+
+                /* EXACT Long Nguyen Container System */
+                .container {
+                    position: relative;
+                    --spacing-vertical: 0;
+                    --spacing-horizontal: 0;
+                    --configuration: var(--spacing-vertical) var(--spacing-horizontal);
+                }
+
+                .horizontal {
+                    --spacing-horizontal: var(--spacing-md);
+                }
+
+                .padding {
+                    padding: var(--configuration);
+                }
+
+                .margin {
+                    margin: var(--configuration);
+                }
+                
+                /* EXACT Long Nguyen Header */
+                header {
+                    background: var(--color-bg-main);
+                    position: sticky;
+                    top: 0;
+                    order: 0;
+                    z-index: 10;
+                }
+
+                header h2 {
+                    font-size: 1.5rem;
+                    font-weight: 400;
+                    margin: 0 auto 0 0;
+                    font-family: inherit;
+                }
+
+                nav {
+                    position: relative;
+                }
+
+                .container-actions {
+                    padding: var(--spacing-md) 0;
+                    display: flex;
+                    flex-flow: row nowrap;
+                }
+
+                header ul {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                header li {
+                    list-style: none;
+                    margin: 0 var(--spacing-sm);
+                }
+
+                .links-container {
+                    display: flex;
+                    flex-flow: row nowrap;
+                    align-items: flex-end;
+                }
+
+                .links-list {
+                    display: flex;
+                    align-items: flex-end;
+                }
+
+                .container-actions .links-list {
+                    flex-flow: row nowrap;
+                }
+
+                /* About page specific styles */
+                .about-content {
+                    margin: var(--spacing-xxl) auto;
+                }
+
+                .about-header {
+                    margin-bottom: var(--spacing-xxl);
+                }
+
+                .about-header .back-link {
+                    display: inline-block;
+                    color: var(--color-fg-main);
+                    text-decoration: none;
+                    font-size: 0.875rem;
+                    opacity: 0.6;
+                    transition: opacity 0.3s ease;
+                }
+
+                .about-header .back-link:hover {
+                    opacity: 1;
+                    text-decoration: underline;
+                }
+
+                .about-bio {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: var(--spacing-xxl);
+                    align-items: start;
+                    margin-bottom: var(--spacing-xxl);
+                }
+
+                .bio-text {
+                    font-size: 1.125rem;
+                    line-height: 1.6;
+                    color: var(--color-fg-main);
+                }
+
+                .bio-text p {
+                    margin-bottom: var(--spacing-lg);
+                }
+
+                .bio-image-placeholder {
+                    aspect-ratio: 4 / 5;
+                    border: 1px solid var(--color-fg-main);
+                    background: #f5f5f5;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 4rem;
+                    color: var(--color-fg-main);
+                    opacity: 0.3;
+                }
+
+                /* EXACT Long Nguyen Footer */
+                footer {
+                    flex-shrink: 0;
+                }
+
+                .footer-links h2 {
+                    font-weight: 400;
+                    font-size: 0.75rem;
+                    text-transform: uppercase;
+                    margin-bottom: var(--spacing-sm);
+                }
+
+                .footer-links ul {
+                    margin: 0;
+                    margin-top: var(--spacing-sm);
+                    margin-bottom: var(--spacing-xl);
+                    padding: 0;
+                }
+
+                .footer-links li {
+                    list-style: none;
+                    font-size: 1.5rem;
+                    margin: var(--spacing-sm) auto;
+                }
+
+                footer small {
+                    opacity: .5;
+                    font-size: 0.75rem;
+                    letter-spacing: 0.08em;
+                }
+
+                /* Mobile responsive */
+                @media (max-width: 768px) {
+                    body {
+                        font-size: 1.2rem;
+                        padding-top: calc(60px + env(safe-area-inset-top));
+                    }
+
+                    header h2 {
+                        font-size: 1.2rem;
+                    }
+
+                    .about-bio {
+                        grid-template-columns: 1fr;
+                        gap: var(--spacing-xl);
+                    }
+
+                    .bio-image-placeholder {
+                        aspect-ratio: 3 / 2;
+                        font-size: 3rem;
+                    }
+
+                                         .footer-links li {
+                         font-size: 0.7rem;
+                     }
+
+                     /* Reduce header navigation link sizes */
+                     header li {
+                         font-size: 0.84rem;
+                     }
+                 }
+
+                 @media screen and (min-width: 768px) {
+                    .vertical {
+                        --spacing-vertical: var(--spacing-lg);
+                    }
+
+                    .horizontal {
+                        --spacing-horizontal: 6rem;
+                    }
+
+                    body {
+                        font-size: 1.5rem;
+                        padding-top: calc(60px + env(safe-area-inset-top));
+                    }
+
+                    /* Reduce header navigation link sizes on desktop */
+                    header li {
+                        font-size: 1.05rem;
+                    }
+
+                    .footer-links {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr 1fr;
+                        column-gap: var(--spacing-lg);
+                    }
+
+                    .footer-links {
+                        grid-template-columns: 1fr 1fr 1fr;
+                        gap: var(--spacing-sm);
+                    }
+                    
+                                         .footer-links li {
+                         font-size: 0.7rem;
+                     }
+
+                     /* Reduce header navigation link sizes on desktop */
+                     header li {
+                         font-size: 1.05rem;
+                     }
+                 }
+             </style>
+        </head>
+        <body>
+            <div id="top" class="container margin vertical flex flex-columns flex-nowrap">
+                <!-- Header - EXACT Long Nguyen structure -->
+                <header>
+                    <div class="container padding horizontal">
+                        <div class="block">
+                            <nav>
+                                <div class="container-actions">
+                                    <h2><a href="/">Michael Xie</a></h2>
+                                    <div class="links-container">
+                                        <ul class="links-list">
+                                            <li><a href="/">Bio</a></li>
+                                            <li><a href="/projects">Projects</a></li>
+                                            <li><a href="/#story">Story</a></li>
+                                            <li><a href="/#contact">Contact</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Main Content Container -->
+                <div class="container margin horizontal flex flex-columns flex-grow">
+                    <main class="flex-grow">
+                        <div class="block">
+                            <!-- About Content -->
+                            <div class="about-content">
+                                <div class="about-header">
+                                    <a href="/" class="back-link">← Back to home</a>
+                                </div>
+
+                                <div class="about-bio">
+                                    <div class="bio-text">
+                                        <p>I'm a Senior Software Engineer based in Chicago, with a passion for building scalable systems that solve real-world problems. My journey in technology began during my undergraduate studies at the University of Wisconsin-Madison, where I discovered the perfect intersection between statistical analysis and software engineering.</p>
+
+                                        <p>Over the past 6+ years, I've had the privilege of working with some of the largest financial institutions in the world, including Capital One and Northern Trust. My expertise spans across data engineering, cloud infrastructure, and enterprise-scale system design, with a particular focus on Python, Java, and AWS technologies.</p>
+
+                                        <p>When I'm not architecting ETL pipelines or optimizing database performance, you'll find me tinkering with my home lab setup, experimenting with AI/ML models, or automating everything I can get my hands on. I believe that the best solutions come from understanding both the technical requirements and the human needs behind them.</p>
+
+                                        <p>I'm always excited to connect with fellow technologists, discuss new projects, or explore opportunities where I can contribute my expertise in data systems and infrastructure development.</p>
+                                    </div>
+                                    
+                                    <div class="bio-image-placeholder">
+                                        📸
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- Footer - EXACT Long Nguyen structure -->
+                    <footer class="block">
+                        <div class="container">
+                            <section class="footer-links">
+                                <div>
+                                    <h2>Links ↘</h2>
+                                    <ul>
+                                        <li><a href="/">Bio</a></li>
+                                        <li><a href="/projects">Projects</a></li>
+                                        <li><a href="/resume">Resume</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h2>Connect ↘</h2>
+                                    <ul>
+                                        <li><a href="mailto:xie.michael@icloud.com">Email</a></li>
+                                        <li><a href="/#contact">Contact Form</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h2>Social ↘</h2>
+                                    <ul>
+                                        <li><a href="https://github.com/xiemichael">GitHub</a></li>
+                                        <li><a href="https://linkedin.com/in/xie-michael">LinkedIn</a></li>
+                                    </ul>
+                                </div>
+                            </section>
+                            <small>© 2025 Michael Xie. All rights reserved.</small>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        return render_template_string(about_template)
+
     return app
 
 # This is the entry point for Gunicorn, which Render will use
 app = create_app()
+
+if __name__ == '__main__':
+    import os
+    # Enable debug mode for local development
+    os.environ.setdefault('FLASK_DEBUG', 'True')
+    app.run(host='0.0.0.0', port=5000, debug=True)
