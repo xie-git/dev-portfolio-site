@@ -65,7 +65,7 @@ After=network.target
 User=yourusername
 WorkingDirectory=/path/to/portfolio
 Environment=PATH=/path/to/portfolio/venv/bin
-ExecStart=/path/to/portfolio/venv/bin/gunicorn --bind 127.0.0.1:5000 simple_app:app
+ExecStart=/path/to/portfolio/venv/bin/gunicorn --bind 127.0.0.1:5000 app:app
 Restart=always
 
 [Install]
@@ -106,7 +106,7 @@ sudo crontab -e
 
 ### Local Development
 ```bash
-python simple_app.py  # Windows/Mac
+python app.py  # Windows/Mac
 ./deploy.sh development  # Linux
 ```
 
@@ -146,7 +146,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 5000
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "simple_app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
 
 # Build and run
 docker build -t portfolio .
