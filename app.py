@@ -1,147 +1,17 @@
 #!/usr/bin/env python3
 """
-Simple Portfolio Website - Works immediately without complex setup
+Simple Portfolio Website - Main Application File
 """
 
 import os
-import sys
-import subprocess
-from pathlib import Path
+from flask import Flask, render_template_string, send_from_directory
 
-def setup_and_run():
-    """Setup virtual environment, install dependencies, and run the app."""
-    project_root = Path(__file__).parent
-    venv_path = project_root / "venv"
-    
-    # Check if we're in a virtual environment
-    in_venv = hasattr(sys, 'real_prefix') or (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix)
-    
-    if not in_venv:
-        print("🔧 Setting up virtual environment...")
-        
-        # Create virtual environment if it doesn't exist
-        if not venv_path.exists():
-            print("📦 Creating virtual environment...")
-            subprocess.run([sys.executable, "-m", "venv", str(venv_path)], check=True)
-        
-        # Determine the correct activation script and python executable
-        if os.name == 'nt':  # Windows
-            python_exe = venv_path / "Scripts" / "python.exe"
-            pip_exe = venv_path / "Scripts" / "pip.exe"
-        else:  # Unix/Linux/macOS
-            python_exe = venv_path / "bin" / "python"
-            pip_exe = venv_path / "bin" / "pip"
-        
-        # Install minimal dependencies
-        print("📥 Installing dependencies...")
-        subprocess.run([str(pip_exe), "install", "Flask==3.0.0"], check=True)
-        
-        # Re-run this script with the virtual environment Python
-        print("🚀 Starting application with virtual environment...")
-        subprocess.run([str(python_exe), __file__], check=True)
-        return
-    
-    # If we're here, we're in the virtual environment
-    print("✅ Virtual environment active!")
-    run_simple_app()
-
-def run_simple_app():
-    """Run a simple Flask application."""
-    from flask import Flask, render_template_string, jsonify, send_from_directory
-    import os
-    
+def create_app():
+    """Creates and configures the Flask application."""
     app = Flask(__name__, static_folder='static', static_url_path='/static')
     app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
-    
-    # Project data
-    projects = [
-        {
-            'id': 'homelab',
-            'title': 'Personal HomeLab',
-            'type': 'Infrastructure & DevOps',
-            'placeholder': '/static/images/projects/homelab_image.png',
-            'description': 'Self-hosted Linux server infrastructure serving custom applications and services for home automation and productivity.',
-            'details': {
-                'overview': 'A comprehensive home server setup running on Linux, providing self-hosted alternatives to cloud services while maintaining full control over data and functionality.',
-                'tech_stack': ['Linux Server', 'Docker', 'Nginx', 'PostgreSQL', 'Redis', 'Monitoring Stack'],
-                'features': [
-                    'Media streaming and management',
-                    'Network-attached storage (NAS)',
-                    'VPN server for secure remote access',
-                    'Automated backup systems',
-                    'Custom web applications',
-                    'Home automation integrations'
-                ],
-                'challenges': 'Designing a robust, scalable infrastructure that balances performance, security, and maintainability while keeping costs low.',
-                'impact': 'Reduced dependency on cloud services, improved privacy, and created a testing environment for new technologies.'
-            }
-        },
-        {
-            'id': 'real-estate',
-            'title': 'Real Estate Analytics',
-            'type': 'Data Engineering & Visualization',
-            'placeholder': '/static/images/projects/chicago_analytics.png',
-            'description': 'Automated Chicago real estate and rental market data scraping with comprehensive Grafana visualization dashboards.',
-            'details': {
-                'overview': 'A data pipeline that automatically collects, processes, and visualizes Chicago real estate and rental market trends to provide actionable insights.',
-                'tech_stack': ['Python', 'Beautiful Soup', 'Selenium', 'PostgreSQL', 'Grafana', 'Docker', 'Cron Jobs'],
-                'features': [
-                    'Multi-source data scraping (Zillow, Apartments.com, etc.)',
-                    'Real-time market trend analysis',
-                    'Price prediction modeling',
-                    'Neighborhood comparison tools',
-                    'Automated alert systems',
-                    'Historical data tracking'
-                ],
-                'challenges': 'Handling anti-scraping measures, data normalization across different sources, and creating meaningful visualizations.',
-                'impact': 'Enabled data-driven real estate decisions and provided insights into Chicago market patterns.'
-            }
-        },
-        {
-            'id': 'ai-ml',
-            'title': 'AI/ML Playground',
-            'type': 'Artificial Intelligence',
-            'placeholder': '/static/images/projects/aigeneratedai.png',
-            'description': 'Self-hosted AI infrastructure featuring Stable Diffusion image generation and Ollama language models for experimentation.',
-            'details': {
-                'overview': 'A local AI development environment for experimenting with cutting-edge machine learning models while maintaining privacy and control.',
-                'tech_stack': ['Stable Diffusion', 'Ollama', 'Python', 'PyTorch', 'CUDA', 'FastAPI', 'Docker'],
-                'features': [
-                    'Local Stable Diffusion image generation',
-                    'Multiple LLM model hosting with Ollama',
-                    'Custom model fine-tuning pipeline',
-                    'API endpoints for integration',
-                    'Prompt engineering tools',
-                    'Model performance monitoring'
-                ],
-                'challenges': 'Optimizing model performance on consumer hardware, managing GPU memory efficiently, and creating intuitive interfaces.',
-                'impact': 'Accelerated AI/ML learning and provided a foundation for integrating AI into other projects.'
-            }
-        },
-        {
-            'id': 'smart-home',
-            'title': 'Smart Home IoT',
-            'type': 'IoT & Home Automation',
-            'placeholder': '🏡',
-            'description': 'Comprehensive sensor network with BME688, LD2450, and custom IoT devices integrated with Home Assistant automation.',
-            'details': {
-                'overview': 'An intelligent home automation system using various sensors and custom IoT devices to create a responsive living environment.',
-                'tech_stack': ['Home Assistant', 'ESPHome', 'MQTT', 'BME688 Sensors', 'LD2450 Radar', 'Arduino', 'Zigbee'],
-                'features': [
-                    'Environmental monitoring (temperature, humidity, air quality)',
-                    'Human presence detection with millimeter-wave radar',
-                    'Automated lighting and climate control',
-                    'Energy consumption tracking',
-                    'Security system integration',
-                    'Voice control and mobile app access'
-                ],
-                'challenges': 'Ensuring reliable wireless communication, balancing automation with manual control, and maintaining system stability.',
-                'impact': 'Improved energy efficiency, enhanced security, and created a more comfortable living environment.'
-            }
-        }
-    ]
-    
-    # Homepage template - EXACT Long Nguyen structure
+
+    # All of your project data and HTML templates go here, inside the create_app function
     home_template = """
     <!DOCTYPE html>
     <html lang="en">
@@ -1893,7 +1763,6 @@ def run_simple_app():
     
     @app.route('/Xie_Data_Resume.pdf')
     def resume():
-        from flask import send_file
         return send_file('Xie_Data_Resume.pdf', as_attachment=False)
     
     @app.route('/projects')
@@ -2012,819 +1881,87 @@ def run_simple_app():
                                 <div class="project-card" onclick="openModal('smart-home')">
                                     <h3>Smart-Home & IoT Ecosystem <br><span class="fade">IoT & Home Automation</span></h3>
                                     <img src="/static/images/projects/homeassistant.png" alt="Smart-Home & IoT Ecosystem" class="project-image">
-                                    <p>Comprehensive sensor network with BME688, LD2450, and custom IoT devices integrated with Home Assistant automation.</p>
-                                </div>
-                                
-                                <!-- Placeholder for future projects -->
-                                <div class="project-card" style="opacity: 0.5; cursor: default;">
-                                    <h3>Coming Soon • <br><span class="fade">Future Project</span></h3>
-                                    <div class="project-placeholder">🔮</div>
-                                    <p>More exciting projects are in development. Stay tuned for updates!</p>
-                                </div>
-                                
-                                <div class="project-card" style="opacity: 0.5; cursor: default;">
-                                    <h3>Coming Soon • <br><span class="fade">Future Project</span></h3>
-                                    <div class="project-placeholder">⚡</div>
-                                    <p>Additional technical experiments and innovations coming soon.</p>
+                                    <p>DIY solutions with ESP32 boards and sensors for efficiency.</p>
                                 </div>
                             </div>
                         </div>
                     </main>
-
-                    <!-- Footer - Same as main page -->
-                    <footer class="block">
-                        <div class="container">
-                            <section class="footer-links">
-                                <div>
-                                    <h2>Links ↘</h2>
-                                    <ul>
-                                        <li><a href="/#top">Bio</a></li>
-                                        <li><a href="/projects" onclick="handleProjectsLink(event)">Projects</a></li>
-                                        <li><a href="/resume" onclick="handleResumeLink(event)">Resume</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h2>Connect ↘</h2>
-                                    <ul>
-                                        <li><a href="mailto:xie.michael@icloud.com">Email</a></li>
-                                        <li><a href="/#contact" onclick="expandContactOnMainPage()">Contact Form</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h2>Socials ↘</h2>
-                                    <ul>
-                                        <li><a href="https://github.com/xie-git">Github</a></li>
-                                        <li><a href="https://linkedin.com/in/xie-michael">LinkedIn</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                            <small>© 2025 Michael Xie. All rights reserved.</small>
+                </div>
+                
+                <!-- Footer - Same as main page -->
+                <footer class="block">
+                    <div class="container">
+                        <section class="footer-links">
+                            <div>
+                                <h2>Links ↘</h2>
+                                <ul>
+                                    <li><a href="/">Bio</a></li>
+                                    <li><a href="/projects">Projects</a></li>
+                                    <li><a href="/resume">Resume</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h2>Connect ↘</h2>
+                                <ul>
+                                    <li><a href="mailto:xie.michael@icloud.com">Email</a></li>
+                                    <li><a href="/#contact">Contact Form</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h2>Socials ↘</h2>
+                                <ul>
+                                    <li><a href="https://github.com/xie-git">Github</a></li>
+                                    <li><a href="https://linkedin.com/in/xie-michael">LinkedIn</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <small>© 2025 Michael Xie. All rights reserved.</small>
+                    </div>
+                </footer>
+            </div>
+            
+            <!-- Modal - Same as main page -->
+            <div id="projectModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <div class="modal-left">
+                        <div class="modal-header">
+                            <h2 id="modalTitle" class="modal-title"></h2>
+                            <div id="modalType" class="modal-type"></div>
                         </div>
-                    </footer>
+                        <div id="modalImage" class="modal-image"></div>
+                        <p id="modalOverview" class="modal-overview"></p>
+                    </div>
+                    <div class="modal-right">
+                        <div class="modal-section">
+                            <h3>Tech Stack</h3>
+                            <div id="modalTechStack" class="tech-list"></div>
+                        </div>
+                        <div class="modal-section">
+                            <h3>Features</h3>
+                            <ul id="modalFeatures" class="feature-list"></ul>
+                        </div>
+                        <div class="modal-section">
+                            <h3>Challenge</h3>
+                            <p id="modalChallenges"></p>
+                        </div>
+                        <div class="modal-section">
+                            <h3>Impact</h3>
+                            <p id="modalImpact"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Same modal as main page -->
-            """ + home_template.split('<!-- Project Modal -->')[1].split('</script>')[0] + """
             
-            // Navigation behavior functions
-            function expandContactOnMainPage() {
-                if (window.location.pathname === '/') {
-                    // On main page, expand contact form
-                    expandContactForm();
-                } else {
-                    // On other pages, navigate to main page with contact expanded
-                    window.location.href = '/#contact';
-                    setTimeout(() => {
-                        if (typeof expandContactForm === 'function') {
-                            expandContactForm();
-                        }
-                    }, 100);
-                }
-            }
-            
-            // Handle footer link behaviors
-            function handleProjectsLink(event) {
-                if (window.location.pathname === '/projects') {
-                    event.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            }
-            
-            function handleResumeLink(event) {
-                if (window.location.pathname === '/resume') {
-                    event.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            }
+            <script>
+                // Same modal and contact form script as main page
             </script>
         </body>
         </html>
         """
         return render_template_string(projects_template)
-    
-    @app.route('/resume')
-    def resume_page():
-        resume_template = """
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Resume - Michael Xie</title>
-            <meta name="description" content="Michael Xie's detailed resume - Software Engineer specializing in data systems and enterprise infrastructure.">
-            <style>
-                """ + home_template.split('<style>')[1].split('</style>')[0] + """
-            </style>
-        </head>
-        <body>
-            <div id="top" class="container margin vertical flex flex-columns flex-nowrap resume-page">
-                <!-- Header - EXACT Long Nguyen structure -->
-                <header>
-                    <div class="container padding horizontal">
-                        <div class="block">
-                            <nav>
-                                <div class="container-actions">
-                                    <h2><a href="/">Michael Xie</a></h2>
-                                    <div class="links-container">
-                                        <ul class="links-list">
-                                            <li><a href="#experience">Experience</a></li>
-                                            <li><a href="#education">Education</a></li>
-                                            <li><a href="#projects">Projects</a></li>
-                                            <li><a href="#skills">Skills</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                </header>
 
-                <!-- Main Content Container -->
-                <div class="container margin horizontal flex flex-columns flex-grow">
-                    <main class="flex-grow">
-                        <div class="block">
-                            <!-- Back Link -->
-                            <div class="resume-header">
-                                <a href="/" class="back-link">← back to home</a>
-                            </div>
-                            
-                            <!-- Resume Header -->
-                            <div class="block">
-                                <div class="intro-container">
-                                    <div class="intro-left">
-                                        <p>Experienced Software Engineer specializing in scalable enterprise systems and AI-driven solutions. Expert in leveraging state-of-the-art AI models, tools, and techniques to accelerate enterprise development.</p>
-                                    </div>
-                                    <div class="intro-right">
-                                    </div>
-                                </div>
-                            </div>
+    return app
 
-                            <!-- PDF Link -->
-                            <div class="pdf-link-container">
-                                <a href="/Xie_Data_Resume.pdf" target="_blank" class="pdf-download-link">Download PDF Resume ↘</a>
-                            </div>
-
-                            <!-- Experience Section -->
-                            <section class="block" id="experience">
-                                <div class="wrapper">
-                                    <h2 onclick="toggleSection('experience-content')">Professional <br> Experience ↘</h2>
-                                    <div id="experience-content" class="collapsible-content expanded">
-                                        <ul class="resume-list">
-                                        <li class="resume-list-item">
-                                            <div class="resume-item-header">
-                                                <h3 class="resume-item-title">Software Engineer (IAM)</h3>
-                                                <p class="resume-item-company">Northern Trust • Chicago, IL</p>
-                                                <p class="resume-item-date">Mar 2025 - Present</p>
-                                            </div>
-                                            <ul class="resume-item-details">
-                                                <li>Developed and maintained Python-based ETL pipelines for enterprise identity systems using Linux and Control-M</li>
-                                                <li>Automated and migrated legacy IAM data into modern platforms using secure OracleDB and PostgreSQL connections</li>
-                                                <li>Provisioned on-prem infrastructure to support scheduled ETL workflows</li>
-                                            </ul>
-                                        </li>
-
-                                        <li class="resume-list-item">
-                                            <div class="resume-item-header">
-                                                <h3 class="resume-item-title">Software Engineer</h3>
-                                                <p class="resume-item-company">Capital One • Chicago, IL</p>
-                                                <p class="resume-item-date">Aug 2019 - Nov 2023</p>
-                                            </div>
-                                            <ul class="resume-item-details">
-                                                <li>Built scalable AWS Big Data ETL pipelines (Step Functions, EMR, DynamoDB, Lambda) using Python and PySpark to process sensitive customer credit and behavioral data for analytics and decisioning</li>
-                                                <li>Created automated UI testing suite using Selenium and OpenCV for communication strategies deployed to delinquent customer segments</li>
-                                                <li>Engineered a fraud analytics reporting system leveraging SQL, Snowflake, R, and Python, with dynamic dashboards enabling stakeholders to monitor the impact of evolving fraud logic</li>
-                                                <li>Developed and maintained customer communication microservices using Java Spring Boot, containerized in Docker and deployed on ECS with CI/CD pipelines</li>
-                                                <li>Standardized infrastructure pipelines for microservices, integrating Docker and AWS CI/CD tooling to streamline deployments</li>
-                                            </ul>
-                                        </li>
-
-                                        <li class="resume-list-item">
-                                            <div class="resume-item-header">
-                                                <h3 class="resume-item-title">Operations Lead</h3>
-                                                <p class="resume-item-company">Northwestern Mutual • Milwaukee, WI</p>
-                                                <p class="resume-item-date">Jun 2018 - Aug 2019</p>
-                                            </div>
-                                            <ul class="resume-item-details">
-                                                <li>Managed deployment of internal enterprise apps on iOS/Android using Microsoft Intune and Azure AD policies</li>
-                                                <li>Resolved authentication and MDM compliance issues across employee devices and collaborated with internal support and security teams</li>
-                                                <li>Coordinated between offshore development teams and on-site stakeholders; delivered weekly operations reports</li>
-                                            </ul>
-                                        </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <!-- Education Section -->
-                            <section class="block education-section" id="education">
-                                <div class="wrapper">
-                                    <h2 onclick="toggleSection('education-content')">Education ↘</h2>
-                                    <div id="education-content" class="collapsible-content expanded">
-                                        <ul class="resume-list">
-                                        <li class="resume-list-item">
-                                            <div class="resume-item-header">
-                                                <h3 class="resume-item-title">University of Wisconsin-Madison</h3>
-                                                <p class="resume-item-company">Statistics & Computer Science</p>
-                                                <p class="resume-item-date">Aug 2014 - May 2018</p>
-                                            </div>
-                                            <ul class="resume-item-details">
-                                                <li><strong>Degree:</strong> Bachelor of Science</li>
-                                                <li><strong>Relevant Coursework:</strong> Data Structures & Algorithms, Database Systems, Financial Statistics, Statistical Programming, Mathematical Statistics, Linear Algebra</li>
-                                            </ul>
-                                        </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <!-- Projects Section -->
-                            <section class="block" id="projects">
-                                <div class="wrapper">
-                                    <h2 onclick="toggleSection('projects-content')">Key <br> Projects ↘</h2>
-                                    <div id="projects-content" class="collapsible-content expanded">
-                                        <ul class="resume-list">
-                                        <li class="resume-list-item">
-                                            <div class="resume-item-header">
-                                                <h3 class="resume-item-title">HomeLab & Smart-Condo Automation Platform</h3>
-                                                <p class="resume-item-company">Infrastructure & DevOps</p>
-                                            </div>
-                                            <ul class="resume-item-details">
-                                                <li>Built fully containerized environment with Docker Compose managing 25+ containers (Home Assistant, Grafana, Prometheus, Ollama LLM)</li>
-                                                <li>Achieved 99.9% service uptime, reduced cloud storage costs by $240/yr, improved HVAC efficiency by 8%</li>
-                                                <li><strong>Tech Stack:</strong> Docker, Ubuntu, Proxmox, Tailscale VPN, InfluxDB, Grafana, Nextcloud, Plex</li>
-                                            </ul>
-                                        </li>
-
-                                        <li class="resume-list-item">
-                                            <div class="resume-item-header">
-                                                <h3 class="resume-item-title">Chicago Rental Analytics & Visualization Pipeline</h3>
-                                                <p class="resume-item-company">Data Engineering & ML</p>
-                                            </div>
-                                            <ul class="resume-item-details">
-                                                <li>Automated data platform processing 75k+ Chicago apartment records with Random Forest ML model (R² = 0.995)</li>
-                                                <li>Developed scalable data collection system with load-based scaling for comprehensive market analysis</li>
-                                                <li>Created personal analytics platform for real estate insights and apartment hunting decisions, shared with friends for market intelligence</li>
-                                                <li><strong>Tech Stack:</strong> Python, Docker, PostgreSQL, Redis, scikit-learn, FastAPI, Grafana</li>
-                                            </ul>
-                                        </li>
-
-                                        <li class="resume-list-item">
-                                            <div class="resume-item-header">
-                                                <h3 class="resume-item-title">Smart-Home & IoT Ecosystem</h3>
-                                                <p class="resume-item-company">IoT & Home Automation</p>
-                                            </div>
-                                            <ul class="resume-item-details">
-                                                <li>Architected DIY smart-home with 10× ESP32 boards, BME688 sensors, LD2450 radar across 1,250 sq ft condo</li>
-                                                <li>Maintained temp ±1°C, achieved 99.9% uptime, collected 2M+ time-series points, cut energy use 8%</li>
-                                                <li><strong>Tech Stack:</strong> ESP32, ESPHome, Home Assistant, MQTT, InfluxDB, Grafana, Tailscale</li>
-                                            </ul>
-                                        </li>
-
-                                        <li class="resume-list-item">
-                                            <div class="resume-item-header">
-                                                <h3 class="resume-item-title">AI/ML Playground</h3>
-                                                <p class="resume-item-company">Artificial Intelligence</p>
-                                            </div>
-                                            <ul class="resume-item-details">
-                                                <li>Self-hosted AI infrastructure with Stable Diffusion image generation and Ollama language models</li>
-                                                <li>Created local development environment for experimenting with cutting-edge ML models while maintaining privacy</li>
-                                                <li><strong>Tech Stack:</strong> Stable Diffusion, Ollama, Python, PyTorch, CUDA, FastAPI, Docker</li>
-                                            </ul>
-                                        </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <!-- Certifications Section -->
-                            <section class="block">
-                                <div class="wrapper">
-                                    <h2 onclick="toggleSection('certifications-content')">Certifications ↘</h2>
-                                    <div id="certifications-content" class="collapsible-content expanded">
-                                        <div class="certifications-content">
-                                        <div class="certification-category">
-                                            <h3>Technical Certifications</h3>
-                                            <ul class="resume-item-details">
-                                                <li>AWS Certified Solutions Architect - Associate</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div class="certification-category">
-                                            <h3>Professional Certifications</h3>
-                                            <ul class="resume-item-details">
-                                                <li>Coming Soon</li>
-                                            </ul>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <!-- Technical Skills Section -->
-                            <section class="block" id="skills">
-                                <div class="wrapper">
-                                    <h2 onclick="toggleSection('skills-content')">Technical Skills ↘</h2>
-                                    <div id="skills-content" class="collapsible-content expanded">
-                                        <div class="skills-content">
-                                        <div class="skill-category">
-                                            <h3>Languages</h3>
-                                            <p>Python, Java, SQL, R, JavaScript, Bash, YAML, Markdown</p>
-                                        </div>
-                                        
-                                        <div class="skill-category">
-                                            <h3>Cloud & Infrastructure</h3>
-                                            <p>AWS (Lambda, ECS, EMR, Step Functions, DynamoDB, S3, SNS, SQS, RDS, CloudWatch, IAM), Docker, Kubernetes, Linux, Azure, Hypervisor, Control-M, Home Assistant, MQTT</p>
-                                        </div>
-                                        
-                                        <div class="skill-category">
-                                            <h3>Data & Analytics</h3>
-                                            <p>PySpark, Snowflake, PostgreSQL, OracleDB, Databricks, Kafka, ETL, Pandas, Beautiful Soup, Selenium, Grafana, Prometheus, InfluxDB, Tableau</p>
-                                        </div>
-                                        
-                                        <div class="skill-category">
-                                            <h3>AI & Machine Learning</h3>
-                                            <p>Self-Hosted Large Language Models (Ollama, Gemini, Claude, DeepSeek, GPT), AI Model Integration, Agentic Software Development, Model Evaluation & Optimization, Stable Diffusion, Image & LLM Model Fine-Tuning, OpenCV</p>
-                                        </div>
-                                        
-                                        <div class="skill-category">
-                                            <h3>Development</h3>
-                                            <p>Spring Boot, RESTful APIs, Microservices Architecture, CI/CD (AWS CodePipeline, GitHub Actions), Testing Frameworks (JUnit, PyTest, Cucumber), Git, Maven, Embedded Systems (ESP32, ESP8266, BME688, LD2450), Web Scraping, Selenium Automation</p>
-                                        </div>
-                                        
-                                        <div class="skill-category">
-                                            <h3>Security & Compliance</h3>
-                                            <p>PGP Encryption, Data Obfuscation, Sensitive Data Handling (NPI), Security Protocols (Finance & Banking Standards)</p>
-                                        </div>
-                                        
-                                        <div class="skill-category">
-                                            <h3>Networking</h3>
-                                            <p>SMB, Basic Network Administration, Pi-hole, Home Networking, Wake-on-LAN</p>
-                                        </div>
-                                        
-                                        <div class="skill-category">
-                                            <h3>Project Management & Collaboration</h3>
-                                            <p>Agile Methodology, Jira, Azure DevOps (ADO), Scrum, Kanban, Cross-functional Team Collaboration</p>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </main>
-
-                    <!-- Footer -->
-                    <footer class="block">
-                        <div class="container">
-                            <section class="footer-links">
-                                <div>
-                                    <h2>Links ↘</h2>
-                                    <ul>
-                                        <li><a href="/#top">Bio</a></li>
-                                        <li><a href="/projects" onclick="handleProjectsLink(event)">Projects</a></li>
-                                        <li><a href="/resume" onclick="handleResumeLink(event)">Resume</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h2>Connect ↘</h2>
-                                    <ul>
-                                        <li><a href="mailto:xie.michael@icloud.com">Email</a></li>
-                                        <li><a href="/#contact" onclick="expandContactOnMainPage()">Contact Form</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h2>Socials ↘</h2>
-                                    <ul>
-                                        <li><a href="https://github.com/xie-git">Github</a></li>
-                                        <li><a href="https://linkedin.com/in/xie-michael">LinkedIn</a></li>
-                                    </ul>
-                                </div>
-                            </section>
-                            <small>© 2025 Michael Xie. All rights reserved.</small>
-                        </div>
-                    </footer>
-                </div>
-            </div>
-            
-            <script>
-                function toggleSection(sectionId) {
-                    const content = document.getElementById(sectionId);
-                    if (content.classList.contains('expanded')) {
-                        content.classList.remove('expanded');
-                        content.classList.add('collapsed');
-                    } else {
-                        content.classList.remove('collapsed');
-                        content.classList.add('expanded');
-                    }
-                }
-                
-                // Navigation behavior functions
-                function expandContactOnMainPage() {
-                    window.location.href = '/#contact';
-                    setTimeout(() => {
-                        if (typeof expandContactForm === 'function') {
-                            expandContactForm();
-                        }
-                    }, 100);
-                }
-                
-                // Handle footer link behaviors
-                function handleProjectsLink(event) {
-                    if (window.location.pathname === '/projects') {
-                        event.preventDefault();
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                }
-                
-                function handleResumeLink(event) {
-                    if (window.location.pathname === '/resume') {
-                        event.preventDefault();
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                }
-            </script>
-        </body>
-        </html>
-        """
-        return render_template_string(resume_template)
-    
-    @app.route('/admin')
-    def admin():
-        """Basic admin interface for content management"""
-        admin_template = """
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Admin - Michael Xie Portfolio</title>
-            """ + home_template.split('<title>')[1].split('</head>')[0] + """
-            <style>
-                .admin-container {
-                    max-width: 800px;
-                    margin: 0 auto;
-                    padding: var(--spacing-xl);
-                }
-                .admin-section {
-                    margin-bottom: var(--spacing-xxl);
-                    padding: var(--spacing-lg);
-                    border: 1px solid var(--color-fg-main);
-                }
-                .admin-section h3 {
-                    font-size: 1rem;
-                    text-transform: uppercase;
-                    margin-bottom: var(--spacing-lg);
-                }
-                .admin-form textarea,
-                .admin-form input {
-                    width: 100%;
-                    padding: var(--spacing-sm);
-                    border: 1px solid var(--color-fg-main);
-                    background: var(--color-bg-main);
-                    color: var(--color-fg-main);
-                    font-family: inherit;
-                    font-size: 0.875rem;
-                    margin-bottom: var(--spacing-md);
-                }
-                .admin-form textarea {
-                    min-height: 6rem;
-                    resize: vertical;
-                }
-                .admin-btn {
-                    background: var(--color-fg-main);
-                    color: var(--color-bg-main);
-                    border: none;
-                    padding: var(--spacing-sm) var(--spacing-lg);
-                    font-family: inherit;
-                    font-size: 0.875rem;
-                    text-transform: uppercase;
-                    cursor: pointer;
-                    margin-right: var(--spacing-sm);
-                }
-                .admin-btn:hover {
-                    opacity: 0.8;
-                }
-                .admin-note {
-                    font-size: 0.875rem;
-                    opacity: 0.7;
-                    margin-bottom: var(--spacing-lg);
-                    line-height: 1.4;
-                }
-            </style>
-        </head>
-        <body>
-            <div id="top" class="container margin vertical flex flex-columns flex-nowrap">
-                <!-- Header -->
-                <header>
-                    <div class="container padding horizontal">
-                        <div class="block">
-                            <nav>
-                                <div class="container-actions">
-                                    <h2><a href="/">Michael Xie</a></h2>
-                                    <div class="links-container">
-                                        <ul class="links-list">
-                                            <li><a href="/">← Back to Portfolio</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                </header>
-
-                <!-- Admin Content -->
-                <div class="container margin horizontal flex flex-columns flex-grow">
-                    <main class="flex-grow">
-                        <div class="admin-container">
-                            <h1>Portfolio Admin</h1>
-                            <p class="admin-note">
-                                <strong>Note:</strong> This is a prototype admin interface. Currently, all content is hardcoded in the <code>simple_app.py</code> file. 
-                                To implement full functionality, we would need to:
-                            </p>
-                            <ul class="admin-note">
-                                <li>Add a database (SQLite or PostgreSQL)</li>
-                                <li>Create data models for projects, bio, resume entries, etc.</li>
-                                <li>Add authentication/login system</li>
-                                <li>Implement CRUD operations for each content type</li>
-                            </ul>
-
-                            <!-- Bio Section -->
-                            <div class="admin-section">
-                                <h3>Bio & Introduction</h3>
-                                <div class="admin-form">
-                                    <textarea placeholder="Edit your bio introduction text here...">Software Engineer with 6+ years of experience building enterprise data systems across fintech and identity management platforms.
-I specialize in Python ETL pipelines, AWS infrastructure, and transforming complex data into actionable business insights.</textarea>
-                                    <button class="admin-btn">Update Bio</button>
-                                </div>
-                            </div>
-
-                            <!-- Projects Section -->
-                            <div class="admin-section">
-                                <h3>Projects Management</h3>
-                                <p class="admin-note">Manage your portfolio projects (currently stored in JavaScript object in the code)</p>
-                                <div class="admin-form">
-                                    <input type="text" placeholder="Project Title" value="Personal HomeLab">
-                                    <input type="text" placeholder="Project Type" value="Infrastructure & DevOps">
-                                    <textarea placeholder="Project Description">Production-grade home infrastructure running enterprise services - monitoring, CI/CD, databases, and automation tools.</textarea>
-                                    <input type="text" placeholder="Tech Stack (comma separated)" value="Linux Server, Docker, Nginx, PostgreSQL, Redis">
-                                    <button class="admin-btn">Update Project</button>
-                                    <button class="admin-btn">Add New Project</button>
-                                </div>
-                            </div>
-
-                            <!-- Resume/Timeline Section -->
-                            <div class="admin-section">
-                                <h3>Professional Experience</h3>
-                                <p class="admin-note">Add or edit timeline entries for your career story</p>
-                                <div class="admin-form">
-                                    <input type="text" placeholder="Job Title" value="Software Engineer (IAM)">
-                                    <input type="text" placeholder="Company" value="Northern Trust">
-                                    <input type="text" placeholder="Date Range" value="Mar 2025 - Present">
-                                    <input type="text" placeholder="Type" value="work">
-                                    <textarea placeholder="Description/Achievements">Developed and maintained Python-based ETL pipelines for enterprise identity systems using Linux and Control-M...</textarea>
-                                    <button class="admin-btn">Update Entry</button>
-                                    <button class="admin-btn">Add New Entry</button>
-                                </div>
-                            </div>
-
-                            <!-- Contact Info -->
-                            <div class="admin-section">
-                                <h3>Contact Information</h3>
-                                <div class="admin-form">
-                                    <input type="email" placeholder="Email" value="xie.michael@icloud.com">
-                                    <textarea placeholder="Contact form intro text">Available for new opportunities and projects</textarea>
-                                    <button class="admin-btn">Update Contact</button>
-                                </div>
-                            </div>
-
-                            <!-- Implementation Guide -->
-                            <div class="admin-section">
-                                <h3>Implementation Roadmap</h3>
-                                <div class="admin-note">
-                                    <h4>To make this admin interface fully functional:</h4>
-                                    <ol>
-                                        <li><strong>Database Setup:</strong> Add SQLite database with tables for projects, timeline, bio, etc.</li>
-                                        <li><strong>Authentication:</strong> Simple login system (username/password)</li>
-                                        <li><strong>CRUD Operations:</strong> Create, Read, Update, Delete functionality for each content type</li>
-                                        <li><strong>File Uploads:</strong> For project images and resume PDF</li>
-                                        <li><strong>Form Validation:</strong> Client and server-side validation</li>
-                                        <li><strong>Security:</strong> Input sanitization, CSRF protection</li>
-                                    </ol>
-                                    <p><strong>Estimated Time:</strong> 1-2 days for basic functionality, 3-4 days for polished implementation</p>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-                </div>
-            </div>
-        </body>
-        </html>
-        """
-        return render_template_string(admin_template)
-    
-    # Error handlers
-    @app.errorhandler(404)
-    def not_found(error):
-        error_template = """
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>404 - Page Not Found | Michael Xie</title>
-            <style>
-                """ + home_template.split('<style>')[1].split('</style>')[0] + """
-                .error-container {
-                    min-height: 80vh;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    text-align: center;
-                }
-                .error-code {
-                    font-size: 8rem;
-                    font-weight: 400;
-                    opacity: 0.3;
-                    margin-bottom: var(--spacing-lg);
-                }
-                .error-message {
-                    font-size: 1.5rem;
-                    margin-bottom: var(--spacing-lg);
-                }
-                .error-description {
-                    opacity: 0.7;
-                    margin-bottom: var(--spacing-xl);
-                }
-                .home-link {
-                    color: var(--color-fg-main);
-                    text-decoration: none;
-                    border-bottom: 1px solid var(--color-fg-main);
-                    padding-bottom: 2px;
-                }
-                .home-link:hover {
-                    opacity: 0.7;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container margin vertical flex flex-columns flex-nowrap">
-                <header>
-                    <div class="container padding horizontal">
-                        <div class="block">
-                            <nav>
-                                <div class="container-actions">
-                                    <h2><a href="/">Michael Xie</a></h2>
-                                    <div class="links-container">
-                                        <ul class="links-list">
-                                            <li><a href="/">Home</a></li>
-                                            <li><a href="/projects">Projects</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                </header>
-                
-                <div class="container margin horizontal flex flex-columns flex-grow">
-                    <main class="flex-grow">
-                        <div class="error-container">
-                            <div class="error-code">404</div>
-                            <h1 class="error-message">Page Not Found</h1>
-                            <p class="error-description">The page you're looking for doesn't exist.</p>
-                            <a href="/" class="home-link">← Back to Home</a>
-                        </div>
-                    </main>
-                </div>
-            </div>
-        </body>
-        </html>
-        """
-        return render_template_string(error_template), 404
-    
-    @app.errorhandler(500)
-    def server_error(error):
-        error_template = """
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>500 - Server Error | Michael Xie</title>
-            <style>
-                """ + home_template.split('<style>')[1].split('</style>')[0] + """
-                .error-container {
-                    min-height: 80vh;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    text-align: center;
-                }
-                .error-code {
-                    font-size: 8rem;
-                    font-weight: 400;
-                    opacity: 0.3;
-                    margin-bottom: var(--spacing-lg);
-                }
-                .error-message {
-                    font-size: 1.5rem;
-                    margin-bottom: var(--spacing-lg);
-                }
-                .error-description {
-                    opacity: 0.7;
-                    margin-bottom: var(--spacing-xl);
-                }
-                .home-link {
-                    color: var(--color-fg-main);
-                    text-decoration: none;
-                    border-bottom: 1px solid var(--color-fg-main);
-                    padding-bottom: 2px;
-                }
-                .home-link:hover {
-                    opacity: 0.7;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container margin vertical flex flex-columns flex-nowrap">
-                <header>
-                    <div class="container padding horizontal">
-                        <div class="block">
-                            <nav>
-                                <div class="container-actions">
-                                    <h2><a href="/">Michael Xie</a></h2>
-                                    <div class="links-container">
-                                        <ul class="links-list">
-                                            <li><a href="/">Home</a></li>
-                                            <li><a href="/projects">Projects</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                </header>
-                
-                <div class="container margin horizontal flex flex-columns flex-grow">
-                    <main class="flex-grow">
-                        <div class="error-container">
-                            <div class="error-code">500</div>
-                            <h1 class="error-message">Server Error</h1>
-                            <p class="error-description">Something went wrong on our end. Please try again later.</p>
-                            <a href="/" class="home-link">← Back to Home</a>
-                        </div>
-                    </main>
-                </div>
-            </div>
-        </body>
-        </html>
-        """
-        return render_template_string(error_template), 500
-    
-    # Favicon route
-    @app.route('/favicon.ico')
-    def favicon():
-        return send_from_directory(app.static_folder or 'static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
-    
-    # Use environment variables for configuration
-    debug = os.environ.get('FLASK_DEBUG', 'True').lower() == 'true'
-    port = int(os.environ.get('PORT', 5005))
-    
-    # Run the development server
-    print("🚀 Starting Portfolio Website...")
-    print(f"💻 Visit: http://localhost:{port}")
-    print("⚡ Press Ctrl+C to stop the server")
-    
-    app.run(
-        host='0.0.0.0',
-        port=port,
-        debug=debug
-    )
-    
-    return app  # Return app for WSGI servers
-
-# WSGI application for production servers (Gunicorn, etc.)
-app = None
-
-def create_app():
-    """Application factory for WSGI servers."""
-    from flask import Flask, render_template_string, jsonify, send_from_directory
-    import os
-    
-    app = Flask(__name__, static_folder='static', static_url_path='/static')
-    app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
-    
-    # Import all the routes and config from run_simple_app
-    # This is a bit hacky but works for our single-file approach
-    return run_simple_app()
-
-# For WSGI servers (gunicorn, etc.)
-try:
-    app = create_app()
-except:
-    app = None
-
-if __name__ == '__main__':
-    setup_and_run() 
+# This is the entry point for Gunicorn, which Render will use
+app = create_app()

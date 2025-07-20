@@ -4,13 +4,12 @@ Simple local runner for Windows
 Just runs the portfolio directly without any setup complexity
 """
 import os
-import sys
+from app import create_app
 
-# Set environment variables
-os.environ['PORT'] = '5005'
+# Set environment variables for local debugging
 os.environ['FLASK_DEBUG'] = 'True'
 
-# Import and run the app
+app = create_app()
+
 if __name__ == '__main__':
-    from simple_app import run_simple_app
-    run_simple_app() 
+    app.run(host='0.0.0.0', port=5000)
