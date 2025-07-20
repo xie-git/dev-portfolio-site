@@ -4,7 +4,7 @@ Simple Portfolio Website - Main Application File
 """
 
 import os
-from flask import Flask, render_template_string, send_from_directory
+from flask import Flask, render_template_string, send_from_directory, send_file
 
 def create_app():
     """Creates and configures the Flask application."""
@@ -1881,85 +1881,441 @@ def create_app():
                                 <div class="project-card" onclick="openModal('smart-home')">
                                     <h3>Smart-Home & IoT Ecosystem <br><span class="fade">IoT & Home Automation</span></h3>
                                     <img src="/static/images/projects/homeassistant.png" alt="Smart-Home & IoT Ecosystem" class="project-image">
-                                    <p>DIY solutions with ESP32 boards and sensors for efficiency.</p>
+                                    <p>Comprehensive sensor network with BME688, LD2450, and custom IoT devices integrated with Home Assistant automation.</p>
+                                </div>
+                                
+                                <!-- Placeholder for future projects -->
+                                <div class="project-card" style="opacity: 0.5; cursor: default;">
+                                    <h3>Coming Soon • <br><span class="fade">Future Project</span></h3>
+                                    <div class="project-placeholder">🔮</div>
+                                    <p>More exciting projects are in development. Stay tuned for updates!</p>
+                                </div>
+                                
+                                <div class="project-card" style="opacity: 0.5; cursor: default;">
+                                    <h3>Coming Soon • <br><span class="fade">Future Project</span></h3>
+                                    <div class="project-placeholder">⚡</div>
+                                    <p>Additional technical experiments and innovations coming soon.</p>
                                 </div>
                             </div>
                         </div>
                     </main>
-                </div>
-                
-                <!-- Footer - Same as main page -->
-                <footer class="block">
-                    <div class="container">
-                        <section class="footer-links">
-                            <div>
-                                <h2>Links ↘</h2>
-                                <ul>
-                                    <li><a href="/">Bio</a></li>
-                                    <li><a href="/projects">Projects</a></li>
-                                    <li><a href="/resume">Resume</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h2>Connect ↘</h2>
-                                <ul>
-                                    <li><a href="mailto:xie.michael@icloud.com">Email</a></li>
-                                    <li><a href="/#contact">Contact Form</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h2>Socials ↘</h2>
-                                <ul>
-                                    <li><a href="https://github.com/xie-git">Github</a></li>
-                                    <li><a href="https://linkedin.com/in/xie-michael">LinkedIn</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                        <small>© 2025 Michael Xie. All rights reserved.</small>
-                    </div>
-                </footer>
-            </div>
-            
-            <!-- Modal - Same as main page -->
-            <div id="projectModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeModal()">&times;</span>
-                    <div class="modal-left">
-                        <div class="modal-header">
-                            <h2 id="modalTitle" class="modal-title"></h2>
-                            <div id="modalType" class="modal-type"></div>
+
+                    <!-- Footer - Same as main page -->
+                    <footer class="block">
+                        <div class="container">
+                            <section class="footer-links">
+                                <div>
+                                    <h2>Links ↘</h2>
+                                    <ul>
+                                        <li><a href="/#top">Bio</a></li>
+                                        <li><a href="/projects" onclick="handleProjectsLink(event)">Projects</a></li>
+                                        <li><a href="/resume" onclick="handleResumeLink(event)">Resume</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h2>Connect ↘</h2>
+                                    <ul>
+                                        <li><a href="mailto:xie.michael@icloud.com">Email</a></li>
+                                        <li><a href="/#contact" onclick="expandContactOnMainPage()">Contact Form</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h2>Socials ↘</h2>
+                                    <ul>
+                                        <li><a href="https://github.com/xie-git">Github</a></li>
+                                        <li><a href="https://linkedin.com/in/xie-michael">LinkedIn</a></li>
+                                    </ul>
+                                </div>
+                            </section>
+                            <small>© 2025 Michael Xie. All rights reserved.</small>
                         </div>
-                        <div id="modalImage" class="modal-image"></div>
-                        <p id="modalOverview" class="modal-overview"></p>
-                    </div>
-                    <div class="modal-right">
-                        <div class="modal-section">
-                            <h3>Tech Stack</h3>
-                            <div id="modalTechStack" class="tech-list"></div>
-                        </div>
-                        <div class="modal-section">
-                            <h3>Features</h3>
-                            <ul id="modalFeatures" class="feature-list"></ul>
-                        </div>
-                        <div class="modal-section">
-                            <h3>Challenge</h3>
-                            <p id="modalChallenges"></p>
-                        </div>
-                        <div class="modal-section">
-                            <h3>Impact</h3>
-                            <p id="modalImpact"></p>
-                        </div>
-                    </div>
+                    </footer>
                 </div>
             </div>
+
+            <!-- Same modal as main page -->
+            """ + home_template.split('<!-- Project Modal -->')[1].split('</script>')[0] + """
             
-            <script>
-                // Same modal and contact form script as main page
+            // Navigation behavior functions
+            function expandContactOnMainPage() {
+                if (window.location.pathname === '/') {
+                    // On main page, expand contact form
+                    expandContactForm();
+                } else {
+                    // On other pages, navigate to main page with contact expanded
+                    window.location.href = '/#contact';
+                    setTimeout(() => {
+                        if (typeof expandContactForm === 'function') {
+                            expandContactForm();
+                        }
+                    }, 100);
+                }
+            }
+            
+            // Handle footer link behaviors
+            function handleProjectsLink(event) {
+                if (window.location.pathname === '/projects') {
+                    event.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+            
+            function handleResumeLink(event) {
+                if (window.location.pathname === '/resume') {
+                    event.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
             </script>
         </body>
         </html>
         """
         return render_template_string(projects_template)
+
+    @app.route('/resume')
+    def resume_page():
+        resume_template = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Resume - Michael Xie</title>
+            <meta name="description" content="Michael Xie's detailed resume - Software Engineer specializing in data systems and enterprise infrastructure.">
+            <style>
+                """ + home_template.split('<style>')[1].split('</style>')[0] + """
+            </style>
+        </head>
+        <body>
+            <div id="top" class="container margin vertical flex flex-columns flex-nowrap resume-page">
+                <!-- Header - EXACT Long Nguyen structure -->
+                <header>
+                    <div class="container padding horizontal">
+                        <div class="block">
+                            <nav>
+                                <div class="container-actions">
+                                    <h2><a href="/">Michael Xie</a></h2>
+                                    <div class="links-container">
+                                        <ul class="links-list">
+                                            <li><a href="#experience">Experience</a></li>
+                                            <li><a href="#education">Education</a></li>
+                                            <li><a href="#projects">Projects</a></li>
+                                            <li><a href="#skills">Skills</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Main Content Container -->
+                <div class="container margin horizontal flex flex-columns flex-grow">
+                    <main class="flex-grow">
+                        <div class="block">
+                            <!-- Back Link -->
+                            <div class="resume-header">
+                                <a href="/" class="back-link">← back to home</a>
+                            </div>
+                            
+                            <!-- Resume Header -->
+                            <div class="block">
+                                <div class="intro-container">
+                                    <div class="intro-left">
+                                        <p>Experienced Software Engineer specializing in scalable enterprise systems and AI-driven solutions. Expert in leveraging state-of-the-art AI models, tools, and techniques to accelerate enterprise development.</p>
+                                    </div>
+                                    <div class="intro-right">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PDF Link -->
+                            <div class="pdf-link-container">
+                                <a href="/Xie_Data_Resume.pdf" target="_blank" class="pdf-download-link">Download PDF Resume ↘</a>
+                            </div>
+
+                            <!-- Experience Section -->
+                            <section class="block" id="experience">
+                                <div class="wrapper">
+                                    <h2 onclick="toggleSection('experience-content')">Professional <br> Experience ↘</h2>
+                                    <div id="experience-content" class="collapsible-content expanded">
+                                        <ul class="resume-list">
+                                        <li class="resume-list-item">
+                                            <div class="resume-item-header">
+                                                <h3 class="resume-item-title">Software Engineer (IAM)</h3>
+                                                <p class="resume-item-company">Northern Trust • Chicago, IL</p>
+                                                <p class="resume-item-date">Mar 2025 - Present</p>
+                                            </div>
+                                            <ul class="resume-item-details">
+                                                <li>Developed and maintained Python-based ETL pipelines for enterprise identity systems using Linux and Control-M</li>
+                                                <li>Automated and migrated legacy IAM data into modern platforms using secure OracleDB and PostgreSQL connections</li>
+                                                <li>Provisioned on-prem infrastructure to support scheduled ETL workflows</li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="resume-list-item">
+                                            <div class="resume-item-header">
+                                                <h3 class="resume-item-title">Software Engineer</h3>
+                                                <p class="resume-item-company">Capital One • Chicago, IL</p>
+                                                <p class="resume-item-date">Aug 2019 - Nov 2023</p>
+                                            </div>
+                                            <ul class="resume-item-details">
+                                                <li>Built scalable AWS Big Data ETL pipelines (Step Functions, EMR, DynamoDB, Lambda) using Python and PySpark to process sensitive customer credit and behavioral data for analytics and decisioning</li>
+                                                <li>Created automated UI testing suite using Selenium and OpenCV for communication strategies deployed to delinquent customer segments</li>
+                                                <li>Engineered a fraud analytics reporting system leveraging SQL, Snowflake, R, and Python, with dynamic dashboards enabling stakeholders to monitor the impact of evolving fraud logic</li>
+                                                <li>Developed and maintained customer communication microservices using Java Spring Boot, containerized in Docker and deployed on ECS with CI/CD pipelines</li>
+                                                <li>Standardized infrastructure pipelines for microservices, integrating Docker and AWS CI/CD tooling to streamline deployments</li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="resume-list-item">
+                                            <div class="resume-item-header">
+                                                <h3 class="resume-item-title">Operations Lead</h3>
+                                                <p class="resume-item-company">Northwestern Mutual • Milwaukee, WI</p>
+                                                <p class="resume-item-date">Jun 2018 - Aug 2019</p>
+                                            </div>
+                                            <ul class="resume-item-details">
+                                                <li>Managed deployment of internal enterprise apps on iOS/Android using Microsoft Intune and Azure AD policies</li>
+                                                <li>Resolved authentication and MDM compliance issues across employee devices and collaborated with internal support and security teams</li>
+                                                <li>Coordinated between offshore development teams and on-site stakeholders; delivered weekly operations reports</li>
+                                            </ul>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Education Section -->
+                            <section class="block education-section" id="education">
+                                <div class="wrapper">
+                                    <h2 onclick="toggleSection('education-content')">Education ↘</h2>
+                                    <div id="education-content" class="collapsible-content expanded">
+                                        <ul class="resume-list">
+                                        <li class="resume-list-item">
+                                            <div class="resume-item-header">
+                                                <h3 class="resume-item-title">University of Wisconsin-Madison</h3>
+                                                <p class="resume-item-company">Statistics & Computer Science</p>
+                                                <p class="resume-item-date">Aug 2014 - May 2018</p>
+                                            </div>
+                                            <ul class="resume-item-details">
+                                                <li><strong>Degree:</strong> Bachelor of Science</li>
+                                                <li><strong>Relevant Coursework:</strong> Data Structures & Algorithms, Database Systems, Financial Statistics, Statistical Programming, Mathematical Statistics, Linear Algebra</li>
+                                            </ul>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Projects Section -->
+                            <section class="block" id="projects">
+                                <div class="wrapper">
+                                    <h2 onclick="toggleSection('projects-content')">Key <br> Projects ↘</h2>
+                                    <div id="projects-content" class="collapsible-content expanded">
+                                        <ul class="resume-list">
+                                        <li class="resume-list-item">
+                                            <div class="resume-item-header">
+                                                <h3 class="resume-item-title">HomeLab & Smart-Condo Automation Platform</h3>
+                                                <p class="resume-item-company">Infrastructure & DevOps</p>
+                                            </div>
+                                            <ul class="resume-item-details">
+                                                <li>Built fully containerized environment with Docker Compose managing 25+ containers (Home Assistant, Grafana, Prometheus, Ollama LLM)</li>
+                                                <li>Achieved 99.9% service uptime, reduced cloud storage costs by $240/yr, improved HVAC efficiency by 8%</li>
+                                                <li><strong>Tech Stack:</strong> Docker, Ubuntu, Proxmox, Tailscale VPN, InfluxDB, Grafana, Nextcloud, Plex</li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="resume-list-item">
+                                            <div class="resume-item-header">
+                                                <h3 class="resume-item-title">Chicago Rental Analytics & Visualization Pipeline</h3>
+                                                <p class="resume-item-company">Data Engineering & ML</p>
+                                            </div>
+                                            <ul class="resume-item-details">
+                                                <li>Automated data platform processing 75k+ Chicago apartment records with Random Forest ML model (R² = 0.995)</li>
+                                                <li>Developed scalable data collection system with load-based scaling for comprehensive market analysis</li>
+                                                <li>Created personal analytics platform for real estate insights and apartment hunting decisions, shared with friends for market intelligence</li>
+                                                <li><strong>Tech Stack:</strong> Python, Docker, PostgreSQL, Redis, scikit-learn, FastAPI, Grafana</li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="resume-list-item">
+                                            <div class="resume-item-header">
+                                                <h3 class="resume-item-title">Smart-Home & IoT Ecosystem</h3>
+                                                <p class="resume-item-company">IoT & Home Automation</p>
+                                            </div>
+                                            <ul class="resume-item-details">
+                                                <li>Architected DIY smart-home with 10× ESP32 boards, BME688 sensors, LD2450 radar across 1,250 sq ft condo</li>
+                                                <li>Maintained temp ±1°C, achieved 99.9% uptime, collected 2M+ time-series points, cut energy use 8%</li>
+                                                <li><strong>Tech Stack:</strong> ESP32, ESPHome, Home Assistant, MQTT, InfluxDB, Grafana, Tailscale</li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="resume-list-item">
+                                            <div class="resume-item-header">
+                                                <h3 class="resume-item-title">AI/ML Playground</h3>
+                                                <p class="resume-item-company">Artificial Intelligence</p>
+                                            </div>
+                                            <ul class="resume-item-details">
+                                                <li>Self-hosted AI infrastructure with Stable Diffusion image generation and Ollama language models</li>
+                                                <li>Created local development environment for experimenting with cutting-edge ML models while maintaining privacy</li>
+                                                <li><strong>Tech Stack:</strong> Stable Diffusion, Ollama, Python, PyTorch, CUDA, FastAPI, Docker</li>
+                                            </ul>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Certifications Section -->
+                            <section class="block">
+                                <div class="wrapper">
+                                    <h2 onclick="toggleSection('certifications-content')">Certifications ↘</h2>
+                                    <div id="certifications-content" class="collapsible-content expanded">
+                                        <div class="certifications-content">
+                                        <div class="certification-category">
+                                            <h3>Technical Certifications</h3>
+                                            <ul class="resume-item-details">
+                                                <li>AWS Certified Solutions Architect - Associate</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="certification-category">
+                                            <h3>Professional Certifications</h3>
+                                            <ul class="resume-item-details">
+                                                <li>Coming Soon</li>
+                                            </ul>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Technical Skills Section -->
+                            <section class="block" id="skills">
+                                <div class="wrapper">
+                                    <h2 onclick="toggleSection('skills-content')">Technical Skills ↘</h2>
+                                    <div id="skills-content" class="collapsible-content expanded">
+                                        <div class="skills-content">
+                                        <div class="skill-category">
+                                            <h3>Languages</h3>
+                                            <p>Python, Java, SQL, R, JavaScript, Bash, YAML, Markdown</p>
+                                        </div>
+                                        
+                                        <div class="skill-category">
+                                            <h3>Cloud & Infrastructure</h3>
+                                            <p>AWS (Lambda, ECS, EMR, Step Functions, DynamoDB, S3, SNS, SQS, RDS, CloudWatch, IAM), Docker, Kubernetes, Linux, Azure, Hypervisor, Control-M, Home Assistant, MQTT</p>
+                                        </div>
+                                        
+                                        <div class="skill-category">
+                                            <h3>Data & Analytics</h3>
+                                            <p>PySpark, Snowflake, PostgreSQL, OracleDB, Databricks, Kafka, ETL, Pandas, Beautiful Soup, Selenium, Grafana, Prometheus, InfluxDB, Tableau</p>
+                                        </div>
+                                        
+                                        <div class="skill-category">
+                                            <h3>AI & Machine Learning</h3>
+                                            <p>Self-Hosted Large Language Models (Ollama, Gemini, Claude, DeepSeek, GPT), AI Model Integration, Agentic Software Development, Model Evaluation & Optimization, Stable Diffusion, Image & LLM Model Fine-Tuning, OpenCV</p>
+                                        </div>
+                                        
+                                        <div class="skill-category">
+                                            <h3>Development</h3>
+                                            <p>Spring Boot, RESTful APIs, Microservices Architecture, CI/CD (AWS CodePipeline, GitHub Actions), Testing Frameworks (JUnit, PyTest, Cucumber), Git, Maven, Embedded Systems (ESP32, ESP8266, BME688, LD2450), Web Scraping, Selenium Automation</p>
+                                        </div>
+                                        
+                                        <div class="skill-category">
+                                            <h3>Security & Compliance</h3>
+                                            <p>PGP Encryption, Data Obfuscation, Sensitive Data Handling (NPI), Security Protocols (Finance & Banking Standards)</p>
+                                        </div>
+                                        
+                                        <div class="skill-category">
+                                            <h3>Networking</h3>
+                                            <p>SMB, Basic Network Administration, Pi-hole, Home Networking, Wake-on-LAN</p>
+                                        </div>
+                                        
+                                        <div class="skill-category">
+                                            <h3>Project Management & Collaboration</h3>
+                                            <p>Agile Methodology, Jira, Azure DevOps (ADO), Scrum, Kanban, Cross-functional Team Collaboration</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+
+                    <!-- Footer -->
+                    <footer class="block">
+                        <div class="container">
+                            <section class="footer-links">
+                                <div>
+                                    <h2>Links ↘</h2>
+                                    <ul>
+                                        <li><a href="/#top">Bio</a></li>
+                                        <li><a href="/projects" onclick="handleProjectsLink(event)">Projects</a></li>
+                                        <li><a href="/resume" onclick="handleResumeLink(event)">Resume</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h2>Connect ↘</h2>
+                                    <ul>
+                                        <li><a href="mailto:xie.michael@icloud.com">Email</a></li>
+                                        <li><a href="/#contact" onclick="expandContactOnMainPage()">Contact Form</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h2>Socials ↘</h2>
+                                    <ul>
+                                        <li><a href="https://github.com/xie-git">Github</a></li>
+                                        <li><a href="https://linkedin.com/in/xie-michael">LinkedIn</a></li>
+                                    </ul>
+                                </div>
+                            </section>
+                            <small>© 2025 Michael Xie. All rights reserved.</small>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            
+            <script>
+                function toggleSection(sectionId) {
+                    const content = document.getElementById(sectionId);
+                    if (content.classList.contains('expanded')) {
+                        content.classList.remove('expanded');
+                        content.classList.add('collapsed');
+                    } else {
+                        content.classList.remove('collapsed');
+                        content.classList.add('expanded');
+                    }
+                }
+                
+                // Navigation behavior functions
+                function expandContactOnMainPage() {
+                    window.location.href = '/#contact';
+                    setTimeout(() => {
+                        if (typeof expandContactForm === 'function') {
+                            expandContactForm();
+                        }
+                    }, 100);
+                }
+                
+                // Handle footer link behaviors
+                function handleProjectsLink(event) {
+                    if (window.location.pathname === '/projects') {
+                        event.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+                
+                function handleResumeLink(event) {
+                    if (window.location.pathname === '/resume') {
+                        event.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+            </script>
+        </body>
+        </html>
+        """
+        return render_template_string(resume_template)
 
     return app
 
