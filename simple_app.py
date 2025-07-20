@@ -692,19 +692,9 @@ def run_simple_app():
                 color: #0E4DA4;
             }
 
-            .timeline-type.volunteer {
-                border-color: #CE2B30;
-                color: #CE2B30;
-            }
-
             .timeline-type.work {
                 border-color: #4C4C39;
                 color: #4C4C39;
-            }
-
-            .timeline-type.app {
-                border-color: #204B8D;
-                color: #204B8D;
             }
 
             .timeline-content h3 {
@@ -899,7 +889,7 @@ def run_simple_app():
                         <!-- Intro Section - EXACT structure -->
                         <div class="block">
                             <div class="intro-container">
-                                <p>Hello!<br>I'm Michael, a software engineer. I build scalable data systems and cloud infrastructure with modern technologies.</p>
+                                <p>Hello!<br>I'm Michael, a software engineer with a statistics background specializing in enterprise data systems. I build scalable ETL pipelines and secure data infrastructure solutions.</p>
                                 <ul>
                                     <li><a href="/Xie_Data_Resume.pdf">Resume</a></li>
                                     <li><a href="mailto:xie.michael@icloud.com">xie.michael@icloud.com</a></li>
@@ -953,14 +943,14 @@ def run_simple_app():
                                         <div class="timeline-marker"></div>
                                         <div class="timeline-content">
                                             <div class="timeline-header">
-                                                <div class="timeline-date">Nov 2019 - Sep 2023</div>
+                                                <div class="timeline-date">Aug 2014 - May 2018</div>
                                                 <div class="timeline-type education">education</div>
                                             </div>
-                                            <h3>Computer Science</h3>
-                                            <div class="timeline-company">Cambodia Academy of Digital Technology - CADT</div>
-                                            <p>My journey began here as a Computer Science student. Foundation in algorithms, data structures, and software engineering principles.</p>
-                                            <!-- Logo placeholder: Add CADT logo here -->
-                                            <div class="logo-placeholder">📚</div>
+                                            <h3>Statistics & Computer Science</h3>
+                                            <div class="timeline-company">University of Wisconsin-Madison</div>
+                                            <p>Bachelor's degree in Statistics and Computer Science. Strong foundation in data analysis, statistical modeling, and software engineering principles.</p>
+                                            <!-- Logo placeholder: Add UW-Madison logo here -->
+                                            <div class="logo-placeholder">🎓</div>
                                         </div>
                                     </div>
 
@@ -968,29 +958,14 @@ def run_simple_app():
                                         <div class="timeline-marker"></div>
                                         <div class="timeline-content">
                                             <div class="timeline-header">
-                                                <div class="timeline-date">Jan 2020 - Jun 2023</div>
-                                                <div class="timeline-type volunteer">volunteer</div>
-                                            </div>
-                                            <h3>Mobile Team Leader</h3>
-                                            <div class="timeline-company">E-Robot</div>
-                                            <p>Led mobile development team building educational robotics applications. Transitioned from visual programming to Flutter development.</p>
-                                            <!-- Logo placeholder: Add E-Robot logo here -->
-                                            <div class="logo-placeholder">🤖</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="timeline-item">
-                                        <div class="timeline-marker"></div>
-                                        <div class="timeline-content">
-                                            <div class="timeline-header">
-                                                <div class="timeline-date">Nov 2020 - Jan 2023</div>
+                                                <div class="timeline-date">Jun 2018 - Aug 2019</div>
                                                 <div class="timeline-type work">work</div>
                                             </div>
-                                            <h3>Software Developer</h3>
-                                            <div class="timeline-company">VTENH - Part Time</div>
-                                            <p>Developed full-stack ecommerce solutions with Flutter and Ruby on Rails. Gained hands-on experience in scalable web applications.</p>
-                                            <!-- Logo placeholder: Add VTENH logo here -->
-                                            <div class="logo-placeholder">🛒</div>
+                                            <h3>Operations Lead</h3>
+                                            <div class="timeline-company">Northwestern Mutual • Milwaukee, WI</div>
+                                            <p>Managed enterprise app deployment on iOS/Android using Microsoft Intune and Azure AD. Coordinated between offshore teams and stakeholders.</p>
+                                            <!-- Logo placeholder: Add Northwestern Mutual logo here -->
+                                            <div class="logo-placeholder">🏢</div>
                                         </div>
                                     </div>
 
@@ -998,29 +973,29 @@ def run_simple_app():
                                         <div class="timeline-marker"></div>
                                         <div class="timeline-content">
                                             <div class="timeline-header">
-                                                <div class="timeline-date">Mar 2021 - Present</div>
-                                                <div class="timeline-type app">side project</div>
-                                            </div>
-                                            <h3>Creator & Developer</h3>
-                                            <div class="timeline-company">StoryPad Mobile App</div>
-                                            <p>Designed and built a story writing app from scratch. Achieved 80,000+ downloads and learned product development end-to-end.</p>
-                                            <!-- Logo placeholder: Add StoryPad logo here -->
-                                            <div class="logo-placeholder">📱</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="timeline-item">
-                                        <div class="timeline-marker"></div>
-                                        <div class="timeline-content">
-                                            <div class="timeline-header">
-                                                <div class="timeline-date">Jan 2023 - Present</div>
+                                                <div class="timeline-date">Aug 2019 - Nov 2023</div>
                                                 <div class="timeline-type work">work</div>
                                             </div>
-                                            <h3>Tech Lead</h3>
-                                            <div class="timeline-company">BookMeBus</div>
-                                            <p>Leading development of scalable booking platform (BookMe+). Managing technical architecture and mentoring development team.</p>
-                                            <!-- Logo placeholder: Add BookMeBus logo here -->
-                                            <div class="logo-placeholder">🚌</div>
+                                            <h3>Software Engineer</h3>
+                                            <div class="timeline-company">Capital One • Chicago, IL</div>
+                                            <p>Built scalable AWS Big Data ETL pipelines using Python, PySpark, and Step Functions. Developed fraud analytics systems and customer communication microservices with Java Spring Boot.</p>
+                                            <!-- Logo placeholder: Add Capital One logo here -->
+                                            <div class="logo-placeholder">💳</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <div class="timeline-date">Mar 2025 - Present</div>
+                                                <div class="timeline-type work">work</div>
+                                            </div>
+                                            <h3>Software Engineer (IAM)</h3>
+                                            <div class="timeline-company">Northern Trust • Chicago, IL</div>
+                                            <p>Developing Python-based ETL pipelines for enterprise identity systems. Automating legacy IAM data migration to modern platforms using OracleDB and PostgreSQL.</p>
+                                            <!-- Logo placeholder: Add Northern Trust logo here -->
+                                            <div class="logo-placeholder">🏦</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1031,13 +1006,13 @@ def run_simple_app():
                         <section class="block statement-section">
                             <div class="statement-container">
                                 <p class="statement-highlight text-lg">
-                                    Software engineering with purpose. I build scalable systems that solve real problems
-                                    and create value through thoughtful architecture and clean code.
+                                    Data engineering that drives business value. I build secure, scalable systems 
+                                    that transform enterprise data into actionable insights.
                                 </p>
                                 <div class="statement-sub">
                                     <p>
-                                        With 5+ years of experience in fintech and enterprise systems, I specialize in
-                                        big data ETL pipelines, cloud infrastructure, and modern software development practices.
+                                        With 6+ years of experience across fintech and enterprise systems, I specialize in
+                                        Python ETL pipelines, AWS cloud infrastructure, and secure identity management solutions.
                                     </p>
                                     <div>
                                         <a href="#about">More About Me ↘</a>
