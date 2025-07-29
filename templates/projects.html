@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Projects - Michael Xie</title>
+    <!-- Main CSS file -->
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <div class="container margin vertical flex flex-columns flex-nowrap projects-page">
+        <!-- Header - Same as main page -->
+        <header>
+            <div class="container padding horizontal">
+                <div class="block">
+                    <nav>
+                        <div class="container-actions">
+                            <h2><a href="/">Michael Xie</a></h2>
+                            <div class="links-container">
+                                <ul class="links-list">
+                                    <li><a href="/#top">About</a></li>
+                                    <li><a href="/#contact" onclick="expandContactOnMainPage()">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container margin horizontal flex flex-columns flex-grow">
+            <main class="flex-grow">
+                <div class="block">
+                     <div class="projects-header">
+                         <a href="/" class="back-link">← back to home</a>
+                         <h1>All Projects</h1>
+                         <p style="opacity: 0.7; font-size: 0.875rem;">Technical projects and experiments.</p>
+                     </div>
+                    
+                    <div class="extended-grid">
+                        <div class="project-card" onclick="openModal('homelab')">
+                            <h3>HomeLab & Smart-Condo Automation <br><span class="fade">Infrastructure & DevOps</span></h3>
+                            <img src="/static/images/projects/homelab_image.png" alt="HomeLab & Smart-Condo Automation Platform" class="project-image">
+                            <p>Containerized environment powering home automation, analytics, and AI.</p>
+                        </div>
+
+                        <div class="project-card" onclick="openModal('real-estate')">
+                            <h3>Chicago Rental Analytics <br><span class="fade">Data Engineering & Visualization</span></h3>
+                            <img src="/static/images/projects/chicago_analytics_map.png" alt="Chicago Rental Analytics Dashboard" class="project-image">
+                            <p>Automated platform processing 75k+ records with ML insights.</p>
+                        </div>
+
+                        <div class="project-card" onclick="openModal('ai-ml')">
+                            <h3>AI/ML Playground <br><span class="fade">Artificial Intelligence</span></h3>
+                            <img src="/static/images/projects/aigeneratedai.png" alt="AI/ML Playground" class="project-image">
+                            <p>Self-hosted infrastructure with Stable Diffusion and LLM models.</p>
+                        </div>
+
+                        <div class="project-card" onclick="openModal('smart-home')">
+                            <h3>Smart-Home & IoT Ecosystem <br><span class="fade">IoT & Home Automation</span></h3>
+                            <img src="/static/images/projects/homeassistant.png" alt="Smart-Home & IoT Ecosystem" class="project-image">
+                            <p>Comprehensive sensor network with BME688, LD2450, and custom IoT devices integrated with Home Assistant automation.</p>
+                        </div>
+                        
+                        <!-- Placeholder for future projects -->
+                        <div class="project-card" style="opacity: 0.5; cursor: default;">
+                            <h3>Coming Soon • <br><span class="fade">Future Project</span></h3>
+                            <div class="project-placeholder">🔮</div>
+                            <p>More exciting projects are in development. Stay tuned for updates!</p>
+                        </div>
+                        
+                        <div class="project-card" style="opacity: 0.5; cursor: default;">
+                            <h3>Coming Soon • <br><span class="fade">Future Project</span></h3>
+                            <div class="project-placeholder">⚡</div>
+                            <p>Additional technical experiments and innovations coming soon.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer - Same as main page -->
+            <footer class="block">
+                <div class="container">
+                    <section class="footer-links">
+                        <div>
+                            <h2>Links ↘</h2>
+                            <ul>
+                                <li><a href="/#top">Bio</a></li>
+                                <li><a href="/projects" onclick="handleProjectsLink(event)">Projects</a></li>
+                                <li><a href="/resume" onclick="handleResumeLink(event)">Resume</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2>Connect ↘</h2>
+                            <ul>
+                                <li><a href="mailto:xie.michael@icloud.com">Email</a></li>
+                                <li><a href="/#contact" onclick="expandContactOnMainPage()">Contact Form</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2>Socials ↘</h2>
+                            <ul>
+                                <li><a href="https://github.com/xie-git">Github</a></li>
+                                <li><a href="https://linkedin.com/in/xie-michael">LinkedIn</a></li>
+                            </ul>
+                        </div>
+                    </section>
+                    <small>© 2025 Michael Xie. All rights reserved.</small>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            
+            <!-- Left side: Image and title -->
+            <div class="modal-left">
+                <div class="modal-header">
+                    <h2 id="modalTitle" class="modal-title"></h2>
+                    <div id="modalType" class="modal-type"></div>
+                </div>
+                <div id="modalImage" class="modal-image"></div>
+                <p id="modalOverview" class="modal-overview"></p>
+            </div>
+            
+            <!-- Right side: Details -->
+            <div class="modal-right">
+                <div class="modal-section">
+                    <h3>Tech Stack</h3>
+                    <div id="modalTechStack" class="tech-list"></div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Features</h3>
+                    <ul id="modalFeatures" class="feature-list"></ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Challenge</h3>
+                    <p id="modalChallenges"></p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Impact</h3>
+                    <p id="modalImpact"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Project data for modal
+        const projects = {
+            'homelab': {
+                title: 'HomeLab & Smart-Condo Automation Platform',
+                type: 'Infrastructure & DevOps',
+                image: '/static/images/projects/homelab_image.png',
+                overview: 'Built a fully containerized, self-hosted environment that powers home automation, real-time analytics, media streaming, and on-device AI while serving as a playground for DevOps experimentation.',
+                tech_stack: ['Docker Compose', 'Ubuntu 24.04 LTS', 'Proxmox', 'Tailscale VPN', 'Home Assistant', 'InfluxDB', 'Grafana', 'Prometheus', 'Ollama LLM', 'Nextcloud', 'Plex'],
+                features: [
+                    'Real-time environmental dashboard with sub-5s refresh',
+                    'Self-hosted cloud suite replacing iCloud/Google Drive',
+                    'Housing-market microservice with ML price-anomaly alerts',
+                    'Media & gaming hub streaming 4K HDR video',
+                    'Automated resilience with health-checks and failover'
+                ],
+                challenges: 'Unified heterogeneous hardware under single monitoring plane, tuned InfluxDB retention for 500ms refresh without data loss, hardened remote access eliminating exposed public ports.',
+                impact: '99.9% service uptime over 12 months, reduced cloud-storage spend by $240/yr, improved HVAC efficiency by 8%, delivered reusable DevOps sandbox cutting work project iteration time by 40%.'
+            },
+            'real-estate': {
+                title: 'Chicago Rental Analytics & Visualization Pipeline',
+                type: 'Data Engineering & Visualization',
+                image: '/static/images/projects/chicago_analytics_map.png',
+                overview: 'Designed, built, and production-hardened a fully automated data platform that scrapes, cleans, enriches, and visualizes 75k+ Chicago apartment records, delivering investment-grade insights via ML models and Grafana dashboards.',
+                tech_stack: ['Python 3.11', 'Docker Compose', 'PostgreSQL 14', 'Redis', 'scikit-learn', 'FastAPI', 'Folium', 'InfluxDB', 'Grafana', 'BeautifulSoup4'],
+                features: [
+                    'Automated weekly pipeline processing 4,500 URLs in ~6h',
+                    'Random-Forest price prediction model (R² = 0.995, RMSE ≈ $50)',
+                    'Building-level insights with investment scores and risk metrics',
+                    'Interactive Folium-powered clustering map with live queries',
+                    'Six Grafana dashboards with sub-5s refresh',
+                    'One-command DevOps deployment with 100% E2E test coverage'
+                ],
+                challenges: 'Implemented Redis task queue for 5 parallel scrapers cutting collection time 40%, built ID-fuzzing logic achieving 85%+ data quality, added model drift detection with automated retraining.',
+                impact: '75k+ property rows processed, 600 building insights generated, >99% weekly pipeline success rate over 6 months, enables neighborhood price comps and yield forecasts for investors.'
+            },
+            'ai-ml': {
+                title: 'AI/ML Playground',
+                type: 'Artificial Intelligence',
+                image: '/static/images/projects/aigeneratedai.png',
+                overview: 'A local AI development environment for experimenting with cutting-edge machine learning models while maintaining privacy and control.',
+                tech_stack: ['Stable Diffusion', 'Ollama', 'Python', 'PyTorch', 'CUDA', 'FastAPI', 'Docker'],
+                features: [
+                    'Local Stable Diffusion image generation',
+                    'Multiple LLM model hosting with Ollama',
+                    'Custom model fine-tuning pipeline',
+                    'API endpoints for integration',
+                    'Prompt engineering tools',
+                    'Model performance monitoring'
+                ],
+                challenges: 'Optimizing model performance on consumer hardware, managing GPU memory efficiently, and creating intuitive interfaces.',
+                impact: 'Accelerated AI/ML learning and provided a foundation for integrating AI into other projects.'
+            },
+            'smart-home': {
+                title: 'Smart-Home & IoT Ecosystem',
+                type: 'IoT & Home Automation',
+                image: '/static/images/projects/homeassistant.png',
+                overview: 'Architected and maintain a tightly-integrated suite of DIY smart-home solutions built on open-source software and low-cost microcontrollers to drive comfort, security, and data-driven energy efficiency across 1,250 sq ft condo.',
+                tech_stack: ['10× ESP32-WROOM-32', 'BME688 sensors', 'LD2450 mm-wave radars', 'ESPHome 2023.12', 'Home Assistant', 'Mosquitto MQTT', 'InfluxDB 2', 'Grafana', 'Tailscale VPN', 'Pi-hole DNS'],
+                features: [
+                    'Sensor mesh coverage across 6 zones with real-time heat-maps',
+                    'Adaptive HVAC & blinds balancing IAQ and comfort automatically',
+                    'Presence-aware lighting with <100ms response via LD2450 radar',
+                    'Energy & network dashboards with Slack anomaly alerting',
+                    'Voice-first control via Mycroft AI (completely offline)',
+                    'Whole-home ad-blocking via Pi-hole reducing WAN data 25%'
+                ],
+                challenges: 'Achieved low-latency telemetry without Wi-Fi saturation via tuned ESP32 QoS, calibrated sensor accuracy in mixed HVAC airflow, secured remote access migrating from port-forwards to Tailscale mesh.',
+                impact: 'Maintained temp ±1°C and humidity 40-55% year-round, achieved 99.9% service uptime, collected 2M+ time-series points, cut annual energy use 8%, provided DevOps sandbox shortening POC cycles 40%.'
+            }
+        };
+
+        function openModal(projectId) {
+            const project = projects[projectId];
+            if (!project) return;
+
+            // Populate modal content
+            document.getElementById('modalTitle').textContent = project.title;
+            document.getElementById('modalType').textContent = project.type;
+            
+            // Set modal image
+            const modalImage = document.getElementById('modalImage');
+            modalImage.innerHTML = `<img src="${project.image}" alt="${project.title}" style="width: 100%; height: 100%; object-fit: cover; opacity: 1;">`;
+            
+            document.getElementById('modalOverview').textContent = project.overview;
+            document.getElementById('modalChallenges').textContent = project.challenges;
+            document.getElementById('modalImpact').textContent = project.impact;
+
+            // Tech stack
+            const techStackContainer = document.getElementById('modalTechStack');
+            techStackContainer.innerHTML = '';
+            project.tech_stack.forEach(tech => {
+                const tag = document.createElement('span');
+                tag.className = 'tech-tag';
+                tag.textContent = tech;
+                techStackContainer.appendChild(tag);
+            });
+
+            // Features
+            const featuresContainer = document.getElementById('modalFeatures');
+            featuresContainer.innerHTML = '';
+            project.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresContainer.appendChild(li);
+            });
+
+            // Show modal
+            const modal = document.getElementById('projectModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Make sure modal closes properly
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('projectModal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        // Navigation behavior functions
+        function expandContactOnMainPage() {
+            if (window.location.pathname === '/') {
+                // On main page, expand contact form
+                expandContactForm();
+            } else {
+                // On other pages, navigate to main page with contact expanded
+                window.location.href = '/#contact';
+                setTimeout(() => {
+                    if (typeof expandContactForm === 'function') {
+                        expandContactForm();
+                    }
+                }, 100);
+            }
+        }
+        
+        // Handle footer link behaviors
+        function handleProjectsLink(event) {
+            if (window.location.pathname === '/projects') {
+                event.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function handleResumeLink(event) {
+            if (window.location.pathname === '/resume') {
+                event.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

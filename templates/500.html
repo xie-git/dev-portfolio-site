@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Error - Michael Xie</title>
+    <meta name="description" content="An internal server error occurred.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    
+    <!-- Preload fonts for better performance -->
+    <link rel="preload" href="/static/fonts/PPNeueMontreal-Regular.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="/static/fonts/PPNeueMontreal-Italic.woff" as="font" type="font/woff" crossorigin>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <div id="top" class="container margin vertical flex flex-columns flex-nowrap">
+        <!-- Header -->
+        <header>
+            <div class="container padding horizontal">
+                <div class="block">
+                    <nav>
+                        <div class="container-actions">
+                            <h2><a href="/">Michael Xie</a></h2>
+                            <div class="links-container">
+                                <ul class="links-list">
+                                    <li><a href="/">Bio</a></li>
+                                    <li><a href="/projects">Projects</a></li>
+                                    <li><a href="/#story">Story</a></li>
+                                    <li><a href="#contact">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <div class="container margin horizontal flex flex-columns flex-grow">
+            <main class="flex-grow">
+                <div class="block">
+                    <div class="error-page">
+                        <h1>500 - Server Error</h1>
+                        <p>Sorry, something went wrong on our end.</p>
+                        <p>The issue has been logged and we'll look into it.</p>
+                        
+                        <div class="error-actions">
+                            <a href="/" class="btn-primary">Go Home</a>
+                            <a href="javascript:history.back()" class="btn-secondary">Go Back</a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

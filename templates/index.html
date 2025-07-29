@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Xie - Software Engineer</title>
+    <meta name="description" content="Michael Xie is a software engineer specializing in big data ETL pipelines, cloud infrastructure, and scalable systems. 5+ years experience in fintech and enterprise software.">
+    <meta name="keywords" content="Michael Xie, Software Engineer, Python, AWS, Data Engineering, ETL, Cloud Infrastructure, Chicago">
+    <meta name="author" content="Michael Xie">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Michael Xie - Software Engineer">
+    <meta property="og:description" content="Software engineer specializing in big data ETL pipelines, cloud infrastructure, and scalable systems.">
+    <meta property="og:url" content="https://micheal-xie.dev">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:title" content="Michael Xie - Software Engineer">
+    <meta property="twitter:description" content="Software engineer specializing in big data ETL pipelines, cloud infrastructure, and scalable systems.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    
+    <!-- Preload fonts for better performance -->
+    <link rel="preload" href="/static/fonts/PPNeueMontreal-Regular.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="/static/fonts/PPNeueMontreal-Italic.woff" as="font" type="font/woff" crossorigin>
+    
+    <!-- Main CSS file -->
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <div id="top" class="container margin vertical flex flex-columns flex-nowrap">
+        <!-- Header - EXACT Long Nguyen structure -->
+        <header>
+            <div class="container padding horizontal">
+                <div class="block">
+                    <nav>
+                        <div class="container-actions">
+                            <h2><a href="#top">Michael Xie</a></h2>
+                            <div class="links-container">
+                                                                        <ul class="links-list">
+                                        <li><a href="#top">Bio</a></li>
+                                        <li><a href="#projects">Projects</a></li>
+                                        <li><a href="#story">Story</a></li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Container -->
+        <div class="container margin horizontal flex flex-columns flex-grow">
+            <main class="flex-grow">
+                <div class="block">
+                    <!-- Intro Section - EXACT structure -->
+                    <div class="block">
+                        <div class="intro-container">
+                            <div class="intro-left">
+                                <p>Senior Software Engineer based in Chicago, IL with extensive experience delivering scalable, enterprise-grade systems for leading financial institutions.</p>
+                            </div>
+                            <div class="intro-right">
+                                <div class="intro-buttons">
+                                    <a href="/resume" class="intro-button-left">Resume</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Works Section - EXACT structure -->
+                    <section id="projects" class="block works-section">
+                        <div class="wrapper">
+                            <h2>Selected <br> Works ↘</h2>
+                            <div class="works-grid">
+                                <div class="project-card" onclick="openModal('homelab')">
+                                    <h3>HomeLab & Smart-Condo Automation <br><span class="fade">Infrastructure & DevOps</span></h3>
+                                    <img src="/static/images/projects/homelab_image.png" alt="HomeLab & Smart-Condo Automation Platform" class="project-image">
+                                    <p>Containerized environment powering home automation, analytics, and AI.</p>
+                                </div>
+
+                                <div class="project-card" onclick="openModal('real-estate')">
+                                    <h3>Chicago Rental Analytics <br><span class="fade">Data Engineering & Visualization</span></h3>
+                                    <img src="/static/images/projects/chicago_analytics_map.png" alt="Chicago Rental Analytics Dashboard" class="project-image">
+                                    <p>Automated platform processing 75k+ records with ML insights.</p>
+                                </div>
+
+                                <div class="project-card" onclick="openModal('ai-ml')">
+                                    <h3>AI/ML Playground <br><span class="fade">Artificial Intelligence</span></h3>
+                                    <img src="/static/images/projects/aigeneratedai.png" alt="AI/ML Playground" class="project-image">
+                                    <p>Self-hosted infrastructure with Stable Diffusion and LLM models.</p>
+                                </div>
+
+                                <div class="project-card" onclick="openModal('smart-home')">
+                                    <h3>Smart-Home & IoT Ecosystem <br><span class="fade">IoT & Home Automation</span></h3>
+                                    <img src="/static/images/projects/homeassistant.png" alt="Smart-Home & IoT Ecosystem" class="project-image">
+                                    <p>DIY solutions with ESP32 boards and sensors for efficiency.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- See All Projects Link -->
+                            <div class="see-all-container">
+                                <a href="/projects" class="see-all-link">see all projects ↘</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Developer Story Section - Inspired by Thea -->
+                    <section id="story" class="block developer-story-section">
+                        <div class="wrapper">
+                            <h2>Developer <br> Story ↘</h2>
+                            <div class="timeline-wrapper">
+                                <div class="timeline-item">
+                                    <div class="timeline-content">
+                                        <img src="/static/images/companies/uw_small.png" alt="University of Wisconsin-Madison" class="company-logo-large">
+                                        <div class="timeline-text-content">
+                                            <div class="timeline-type education">education</div>
+                                            <div class="timeline-date">Aug 2014 - May 2018</div>
+                                            <h3 class="education">University of Wisconsin-Madison</h3>
+                                            <div class="timeline-company">Statistics & Computer Science</div>
+                                            <p>Bachelor's degree focused on financial statistics, econometrics, and computational methods for large-scale data analysis.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-content">
+                                        <img src="/static/images/companies/northwestern_mutual_small.png" alt="Northwestern Mutual" class="company-logo-large">
+                                        <div class="timeline-text-content">
+                                            <div class="timeline-type work">work</div>
+                                            <div class="timeline-date">Jun 2018 - Aug 2019</div>
+                                            <h3 class="northwestern-mutual">Operations Lead</h3>
+                                            <div class="timeline-company">Northwestern Mutual • Milwaukee, WI</div>
+                                            <p>Managed enterprise iOS/Android app deployment using Microsoft Intune and Azure AD.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-content">
+                                        <img src="/static/images/companies/capital_one_small.png" alt="Capital One" class="company-logo-large">
+                                        <div class="timeline-text-content">
+                                            <div class="timeline-type work">work</div>
+                                            <div class="timeline-date">Aug 2019 - Nov 2023</div>
+                                            <h3 class="capital-one">Software Engineer</h3>
+                                            <div class="timeline-company">Capital One • Chicago, IL</div>
+                                            <p>Built scalable AWS ETL pipelines with Python/PySpark and fraud analytics systems using Java Spring Boot.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-content">
+                                        <img src="/static/images/companies/northern_trust_small.png" alt="Northern Trust" class="company-logo-large">
+                                        <div class="timeline-text-content">
+                                            <div class="timeline-type work">work</div>
+                                            <div class="timeline-date">Mar 2025 - <strong>Present</strong></div>
+                                            <h3 class="northern-trust">Software Engineer (IAM)</h3>
+                                            <div class="timeline-company">Northern Trust • Chicago, IL</div>
+                                            <p>Developing Python ETL pipelines for enterprise identity systems and automating legacy IAM data migration.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Statement Section - Long Nguyen approach -->
+                    <section class="block statement-section">
+                        <div class="statement-container">
+                            <p class="statement-highlight text-lg">
+                                Software Engineering. Data Engineering. API Development. Embedded Systems. Cloud & Infrastructure. Security & DevOps.
+                            </p>
+                            <div class="statement-sub">
+                                <p>
+                                    6+ years specializing in Python, Java, ETL pipelines, AWS cloud infrastructure, 
+                                    on-premises systems, and enterprise-scale data platforms at Fortune 500 companies.
+                                </p>
+                                <div>
+                                    <a href="#story">My Journey ↘</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Contact Section -->
+                    <section id="contact" class="block contact-section">
+                        <div class="wrapper">
+                            <div class="contact-header" onclick="toggleContactForm()">
+                                <h2>Contact ↘</h2>
+                            </div>
+                            <div class="contact-info">
+                                <p>Available for new opportunities and projects</p>
+                            </div>
+                            <form class="contact-form" action="mailto:xie.michael@icloud.com" method="post" enctype="text/plain">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" name="message" placeholder="Your message..." required></textarea>
+                                </div>
+                                <button type="submit" class="contact-submit">Send</button>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </main>
+
+            <!-- Footer - EXACT Long Nguyen structure -->
+            <footer class="block">
+                <div class="container">
+                    <section class="footer-links">
+                        <div>
+                            <h2>Links ↘</h2>
+                            <ul>
+                                <li><a href="#top">Bio</a></li>
+                                <li><a href="/projects" onclick="handleProjectsLink(event)">Projects</a></li>
+                                <li><a href="/resume" onclick="handleResumeLink(event)">Resume</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2>Connect ↘</h2>
+                            <ul>
+                                <li><a href="mailto:xie.michael@icloud.com">Email</a></li>
+                                <li><a href="#contact" onclick="expandContactForm()">Contact Form</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2>Socials ↘</h2>
+                            <ul>
+                                <li><a href="https://github.com/xie-git">Github</a></li>
+                                <li><a href="https://linkedin.com/in/xie-michael">LinkedIn</a></li>
+                            </ul>
+                        </div>
+                    </section>
+                                                 <small>© 2025 Michael Xie. All rights reserved.</small>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            
+            <!-- Left side: Image and title -->
+            <div class="modal-left">
+                <div class="modal-header">
+                    <h2 id="modalTitle" class="modal-title"></h2>
+                    <div id="modalType" class="modal-type"></div>
+                </div>
+                <div id="modalImage" class="modal-image"></div>
+                <p id="modalOverview" class="modal-overview"></p>
+            </div>
+            
+            <!-- Right side: Details -->
+            <div class="modal-right">
+                <div class="modal-section">
+                    <h3>Tech Stack</h3>
+                    <div id="modalTechStack" class="tech-list"></div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Features</h3>
+                    <ul id="modalFeatures" class="feature-list"></ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Challenge</h3>
+                    <p id="modalChallenges"></p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Impact</h3>
+                    <p id="modalImpact"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Project data for modal
+        const projects = {
+            'homelab': {
+                title: 'HomeLab & Smart-Condo Automation Platform',
+                type: 'Infrastructure & DevOps',
+                image: '/static/images/projects/homelab_image.png',
+                overview: 'Built a fully containerized, self-hosted environment that powers home automation, real-time analytics, media streaming, and on-device AI while serving as a playground for DevOps experimentation.',
+                tech_stack: ['Docker Compose', 'Ubuntu 24.04 LTS', 'Proxmox', 'Tailscale VPN', 'Home Assistant', 'InfluxDB', 'Grafana', 'Prometheus', 'Ollama LLM', 'Nextcloud', 'Plex'],
+                features: [
+                    'Real-time environmental dashboard with sub-5s refresh',
+                    'Self-hosted cloud suite replacing iCloud/Google Drive',
+                    'Housing-market microservice with ML price-anomaly alerts',
+                    'Media & gaming hub streaming 4K HDR video',
+                    'Automated resilience with health-checks and failover'
+                ],
+                challenges: 'Unified heterogeneous hardware under single monitoring plane, tuned InfluxDB retention for 500ms refresh without data loss, hardened remote access eliminating exposed public ports.',
+                impact: '99.9% service uptime over 12 months, reduced cloud-storage spend by $240/yr, improved HVAC efficiency by 8%, delivered reusable DevOps sandbox cutting work project iteration time by 40%.'
+            },
+            'real-estate': {
+                title: 'Chicago Rental Analytics & Visualization Pipeline',
+                type: 'Data Engineering & Visualization',
+                image: '/static/images/projects/chicago_analytics_map.png',
+                overview: 'Designed, built, and production-hardened a fully automated data platform that scrapes, cleans, enriches, and visualizes 75k+ Chicago apartment records, delivering investment-grade insights via ML models and Grafana dashboards.',
+                tech_stack: ['Python 3.11', 'Docker Compose', 'PostgreSQL 14', 'Redis', 'scikit-learn', 'FastAPI', 'Folium', 'InfluxDB', 'Grafana', 'BeautifulSoup4'],
+                features: [
+                    'Automated weekly pipeline processing 4,500 URLs in ~6h',
+                    'Random-Forest price prediction model (R² = 0.995, RMSE ≈ $50)',
+                    'Building-level insights with investment scores and risk metrics',
+                    'Interactive Folium-powered clustering map with live queries',
+                    'Six Grafana dashboards with sub-5s refresh',
+                    'One-command DevOps deployment with 100% E2E test coverage'
+                ],
+                challenges: 'Implemented Redis task queue for 5 parallel scrapers cutting collection time 40%, built ID-fuzzing logic achieving 85%+ data quality, added model drift detection with automated retraining.',
+                impact: '75k+ property rows processed, 600 building insights generated, >99% weekly pipeline success rate over 6 months, enables neighborhood price comps and yield forecasts for investors.'
+            },
+            'ai-ml': {
+                title: 'AI/ML Playground',
+                type: 'Artificial Intelligence',
+                image: '/static/images/projects/aigeneratedai.png',
+                overview: 'A local AI development environment for experimenting with cutting-edge machine learning models while maintaining privacy and control.',
+                tech_stack: ['Stable Diffusion', 'Ollama', 'Python', 'PyTorch', 'CUDA', 'FastAPI', 'Docker'],
+                features: [
+                    'Local Stable Diffusion image generation',
+                    'Multiple LLM model hosting with Ollama',
+                    'Custom model fine-tuning pipeline',
+                    'API endpoints for integration',
+                    'Prompt engineering tools',
+                    'Model performance monitoring'
+                ],
+                challenges: 'Optimizing model performance on consumer hardware, managing GPU memory efficiently, and creating intuitive interfaces.',
+                impact: 'Accelerated AI/ML learning and provided a foundation for integrating AI into other projects.'
+            },
+            'smart-home': {
+                title: 'Smart-Home & IoT Ecosystem',
+                type: 'IoT & Home Automation',
+                image: '/static/images/projects/homeassistant.png',
+                overview: 'Architected and maintain a tightly-integrated suite of DIY smart-home solutions built on open-source software and low-cost microcontrollers to drive comfort, security, and data-driven energy efficiency across 1,250 sq ft condo.',
+                tech_stack: ['10× ESP32-WROOM-32', 'BME688 sensors', 'LD2450 mm-wave radars', 'ESPHome 2023.12', 'Home Assistant', 'Mosquitto MQTT', 'InfluxDB 2', 'Grafana', 'Tailscale VPN', 'Pi-hole DNS'],
+                features: [
+                    'Sensor mesh coverage across 6 zones with real-time heat-maps',
+                    'Adaptive HVAC & blinds balancing IAQ and comfort automatically',
+                    'Presence-aware lighting with <100ms response via LD2450 radar',
+                    'Energy & network dashboards with Slack anomaly alerting',
+                    'Voice-first control via Mycroft AI (completely offline)',
+                    'Whole-home ad-blocking via Pi-hole reducing WAN data 25%'
+                ],
+                challenges: 'Achieved low-latency telemetry without Wi-Fi saturation via tuned ESP32 QoS, calibrated sensor accuracy in mixed HVAC airflow, secured remote access migrating from port-forwards to Tailscale mesh.',
+                impact: 'Maintained temp ±1°C and humidity 40-55% year-round, achieved 99.9% service uptime, collected 2M+ time-series points, cut annual energy use 8%, provided DevOps sandbox shortening POC cycles 40%.'
+            }
+        };
+
+        function openModal(projectId) {
+            const project = projects[projectId];
+            if (!project) return;
+
+            // Populate modal content
+            document.getElementById('modalTitle').textContent = project.title;
+            document.getElementById('modalType').textContent = project.type;
+            
+            // Set modal image
+            const modalImage = document.getElementById('modalImage');
+            modalImage.innerHTML = `<img src="${project.image}" alt="${project.title}" style="width: 100%; height: 100%; object-fit: cover; opacity: 1;">`;
+            
+            document.getElementById('modalOverview').textContent = project.overview;
+            document.getElementById('modalChallenges').textContent = project.challenges;
+            document.getElementById('modalImpact').textContent = project.impact;
+
+            // Tech stack
+            const techStackContainer = document.getElementById('modalTechStack');
+            techStackContainer.innerHTML = '';
+            project.tech_stack.forEach(tech => {
+                const tag = document.createElement('span');
+                tag.className = 'tech-tag';
+                tag.textContent = tech;
+                techStackContainer.appendChild(tag);
+            });
+
+            // Features
+            const featuresContainer = document.getElementById('modalFeatures');
+            featuresContainer.innerHTML = '';
+            project.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresContainer.appendChild(li);
+            });
+
+            // Show modal
+            const modal = document.getElementById('projectModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Make sure modal closes properly
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('projectModal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Contact form handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.querySelector('.contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+                    
+                    const subject = `Portfolio Contact from ${name}`;
+                    const mailtoLink = `mailto:xie.michael@icloud.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+                    
+                    window.location.href = mailtoLink;
+                });
+            }
+        });
+
+        // Toggle contact form
+        function toggleContactForm() {
+            const header = document.querySelector('.contact-header');
+            const form = document.querySelector('.contact-form');
+            const info = document.querySelector('.contact-info');
+            
+            header.classList.toggle('expanded');
+            form.classList.toggle('expanded');
+            info.classList.toggle('expanded');
+        }
+
+        // Expand contact form (used when clicking "Contact Form" link)
+        function expandContactForm() {
+            const header = document.querySelector('.contact-header');
+            const form = document.querySelector('.contact-form');
+            const info = document.querySelector('.contact-info');
+            
+            // Add expanded class if not already expanded
+            if (!form.classList.contains('expanded')) {
+                header.classList.add('expanded');
+                form.classList.add('expanded');
+                info.classList.add('expanded');
+            }
+        }
+        
+        // Handle footer link behaviors
+        function handleProjectsLink(event) {
+            if (window.location.pathname === '/projects') {
+                event.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function handleResumeLink(event) {
+            if (window.location.pathname === '/resume') {
+                event.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
