@@ -1,61 +1,50 @@
-// ===== MAIN JAVASCRIPT FILE =====
+// ===== SIMPLIFIED MAIN JAVASCRIPT FILE =====
+// Only includes functionality actually used by the Long Nguyen-inspired design
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all components
-    initNavigation();
-    initScrollEffects();
-    initPortfolio();
-    initLoading();
     initContactForm();
-    initMiscellaneous();
+    initSmoothScrolling();
 });
 
-// ===== NAVIGATION =====
-function initNavigation() {
-    const navbar = document.getElementById('navbar');
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu = document.getElementById('nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
+// ===== CONTACT FORM FUNCTIONALITY =====
+function initContactForm() {
+    const contactForm = document.querySelector('.contact-form');
+    
+    if (contactForm) {
+        // Handle form submission for index.html contact form (mailto)
+        contactForm.addEventListener('submit', function(e) {
+            // Only prevent default for index.html contact form (mailto)
+            if (contactForm.getAttribute('action') && contactForm.getAttribute('action').includes('mailto:')) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+                
+                const subject = `Portfolio Contact from ${name}`;
+                const mailtoLink = `mailto:xie.michael@icloud.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+                
+                window.location.href = mailtoLink;
+            }
+            // For contact.html, let the form submit normally to Flask backend
+        });
+        
+        // Basic form validation
+        const inputs = contactForm.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
 
-    // Mobile menu toggle
-    if (navToggle) {
-        navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            
-            // Animate hamburger menu
-            const bars = navToggle.querySelectorAll('.nav-toggle-bar');
-            bars.forEach((bar, index) => {
-                bar.style.transform = navMenu.classList.contains('active') 
-                    ? `rotate(${index === 0 ? '45deg' : index === 1 ? '0deg' : '-45deg'}) translate(${index === 1 ? '100%' : '0'}, ${index === 0 ? '6px' : index === 2 ? '-6px' : '0'})`
-                    : 'none';
-                bar.style.opacity = navMenu.classList.contains('active') && index === 1 ? '0' : '1';
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
             });
         });
     }
+}
 
-    // Close mobile menu when clicking on nav links
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            navMenu.classList.remove('active');
-            const bars = navToggle.querySelectorAll('.nav-toggle-bar');
-            bars.forEach(bar => {
-                bar.style.transform = 'none';
-                bar.style.opacity = '1';
-            });
-        });
-    });
-
-    // Navbar scroll effect
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            navbar.style.boxShadow = 'none';
-        }
-    });
-
+// ===== SMOOTH SCROLLING =====
+function initSmoothScrolling() {
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -69,250 +58,26 @@ function initNavigation() {
             }
         });
     });
-
-    // Active nav link highlighting
-    const sections = document.querySelectorAll('section[id]');
-    window.addEventListener('scroll', function() {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (window.scrollY >= sectionTop - 200) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
-    });
 }
 
-// ===== SCROLL EFFECTS =====
-function initScrollEffects() {
-    // Back to top button
-    const backToTop = document.getElementById('back-to-top');
-    
-    if (backToTop) {
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
-    }
-
-    // Animate elements on scroll
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                
-                // Animate skill bars
-                if (entry.target.classList.contains('skill-category')) {
-                    const progressBars = entry.target.querySelectorAll('.skill-progress');
-                    progressBars.forEach(bar => {
-                        const width = bar.style.width;
-                        bar.style.width = '0%';
-                        setTimeout(() => {
-                            bar.style.width = width;
-                        }, 200);
-                    });
-                }
-            }
-        });
-    }, observerOptions);
-
-    // Observe elements for animation
-    const animateElements = document.querySelectorAll('.portfolio-item, .timeline-item, .skill-category');
-    animateElements.forEach(el => observer.observe(el));
-
-    // Parallax effect for hero section
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        window.addEventListener('scroll', function() {
-            const scrolled = window.scrollY;
-            const rate = scrolled * -0.5;
-            hero.style.transform = `translateY(${rate}px)`;
-        });
-    }
-}
-
-// ===== PORTFOLIO =====
-function initPortfolio() {
-    // Portfolio filter functionality (if on portfolio page)
-    const filterButtons = document.querySelectorAll('.portfolio-filter');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
-            
-            // Update active button
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-
-            // Filter items
-            portfolioItems.forEach(item => {
-                if (filter === 'all' || item.classList.contains(filter)) {
-                    item.style.display = 'block';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0)';
-                    }, 100);
-                } else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
-                }
-            });
-        });
-    });
-
-    // Portfolio item hover effects
-    const portfolioCards = document.querySelectorAll('.portfolio-card');
-    portfolioCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
-        });
-
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-}
-
-// ===== LOADING SCREEN =====
-function initLoading() {
-    const loadingScreen = document.getElementById('loading-screen');
-    
-    if (loadingScreen) {
-        // Hide loading screen after page load
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                // Remove from DOM after animation
-                setTimeout(() => {
-                    loadingScreen.remove();
-                }, 500);
-            }, 1000);
-        });
-    }
-}
-
-// ===== CONTACT FORM =====
-function initContactForm() {
-    const contactForm = document.getElementById('contact-form');
-    
-    if (contactForm) {
-        // Enhanced form validation
-        const inputs = contactForm.querySelectorAll('.form-input, .form-textarea');
-        
-        inputs.forEach(input => {
-            // Real-time validation
-            input.addEventListener('blur', function() {
-                validateField(this);
-            });
-
-            // Remove error styling on input
-            input.addEventListener('input', function() {
-                this.classList.remove('error');
-                const errorMsg = this.parentElement.querySelector('.form-error');
-                if (errorMsg && !errorMsg.textContent.trim()) {
-                    errorMsg.style.display = 'none';
-                }
-            });
-        });
-
-        // Form submission with better UX
-        contactForm.addEventListener('submit', function(e) {
-            let isValid = true;
-            
-            inputs.forEach(input => {
-                if (!validateField(input)) {
-                    isValid = false;
-                }
-            });
-
-            if (!isValid) {
-                e.preventDefault();
-                // Scroll to first error
-                const firstError = contactForm.querySelector('.form-input.error, .form-textarea.error');
-                if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    firstError.focus();
-                }
-                return;
-            }
-
-            // Show loading state
-            const submitBtn = contactForm.querySelector('.btn-primary');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-
-            // Reset button after delay (for demo purposes)
-            // In real implementation, this would be handled by form response
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 3000);
-        });
-    }
-}
-
-// ===== FIELD VALIDATION =====
+// ===== BASIC FORM VALIDATION =====
 function validateField(field) {
     const value = field.value.trim();
-    const type = field.type;
-    const required = field.hasAttribute('required') || field.hasAttribute('data-required');
+    const required = field.hasAttribute('required');
     let isValid = true;
-    let errorMessage = '';
 
     // Clear previous errors
     field.classList.remove('error');
-    let errorElement = field.parentElement.querySelector('.form-error');
-    
-    if (!errorElement) {
-        errorElement = document.createElement('span');
-        errorElement.className = 'form-error';
-        field.parentElement.appendChild(errorElement);
-    }
 
     // Required field validation
     if (required && !value) {
         isValid = false;
-        errorMessage = 'This field is required.';
+        field.classList.add('error');
     }
     // Email validation
-    else if (type === 'email' && value && !isValidEmail(value)) {
+    else if (field.type === 'email' && value && !isValidEmail(value)) {
         isValid = false;
-        errorMessage = 'Please enter a valid email address.';
-    }
-    // Message length validation
-    else if (field.classList.contains('form-textarea') && value && value.length < 10) {
-        isValid = false;
-        errorMessage = 'Message must be at least 10 characters long.';
-    }
-
-    // Display error
-    if (!isValid) {
         field.classList.add('error');
-        errorElement.textContent = errorMessage;
-        errorElement.style.display = 'block';
-    } else {
-        errorElement.style.display = 'none';
     }
 
     return isValid;
@@ -331,88 +96,214 @@ function scrollToTop() {
     });
 }
 
-// ===== MISCELLANEOUS =====
-function initMiscellaneous() {
-    // Lazy loading for images
-    const images = document.querySelectorAll('img[loading="lazy"]');
+// ===== CONTACT FORM TOGGLE (for index.html) =====
+function toggleContactForm() {
+    const header = document.querySelector('.contact-header');
+    const form = document.querySelector('.contact-form');
+    const info = document.querySelector('.contact-info');
     
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src || img.src;
-                    img.classList.remove('lazy');
-                    observer.unobserve(img);
-                }
-            });
-        });
-
-        images.forEach(img => imageObserver.observe(img));
-    }
-
-    // Keyboard accessibility improvements
-    document.addEventListener('keydown', function(e) {
-        // Close mobile menu with Escape key
-        if (e.key === 'Escape') {
-            const navMenu = document.getElementById('nav-menu');
-            if (navMenu && navMenu.classList.contains('active')) {
-                navMenu.classList.remove('active');
-            }
-        }
-    });
-
-    // Add focus outline for keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Tab') {
-            document.body.classList.add('keyboard-navigation');
-        }
-    });
-
-    document.addEventListener('mousedown', function() {
-        document.body.classList.remove('keyboard-navigation');
-    });
-
-    // Print styles detection
-    if (window.matchMedia) {
-        const mediaQueryList = window.matchMedia('print');
-        mediaQueryList.addListener(function(mql) {
-            if (mql.matches) {
-                // Prepare for printing
-                document.body.classList.add('printing');
-            } else {
-                document.body.classList.remove('printing');
-            }
-        });
+    if (header && form && info) {
+        header.classList.toggle('expanded');
+        form.classList.toggle('expanded');
+        info.classList.toggle('expanded');
     }
 }
 
-// ===== GLOBAL FUNCTIONS =====
-// Make scrollToTop available globally for inline onclick handlers
-window.scrollToTop = scrollToTop;
+function expandContactForm() {
+    const header = document.querySelector('.contact-header');
+    const form = document.querySelector('.contact-form');
+    const info = document.querySelector('.contact-info');
+    
+    if (header && form && info) {
+        // Add expanded class if not already expanded
+        if (!form.classList.contains('expanded')) {
+            header.classList.add('expanded');
+            form.classList.add('expanded');
+            info.classList.add('expanded');
+        }
+    }
+}
 
-// Expose main functions for external use
-window.PortfolioApp = {
-    initNavigation,
-    initScrollEffects,
-    initPortfolio,
-    initContactForm,
-    scrollToTop
+// ===== PROJECT MODAL FUNCTIONALITY =====
+// Project data for modal (used by index.html and projects.html)
+const projects = {
+    'homelab': {
+        title: 'HomeLab & Smart-Condo Automation Platform',
+        type: 'Infrastructure & DevOps',
+        image: '/static/images/projects/homelab_image.png',
+        overview: 'Built a fully containerized, self-hosted environment that powers home automation, real-time analytics, media streaming, and on-device AI while serving as a playground for DevOps experimentation.',
+        tech_stack: ['Docker Compose', 'Ubuntu 24.04 LTS', 'Proxmox', 'Tailscale VPN', 'Home Assistant', 'InfluxDB', 'Grafana', 'Prometheus', 'Ollama LLM', 'Nextcloud', 'Plex'],
+        features: [
+            'Real-time environmental dashboard with sub-5s refresh',
+            'Self-hosted cloud suite replacing iCloud/Google Drive',
+            'Housing-market microservice with ML price-anomaly alerts',
+            'Media & gaming hub streaming 4K HDR video',
+            'Automated resilience with health-checks and failover'
+        ],
+        challenges: 'Unified heterogeneous hardware under single monitoring plane, tuned InfluxDB retention for 500ms refresh without data loss, hardened remote access eliminating exposed public ports.',
+        impact: '99.9% service uptime over 12 months, reduced cloud-storage spend by $240/yr, improved HVAC efficiency by 8%, delivered reusable DevOps sandbox cutting work project iteration time by 40%.'
+    },
+    'real-estate': {
+        title: 'Chicago Rental Analytics & Visualization Pipeline',
+        type: 'Data Engineering & Visualization',
+        image: '/static/images/projects/chicago_analytics_map.png',
+        overview: 'Designed, built, and production-hardened a fully automated data platform that scrapes, cleans, enriches, and visualizes 75k+ Chicago apartment records, delivering investment-grade insights via ML models and Grafana dashboards.',
+        tech_stack: ['Python 3.11', 'Docker Compose', 'PostgreSQL 14', 'Redis', 'scikit-learn', 'FastAPI', 'Folium', 'InfluxDB', 'Grafana', 'BeautifulSoup4'],
+        features: [
+            'Automated weekly pipeline processing 4,500 URLs in ~6h',
+            'Random-Forest price prediction model (R² = 0.995, RMSE ≈ $50)',
+            'Building-level insights with investment scores and risk metrics',
+            'Interactive Folium-powered clustering map with live queries',
+            'Six Grafana dashboards with sub-5s refresh',
+            'One-command DevOps deployment with 100% E2E test coverage'
+        ],
+        challenges: 'Implemented Redis task queue for 5 parallel scrapers cutting collection time 40%, built ID-fuzzing logic achieving 85%+ data quality, added model drift detection with automated retraining.',
+        impact: '75k+ property rows processed, 600 building insights generated, >99% weekly pipeline success rate over 6 months, enables neighborhood price comps and yield forecasts for investors.'
+    },
+    'ai-ml': {
+        title: 'AI/ML Playground',
+        type: 'Artificial Intelligence',
+        image: '/static/images/projects/aigeneratedai.png',
+        overview: 'A local AI development environment for experimenting with cutting-edge machine learning models while maintaining privacy and control.',
+        tech_stack: ['Stable Diffusion', 'Ollama', 'Python', 'PyTorch', 'CUDA', 'FastAPI', 'Docker'],
+        features: [
+            'Local Stable Diffusion image generation',
+            'Multiple LLM model hosting with Ollama',
+            'Custom model fine-tuning pipeline',
+            'API endpoints for integration',
+            'Prompt engineering tools',
+            'Model performance monitoring'
+        ],
+        challenges: 'Optimizing model performance on consumer hardware, managing GPU memory efficiently, and creating intuitive interfaces.',
+        impact: 'Accelerated AI/ML learning and provided a foundation for integrating AI into other projects.'
+    },
+    'smart-home': {
+        title: 'Smart-Home & IoT Ecosystem',
+        type: 'IoT & Home Automation',
+        image: '/static/images/projects/homeassistant.png',
+        overview: 'Architected and maintain a tightly-integrated suite of DIY smart-home solutions built on open-source software and low-cost microcontrollers to drive comfort, security, and data-driven energy efficiency across 1,250 sq ft condo.',
+        tech_stack: ['10× ESP32-WROOM-32', 'BME688 sensors', 'LD2450 mm-wave radars', 'ESPHome 2023.12', 'Home Assistant', 'Mosquitto MQTT', 'InfluxDB 2', 'Grafana', 'Tailscale VPN', 'Pi-hole DNS'],
+        features: [
+            'Sensor mesh coverage across 6 zones with real-time heat-maps',
+            'Adaptive HVAC & blinds balancing IAQ and comfort automatically',
+            'Presence-aware lighting with <100ms response via LD2450 radar',
+            'Energy & network dashboards with Slack anomaly alerting',
+            'Voice-first control via Mycroft AI (completely offline)',
+            'Whole-home ad-blocking via Pi-hole reducing WAN data 25%'
+        ],
+        challenges: 'Achieved low-latency telemetry without Wi-Fi saturation via tuned ESP32 QoS, calibrated sensor accuracy in mixed HVAC airflow, secured remote access migrating from port-forwards to Tailscale mesh.',
+        impact: 'Maintained temp ±1°C and humidity 40-55% year-round, achieved 99.9% service uptime, collected 2M+ time-series points, cut annual energy use 8%, provided DevOps sandbox shortening POC cycles 40%.'
+    }
 };
 
-// ===== ERROR HANDLING =====
-window.addEventListener('error', function(e) {
-    console.error('JavaScript error:', e.error);
-    // You could send this to an error tracking service
+function openModal(projectId) {
+    const project = projects[projectId];
+    if (!project) return;
+
+    // Populate modal content
+    document.getElementById('modalTitle').textContent = project.title;
+    document.getElementById('modalType').textContent = project.type;
+    
+    // Set modal image
+    const modalImage = document.getElementById('modalImage');
+    modalImage.innerHTML = `<img src="${project.image}" alt="${project.title}" style="width: 100%; height: 100%; object-fit: cover; opacity: 1;">`;
+    
+    document.getElementById('modalOverview').textContent = project.overview;
+    document.getElementById('modalChallenges').textContent = project.challenges;
+    document.getElementById('modalImpact').textContent = project.impact;
+
+    // Tech stack
+    const techStackContainer = document.getElementById('modalTechStack');
+    techStackContainer.innerHTML = '';
+    project.tech_stack.forEach(tech => {
+        const tag = document.createElement('span');
+        tag.className = 'tech-tag';
+        tag.textContent = tech;
+        techStackContainer.appendChild(tag);
+    });
+
+    // Features
+    const featuresContainer = document.getElementById('modalFeatures');
+    featuresContainer.innerHTML = '';
+    project.features.forEach(feature => {
+        const li = document.createElement('li');
+        li.textContent = feature;
+        featuresContainer.appendChild(li);
+    });
+
+    // Show modal
+    const modal = document.getElementById('projectModal');
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    const modal = document.getElementById('projectModal');
+    modal.classList.remove('show');
+    document.body.style.overflow = 'auto';
+}
+
+// ===== FOOTER LINK BEHAVIORS =====
+function handleProjectsLink(event) {
+    if (window.location.pathname === '/projects') {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function handleResumeLink(event) {
+    if (window.location.pathname === '/resume') {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function expandContactOnMainPage() {
+    if (window.location.pathname === '/') {
+        // On main page, expand contact form
+        expandContactForm();
+    } else {
+        // On other pages, navigate to main page with contact expanded
+        window.location.href = '/#contact';
+        setTimeout(() => {
+            if (typeof expandContactForm === 'function') {
+                expandContactForm();
+            }
+        }, 100);
+    }
+}
+
+// ===== EVENT LISTENERS =====
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('projectModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeModal();
+    }
 });
 
-// ===== PERFORMANCE MONITORING =====
-if ('performance' in window) {
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            const perfData = performance.timing;
-            const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-            console.log('Page load time:', pageLoadTime + 'ms');
-        }, 0);
-    });
-} 
+// Make sure modal closes properly on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('projectModal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+});
+
+// ===== GLOBAL FUNCTIONS =====
+// Make functions available globally for inline onclick handlers
+window.scrollToTop = scrollToTop;
+window.toggleContactForm = toggleContactForm;
+window.expandContactForm = expandContactForm;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.handleProjectsLink = handleProjectsLink;
+window.handleResumeLink = handleResumeLink;
+window.expandContactOnMainPage = expandContactOnMainPage;
