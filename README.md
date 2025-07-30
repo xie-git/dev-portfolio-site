@@ -70,7 +70,7 @@ dev-portfolio-site/
 - ✅ **Production Ready**: Gunicorn, error handling, security
 
 ### **Design & UX**
-- ✅ **Minimal Aesthetic**: Clean, Long Nguyen-inspired design
+- ✅ **Minimal Aesthetic**: Clean, Minimal-inspired design
 - ✅ **Smooth Animations**: Scroll-triggered project reveals
 - ✅ **Mobile Polished**: Header positioning, text sizing, modal scrolling
 - ✅ **Professional Typography**: PP Neue Montreal font locally hosted
