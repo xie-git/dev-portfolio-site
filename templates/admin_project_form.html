@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if action == 'new' %}Add New Project{% else %}Edit Project{% endif %} - Admin</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="file"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(74, 56, 71, 0.2);
+            background: var(--color-bg-main);
+            color: var(--color-fg-main);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-fg-main);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-group small {
+            display: block;
+            margin-top: 0.25rem;
+            opacity: 0.7;
+            font-size: 0.875rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border: 1px solid var(--color-fg-main);
+            background: transparent;
+            color: var(--color-fg-main);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: var(--color-fg-main);
+            color: var(--color-bg-main);
+        }
+        
+        .btn-primary {
+            background: var(--color-fg-main);
+            color: var(--color-bg-main);
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.8;
+        }
+        
+        .current-image {
+            margin-top: 1rem;
+        }
+        
+        .current-image img {
+            max-width: 300px;
+            height: auto;
+            border: 1px solid rgba(74, 56, 71, 0.2);
+        }
+        
+        .form-header {
+            margin-bottom: 3rem;
+        }
+        
+        .form-header h1 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-link {
+            text-decoration: none;
+            opacity: 0.7;
+        }
+        
+        .back-link:hover {
+            opacity: 1;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container margin vertical flex flex-columns flex-nowrap">
+        <header>
+            <div class="container padding horizontal">
+                <div class="block">
+                    <nav>
+                        <div class="container-actions">
+                            <h2><a href="/">Michael Xie</a> / <a href="/admin">Admin</a> / {% if action == 'new' %}New Project{% else %}Edit Project{% endif %}</h2>
+                            <div class="links-container">
+                                <ul class="links-list">
+                                    <li><a href="/admin">← Back to Admin</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <div class="container margin horizontal flex flex-columns flex-grow">
+            <main class="flex-grow">
+                <div class="block form-container">
+                    <div class="form-header">
+                        <h1>{% if action == 'new' %}Add New Project{% else %}Edit Project{% endif %}</h1>
+                        <p style="opacity: 0.7;">Fill in all the details for your project. All fields marked with * are required.</p>
+                    </div>
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.csrf_token }}
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                {{ form.project_id.label }} *
+                                {{ form.project_id(class="form-control") }}
+                                <small>Unique identifier (e.g., "homelab", "real-estate")</small>
+                                {% if form.project_id.errors %}
+                                    {% for error in form.project_id.errors %}
+                                        <div class="error">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-group">
+                                {{ form.order_index.label }}
+                                {{ form.order_index(class="form-control", placeholder="0") }}
+                                <small>Display order (lower numbers appear first)</small>
+                                {% if form.order_index.errors %}
+                                    {% for error in form.order_index.errors %}
+                                        <div class="error">{{ error }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.title.label }} *
+                            {{ form.title(class="form-control", placeholder="HomeLab & Smart-Condo Automation Platform") }}
+                            <small>Full project title</small>
+                            {% if form.title.errors %}
+                                {% for error in form.title.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.type.label }} *
+                            {{ form.type(class="form-control", placeholder="Infrastructure & DevOps") }}
+                            <small>Project category or type</small>
+                            {% if form.type.errors %}
+                                {% for error in form.type.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.description.label }}
+                            {{ form.description(class="form-control", placeholder="Containerized environment powering home automation, analytics, and AI.") }}
+                            <small>Short description for the project card (max 200 chars)</small>
+                            {% if form.description.errors %}
+                                {% for error in form.description.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.image.label }}
+                            {{ form.image(class="form-control") }}
+                            <small>Project image (PNG, JPG, JPEG - max 16MB)</small>
+                            {% if action == 'edit' and project.image %}
+                                <div class="current-image">
+                                    <small>Current image:</small><br>
+                                    <img src="{{ project.image }}" alt="{{ project.title }}">
+                                </div>
+                            {% endif %}
+                            {% if form.image.errors %}
+                                {% for error in form.image.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.overview.label }} *
+                            {{ form.overview(class="form-control", rows="4", placeholder="Built a fully containerized, self-hosted environment that powers home automation...") }}
+                            <small>Detailed project overview</small>
+                            {% if form.overview.errors %}
+                                {% for error in form.overview.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.tech_stack.label }}
+                            {{ form.tech_stack(class="form-control", rows="6", placeholder="Docker Compose\nUbuntu 24.04 LTS\nProxmox\nTailscale VPN") }}
+                            <small>Technologies used (one per line)</small>
+                            {% if form.tech_stack.errors %}
+                                {% for error in form.tech_stack.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.features.label }}
+                            {{ form.features(class="form-control", rows="6", placeholder="Real-time environmental dashboard with sub-5s refresh\nSelf-hosted cloud suite replacing iCloud/Google Drive") }}
+                            <small>Key features (one per line)</small>
+                            {% if form.features.errors %}
+                                {% for error in form.features.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.challenges.label }}
+                            {{ form.challenges(class="form-control", rows="3", placeholder="Unified heterogeneous hardware under single monitoring plane...") }}
+                            <small>Technical challenges overcome</small>
+                            {% if form.challenges.errors %}
+                                {% for error in form.challenges.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.impact.label }}
+                            {{ form.impact(class="form-control", rows="3", placeholder="99.9% service uptime over 12 months, reduced cloud-storage spend by $240/yr...") }}
+                            <small>Project impact and results</small>
+                            {% if form.impact.errors %}
+                                {% for error in form.impact.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                {% if action == 'new' %}Create Project{% else %}Update Project{% endif %}
+                            </button>
+                            <a href="/admin" class="btn">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

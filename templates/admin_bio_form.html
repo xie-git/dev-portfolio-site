@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Bio - Admin</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .form-container h1 {
+            font-size: 1.4rem;
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+        
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(74, 56, 71, 0.2);
+            background: var(--color-bg-main);
+            color: var(--color-fg-main);
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-fg-main);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-group small {
+            display: block;
+            margin-top: 0.25rem;
+            opacity: 0.7;
+            font-size: 0.8rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border: 1px solid var(--color-fg-main);
+            background: transparent;
+            color: var(--color-fg-main);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: var(--color-fg-main);
+            color: var(--color-bg-main);
+        }
+        
+        .btn-primary {
+            background: var(--color-fg-main);
+            color: var(--color-bg-main);
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.8;
+        }
+        
+        .form-header {
+            margin-bottom: 3rem;
+        }
+        
+        .form-header h1 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container margin vertical flex flex-columns flex-nowrap">
+        <header>
+            <div class="container padding horizontal">
+                <div class="block">
+                    <nav>
+                        <div class="container-actions">
+                            <h2><a href="/">Michael Xie</a> / <a href="/admin">Admin</a> / Edit Bio</h2>
+                            <div class="links-container">
+                                <ul class="links-list">
+                                    <li><a href="/admin">← Back to Admin</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <div class="container margin horizontal flex flex-columns flex-grow">
+            <main class="flex-grow">
+                <div class="block form-container">
+                    <div class="form-header">
+                        <h1>Edit Bio Content</h1>
+                        <p style="opacity: 0.7;">Update your personal bio, intro description, and skills statement.</p>
+                    </div>
+                    
+                    <form method="POST">
+                        {{ form.csrf_token }}
+                        
+                        <div class="form-group">
+                            {{ form.title.label }} *
+                            {{ form.title(class="form-control", placeholder="Senior Software Engineer") }}
+                            <small>Your professional title (appears in page title and headers)</small>
+                            {% if form.title.errors %}
+                                {% for error in form.title.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.description.label }} *
+                            {{ form.description(class="form-control", rows="4", placeholder="Senior Software Engineer based in Chicago, IL with extensive experience delivering scalable, enterprise-grade systems...") }}
+                            <small>Main bio description (appears in the intro section)</small>
+                            {% if form.description.errors %}
+                                {% for error in form.description.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.statement_highlight.label }}
+                            {{ form.statement_highlight(class="form-control", rows="3", placeholder="Software Engineering. Data Engineering. API Development. Embedded Systems. Cloud & Infrastructure. Security & DevOps.") }}
+                            <small>Skills and specialties statement (appears in the statement section)</small>
+                            {% if form.statement_highlight.errors %}
+                                {% for error in form.statement_highlight.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.statement_description.label }}
+                            {{ form.statement_description(class="form-control", rows="3", placeholder="6+ years specializing in Python, Java, ETL pipelines, AWS cloud infrastructure...") }}
+                            <small>Years of experience and expertise description</small>
+                            {% if form.statement_description.errors %}
+                                {% for error in form.statement_description.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Update Bio</button>
+                            <a href="/admin" class="btn">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
