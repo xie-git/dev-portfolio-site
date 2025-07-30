@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+# Important pages for crawling
+Allow: /projects
+Allow: /resume
+Allow: /contact
+Allow: /about
+
+# Admin areas - restricted
+Disallow: /admin
+Disallow: /admin/*
+
+# Static assets
+Allow: /static/
+Allow: /static/css/
+Allow: /static/js/
+Allow: /static/images/
+Allow: /static/fonts/
+
+# Resume PDF
+Allow: /Xie_Data_Resume.pdf
+
+# Sitemap location
+Sitemap: https://micheal-xie.dev/sitemap.xml
+
+# Crawl delay (optional - be nice to servers)
+Crawl-delay: 1

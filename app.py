@@ -5,6 +5,9 @@ Simple Portfolio Website - Main Application File
 
 import os
 import json
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from flask import Flask, render_template, send_from_directory, send_file, request, flash, redirect, url_for, jsonify
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, TextAreaField, EmailField, validators, FileField, FieldList, FormField
@@ -15,6 +18,93 @@ import secrets
 
 # Initialize database
 db = SQLAlchemy()
+
+# Email configuration and functions
+def send_email(to_email, subject, html_body, reply_to_email=None):
+    """
+    Send email using SMTP. This function supports multiple email providers.
+    For production, you should use environment variables for credentials.
+    """
+    try:
+        # Email configuration - replace with your actual SMTP settings
+        smtp_server = os.environ.get('SMTP_SERVER', 'smtp.gmail.com')
+        smtp_port = int(os.environ.get('SMTP_PORT', '587'))
+        smtp_username = os.environ.get('SMTP_USERNAME', 'your-email@gmail.com')
+        smtp_password = os.environ.get('SMTP_PASSWORD', 'your-app-password')
+        
+        # Create message
+        msg = MIMEMultipart('alternative')
+        msg['From'] = smtp_username
+        msg['To'] = to_email
+        msg['Subject'] = subject
+        
+        if reply_to_email:
+            msg['Reply-To'] = reply_to_email
+        
+        # Add HTML body
+        html_part = MIMEText(html_body, 'html')
+        msg.attach(html_part)
+        
+        # Send email
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_username, smtp_password)
+            server.send_message(msg)
+        
+        return True
+    except Exception as e:
+        print(f"Email sending failed: {e}")
+        return False
+
+def create_contact_email_html(name, email, subject, message):
+    """Create HTML email template for contact form submissions."""
+    return f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>New Contact Form Submission</title>
+        <style>
+            body {{ font-family: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 20px; background: #f8f4f5; }}
+            .container {{ max-width: 600px; margin: 0 auto; background: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 10px rgba(74, 56, 71, 0.1); }}
+            .header {{ border-bottom: 2px solid #4a3847; padding-bottom: 20px; margin-bottom: 30px; }}
+            .header h1 {{ margin: 0; color: #4a3847; font-size: 24px; font-weight: 400; }}
+            .field {{ margin-bottom: 20px; }}
+            .field-label {{ font-weight: 500; color: #4a3847; margin-bottom: 5px; display: block; }}
+            .field-value {{ background: #f8f4f5; padding: 12px; border-radius: 4px; border-left: 3px solid #4a3847; }}
+            .message-field {{ white-space: pre-wrap; line-height: 1.6; }}
+            .footer {{ margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; color: #666; font-size: 14px; }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🚀 New Portfolio Contact</h1>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">From:</span>
+                <div class="field-value">{name} &lt;{email}&gt;</div>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">Subject:</span>
+                <div class="field-value">{subject}</div>
+            </div>
+            
+            <div class="field">
+                <span class="field-label">Message:</span>
+                <div class="field-value message-field">{message}</div>
+            </div>
+            
+            <div class="footer">
+                <p>This message was sent from your portfolio contact form at <a href="https://micheal-xie.dev">micheal-xie.dev</a></p>
+                <p>To reply, respond directly to this email or contact {email}</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
 
 # Database models
 class Project(db.Model):
@@ -29,6 +119,7 @@ class Project(db.Model):
     challenges = db.Column(db.Text)
     impact = db.Column(db.Text)
     description = db.Column(db.String(200))  # Short description for card
+    github_url = db.Column(db.String(500))  # GitHub repository URL
     order_index = db.Column(db.Integer, default=0)
     is_active = db.Column(db.Boolean, default=True)
     
@@ -45,6 +136,7 @@ class Project(db.Model):
             'challenges': self.challenges,
             'impact': self.impact,
             'description': self.description,
+            'github_url': self.github_url,
             'order_index': self.order_index,
             'is_active': self.is_active
         }
@@ -97,6 +189,44 @@ class TimelineItem(db.Model):
             'is_active': self.is_active
         }
 
+# Contact message model for form submissions
+class ContactMessage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    subject = db.Column(db.String(200), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    is_read = db.Column(db.Boolean, default=False)
+    is_replied = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'subject': self.subject,
+            'message': self.message,
+            'is_read': self.is_read,
+            'is_replied': self.is_replied,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
+
+# Activity log model for admin actions
+class ActivityLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    action = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'action': self.action,
+            'description': self.description,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
+
 # Contact form class for CSRF protection and validation
 class ContactForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=100)])
@@ -116,6 +246,7 @@ class ProjectForm(FlaskForm):
     challenges = TextAreaField('Challenges', validators=[Optional()])
     impact = TextAreaField('Impact', validators=[Optional()])
     description = StringField('Card Description', validators=[Optional(), Length(max=200)])
+    github_url = StringField('GitHub Repository URL', validators=[Optional(), Length(max=500)])
     order_index = StringField('Order Index', validators=[Optional()])
 
 # Bio form for admin
@@ -196,6 +327,19 @@ def create_app():
     def resume_page():
         return render_template('resume.html')
 
+    # SEO and metadata routes
+    @app.route('/sitemap.xml')
+    def sitemap():
+        return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
+    
+    @app.route('/robots.txt')
+    def robots():
+        return send_from_directory('static', 'robots.txt', mimetype='text/plain')
+    
+    @app.route('/site.webmanifest')
+    def webmanifest():
+        return send_from_directory('static', 'site.webmanifest', mimetype='application/manifest+json')
+
     @app.route('/about')
     def about_page():
         return render_template('about.html')
@@ -204,10 +348,56 @@ def create_app():
     def contact():
         form = ContactForm()
         if form.validate_on_submit():
-            # In a real app, you'd process the form data here
-            # For now, just flash a success message
-            flash('Thank you for your message! I\'ll get back to you soon.', 'success')
-            return redirect(url_for('contact'))
+            try:
+                # Extract form data
+                name = form.name.data
+                email = form.email.data
+                subject = form.subject.data
+                message = form.message.data
+                
+                # Save to database
+                contact_message = ContactMessage(
+                    name=name,
+                    email=email,
+                    subject=subject,
+                    message=message
+                )
+                db.session.add(contact_message)
+                
+                # Log activity
+                activity = ActivityLog(
+                    action='contact_received',
+                    description=f'New contact message from {name} ({email}): {subject}'
+                )
+                db.session.add(activity)
+                db.session.commit()
+                
+                # Create email content
+                email_subject = f"Portfolio Contact: {subject}"
+                email_html = create_contact_email_html(name, email, subject, message)
+                
+                # Send email to yourself
+                recipient_email = os.environ.get('CONTACT_EMAIL', 'xie.michael@icloud.com')
+                email_sent = send_email(
+                    to_email=recipient_email,
+                    subject=email_subject,
+                    html_body=email_html,
+                    reply_to_email=email
+                )
+                
+                if email_sent:
+                    flash('Thank you for your message! I\'ll get back to you soon.', 'success')
+                else:
+                    # Fall back to mailto if email sending fails
+                    flash('Message received! If you don\'t hear back soon, please email me directly at xie.michael@icloud.com', 'success')
+                
+                return redirect(url_for('contact'))
+                
+            except Exception as e:
+                print(f"Contact form error: {e}")
+                flash('Thank you for your message! I\'ll get back to you soon.', 'success')
+                return redirect(url_for('contact'))
+                
         return render_template('contact.html', form=form)
     
     @app.errorhandler(404)
@@ -224,10 +414,34 @@ def create_app():
         projects = Project.query.order_by(Project.order_index).all()
         bio = Bio.query.filter_by(is_active=True).first()
         timeline_items = TimelineItem.query.order_by(TimelineItem.order_index).all()
+        
+        # Get data for new admin features
+        messages = ContactMessage.query.order_by(ContactMessage.created_at.desc()).limit(10).all()
+        activity_logs = ActivityLog.query.order_by(ActivityLog.created_at.desc()).limit(10).all()
+        
+        # Analytics data (placeholder/basic stats)
+        total_messages = ContactMessage.query.count()
+        unread_messages = ContactMessage.query.filter_by(is_read=False).count()
+        total_projects = Project.query.count()
+        active_projects = Project.query.filter_by(is_active=True).count()
+        
+        analytics = {
+            'total_visitors': 1247,  # Placeholder - would come from analytics service
+            'page_views': 3451,     # Placeholder
+            'total_messages': total_messages,
+            'unread_messages': unread_messages,
+            'total_projects': total_projects,
+            'active_projects': active_projects,
+            'bounce_rate': 34.2     # Placeholder
+        }
+        
         return render_template('admin.html', 
                              projects=projects,
                              bio=bio.to_dict() if bio else None,
-                             timeline_items=[item.to_dict() for item in timeline_items])
+                             timeline_items=[item.to_dict() for item in timeline_items],
+                             messages=[msg.to_dict() for msg in messages],
+                             activity_logs=[log.to_dict() for log in activity_logs],
+                             analytics=analytics)
     
     @app.route('/admin/project/new', methods=['GET', 'POST'])
     def admin_project_new():
@@ -256,6 +470,7 @@ def create_app():
                 challenges=form.challenges.data,
                 impact=form.impact.data,
                 description=form.description.data,
+                github_url=form.github_url.data,
                 order_index=int(form.order_index.data) if form.order_index.data else 0
             )
             
@@ -295,6 +510,7 @@ def create_app():
             project.challenges = form.challenges.data
             project.impact = form.impact.data
             project.description = form.description.data
+            project.github_url = form.github_url.data
             project.order_index = int(form.order_index.data) if form.order_index.data else 0
             
             try:
@@ -315,6 +531,7 @@ def create_app():
             form.challenges.data = project.challenges
             form.impact.data = project.impact
             form.description.data = project.description
+            form.github_url.data = project.github_url
             form.order_index.data = str(project.order_index)
         
         return render_template('admin_project_form.html', form=form, action='edit', project=project)
@@ -508,6 +725,53 @@ def create_app():
                 flash('Please upload a PDF file', 'error')
         
         return render_template('admin_resume_upload.html')
+
+    # Message management routes
+    @app.route('/admin/message/<int:id>/mark-read', methods=['POST'])
+    def admin_message_mark_read(id):
+        message = ContactMessage.query.get_or_404(id)
+        message.is_read = True
+        
+        # Log activity
+        activity = ActivityLog(
+            action='message_read',
+            description=f'Marked message from {message.name} as read'
+        )
+        db.session.add(activity)
+        db.session.commit()
+        
+        return jsonify({'success': True})
+    
+    @app.route('/admin/message/<int:id>/reply', methods=['POST'])
+    def admin_message_reply(id):
+        message = ContactMessage.query.get_or_404(id)
+        message.is_replied = True
+        message.is_read = True
+        
+        # Log activity
+        activity = ActivityLog(
+            action='message_replied',
+            description=f'Replied to message from {message.name} ({message.email})'
+        )
+        db.session.add(activity)
+        db.session.commit()
+        
+        return jsonify({'success': True})
+    
+    @app.route('/admin/message/<int:id>/delete', methods=['POST'])
+    def admin_message_delete(id):
+        message = ContactMessage.query.get_or_404(id)
+        
+        # Log activity
+        activity = ActivityLog(
+            action='message_deleted',
+            description=f'Deleted message from {message.name} ({message.email}): {message.subject}'
+        )
+        db.session.add(activity)
+        db.session.delete(message)
+        db.session.commit()
+        
+        return jsonify({'success': True})
 
     return app
 

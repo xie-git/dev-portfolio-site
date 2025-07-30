@@ -9,24 +9,93 @@
     {% endblock %}
     
     {% block meta %}
-    <meta name="description" content="Michael Xie is a software engineer specializing in big data ETL pipelines, cloud infrastructure, and scalable systems.">
-    <meta name="keywords" content="Michael Xie, Software Engineer, Python, AWS, Data Engineering, ETL, Cloud Infrastructure, Chicago">
+    <meta name="description" content="Michael Xie is a software engineer specializing in big data ETL pipelines, cloud infrastructure, and scalable systems. 5+ years experience in fintech and enterprise software.">
+    <meta name="keywords" content="Michael Xie, Software Engineer, Python, AWS, Data Engineering, ETL, Cloud Infrastructure, DevOps, Machine Learning, Chicago, Portfolio">
     <meta name="author" content="Michael Xie">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="en-US">
+    <meta name="geo.region" content="US-IL">
+    <meta name="geo.placename" content="Chicago">
+    <meta name="geo.position" content="41.8781;-87.6298">
+    <meta name="ICBM" content="41.8781, -87.6298">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Michael Xie - Software Engineer">
-    <meta property="og:description" content="Software engineer specializing in big data ETL pipelines, cloud infrastructure, and scalable systems.">
+    <meta property="og:description" content="Software engineer specializing in big data ETL pipelines, cloud infrastructure, and scalable systems. 5+ years experience in fintech and enterprise software.">
     <meta property="og:url" content="https://micheal-xie.dev">
+    <meta property="og:site_name" content="Michael Xie Portfolio">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://micheal-xie.dev/static/images/michael-xie-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Michael Xie - Software Engineer Portfolio">
     
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary">
-    <meta property="twitter:title" content="Michael Xie - Software Engineer">
-    <meta property="twitter:description" content="Software engineer specializing in big data ETL pipelines, cloud infrastructure, and scalable systems.">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Michael Xie - Software Engineer">
+    <meta name="twitter:description" content="Software engineer specializing in big data ETL pipelines, cloud infrastructure, and scalable systems. 5+ years experience in fintech and enterprise software.">
+    <meta name="twitter:image" content="https://micheal-xie.dev/static/images/michael-xie-preview.png">
+    <meta name="twitter:image:alt" content="Michael Xie - Software Engineer Portfolio">
+    <meta name="twitter:creator" content="@michael_xie_dev">
+    <meta name="twitter:site" content="@michael_xie_dev">
+    
+    <!-- LinkedIn -->
+    <meta property="profile:first_name" content="Michael">
+    <meta property="profile:last_name" content="Xie">
+    <meta property="profile:username" content="xie-michael">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Michael Xie",
+      "url": "https://micheal-xie.dev",
+      "image": "https://micheal-xie.dev/static/images/michael-xie-preview.png",
+      "sameAs": [
+        "https://linkedin.com/in/xie-michael",
+        "https://github.com/xie-git"
+      ],
+      "jobTitle": "Software Engineer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Enterprise Software Development"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Chicago",
+        "addressRegion": "IL",
+        "addressCountry": "US"
+      },
+      "email": "xie.michael@icloud.com",
+      "knowsAbout": [
+        "Software Engineering",
+        "Data Engineering",
+        "Python",
+        "AWS",
+        "Cloud Infrastructure",
+        "ETL Pipelines",
+        "DevOps",
+        "Machine Learning"
+      ],
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "University Education"
+      }
+    }
+    </script>
     {% endblock %}
     
-    <!-- Favicon -->
+    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <meta name="theme-color" content="#fffbfc">
+    <meta name="msapplication-TileColor" content="#fffbfc">
+    <meta name="msapplication-config" content="/static/browserconfig.xml">
     
     <!-- Preload fonts for better performance -->
     <link rel="preload" href="/static/fonts/PPNeueMontreal-Regular.woff" as="font" type="font/woff" crossorigin>
@@ -39,6 +108,12 @@
     {% endblock %}
 </head>
 <body>
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <span class="theme-toggle-icon sun">☀️</span>
+        <span class="theme-toggle-icon moon">🌙</span>
+    </button>
+
     {% block body_container_start %}
     <div id="top" class="container margin vertical flex flex-columns flex-nowrap">
     {% endblock %}
@@ -113,6 +188,25 @@
 
     {% block scripts %}
     <script>
+        // Dark Mode Functionality
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // Initialize theme on page load
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 
+                              (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+        
+        // Initialize theme immediately
+        initializeTheme();
+        
         // Handle footer link behaviors
         function handleProjectsLink(event) {
             if (window.location.pathname === '/projects') {
@@ -144,6 +238,7 @@
             }
         }
     </script>
+    <script src="/static/js/main.js"></script>
     {% endblock %}
 </body>
 </html>

@@ -20,16 +20,31 @@ html {
     font-family: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* EXACT Long Nguyen CSS Variables */
+/* Enhanced CSS Variables with Dark Mode Support */
 :root {
     --color-bg-main: #fffbfc;
     --color-fg-main: #4a3847;
+    --color-bg-secondary: #f8f4f5;
+    --color-border: rgba(74, 56, 71, 0.1);
+    --color-shadow: rgba(74, 56, 71, 0.1);
+    --color-hover: rgba(74, 56, 71, 0.03);
     --spacing-xs: .25rem;
     --spacing-sm: .5rem;
     --spacing-md: 1.5rem;
     --spacing-lg: 2rem;
     --spacing-xl: 3rem;
     --spacing-xxl: 4rem;
+    --transition-theme: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+    --color-bg-main: #1a1a1a;
+    --color-fg-main: #e8e8e8;
+    --color-bg-secondary: #2a2a2a;
+    --color-border: rgba(232, 232, 232, 0.1);
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-hover: rgba(232, 232, 232, 0.05);
 }
 
 /* EXACT Long Nguyen Base Styles */
@@ -48,6 +63,7 @@ body {
     font: 1.5rem 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     color: var(--color-fg-main);
     background: var(--color-bg-main);
+    transition: var(--transition-theme);
 }
 
 body > * {
@@ -1562,4 +1578,102 @@ html {
 .page-header p {
     font-size: 1.1rem;
     color: rgba(74, 56, 71, 0.7);
+}
+
+/* Dark Mode Toggle */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--color-bg-main);
+    border: 1px solid var(--color-border);
+    border-radius: 50px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition-theme);
+    box-shadow: 0 2px 10px var(--color-shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    width: 60px;
+    height: 40px;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px var(--color-shadow);
+}
+
+.theme-toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+[data-theme="dark"] .theme-toggle-icon.sun {
+    transform: rotate(180deg) scale(0);
+}
+
+[data-theme="light"] .theme-toggle-icon.moon,
+:root .theme-toggle-icon.moon {
+    transform: rotate(180deg) scale(0);
+}
+
+/* Enhanced transitions for dark mode */
+*, *::before, *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Dark mode specific adjustments */
+[data-theme="dark"] .fade {
+    opacity: 0.6;
+}
+
+[data-theme="dark"] .project-card {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+}
+
+[data-theme="dark"] .project-card:hover {
+    background: var(--color-hover);
+}
+
+[data-theme="dark"] .modal-content {
+    background: var(--color-bg-main);
+    color: var(--color-fg-main);
+}
+
+[data-theme="dark"] .contact-form input,
+[data-theme="dark"] .contact-form textarea {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-border);
+    color: var(--color-fg-main);
+}
+
+[data-theme="dark"] .contact-form input:focus,
+[data-theme="dark"] .contact-form textarea:focus {
+    border-color: var(--color-fg-main);
+}
+
+/* Lazy Loading Images */
+img.lazy {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+img.lazy-loaded {
+    opacity: 1;
+}
+
+/* Placeholder for loading images */
+img[data-src] {
+    background: linear-gradient(90deg, var(--color-bg-secondary) 0%, rgba(74, 56, 71, 0.1) 50%, var(--color-bg-secondary) 100%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }

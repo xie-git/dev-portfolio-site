@@ -179,4 +179,10 @@ temp_*
 
 # Deployment artifacts  
 *.pid
-*.sock 
+*.sock
+
+# Claude Code
+.claude/
+
+# Environment example files
+.env.example 
