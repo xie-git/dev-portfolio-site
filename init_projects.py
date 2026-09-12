@@ -71,6 +71,26 @@ default_projects = [
         'order_index': 3
     },
     {
+        'project_id': 'avalon',
+        'title': 'Avalon — Real-Time Multiplayer Social Deduction Game',
+        'type': 'Full-Stack Web Development',
+        'image': '/static/images/projects/avalon.png',
+        'overview': 'Built a full-stack, browser-based implementation of the Avalon board game supporting 6–10 players with real-time WebSocket communication. Players join from any device on the local network, receive secret role assignments, and play through team proposals, voting rounds, and missions — all driven by a custom game-state engine and live event system.',
+        'tech_stack': ['Python 3', 'Flask', 'Flask-SocketIO', 'Eventlet', 'WebSockets', 'JavaScript', 'HTML/CSS'],
+        'features': [
+            'Real-time multiplayer via WebSockets — no page refreshes needed',
+            'Full role set: Merlin, Percival, Assassin, Morgana, Mordred, Oberon, Loyal Servants',
+            'Host screen for game management and player reordering',
+            'Automated role assignment with correct good/evil ratios per player count',
+            'Complete game flow: lobby → night phase → proposals → voting → missions → assassination',
+            'Portrait art and role-reveal screens per character'
+        ],
+        'challenges': 'Designed a stateful game engine that tracks multi-phase game progression across concurrent player sessions, synchronized all clients through a single authoritative server state using SocketIO rooms, and handled mid-game disconnects gracefully.',
+        'impact': 'Deployed on home network and actively used for in-person game nights, eliminating the need for physical cards and enabling faster, more reliable game setup for groups of 6–10 players.',
+        'description': 'Browser-based Avalon for 6–10 players with real-time WebSockets and full role logic.',
+        'order_index': 5
+    },
+    {
         'project_id': 'smart-home',
         'title': 'Smart-Home & IoT Ecosystem',
         'type': 'IoT & Home Automation',
@@ -88,7 +108,7 @@ default_projects = [
         'challenges': 'Achieved low-latency telemetry without Wi-Fi saturation via tuned ESP32 QoS, calibrated sensor accuracy in mixed HVAC airflow, secured remote access migrating from port-forwards to Tailscale mesh.',
         'impact': 'Maintained temp ±1°C and humidity 40-55% year-round, achieved 99.9% service uptime, collected 2M+ time-series points, cut annual energy use 8%, provided DevOps sandbox shortening POC cycles 40%.',
         'description': 'Comprehensive sensor network with BME688, LD2450, and custom IoT devices integrated with Home Assistant automation.',
-        'order_index': 4
+        'order_index': 6
     }
 ]
 
